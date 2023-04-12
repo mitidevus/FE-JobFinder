@@ -5,10 +5,11 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Login from './login/Login'
 import Register from './login/Register'
+import ForgetPassword from './login/ForgetPassword';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Register />
+    <ForgetPassword />
   </React.StrictMode>
 );
 

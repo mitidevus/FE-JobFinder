@@ -3,11 +3,15 @@ import '../assets/css/nucleo-svg.css'
 import '../assets/css/material-dashboard.css?v=3.0.4'
 import bg_img from '../assets/img/bg/bg_img.avif'
 import React from 'react';
+//import '../assets/js/material-dashboard.js'
+// import '../assets/js/core/popper.min.js'
+// import '../assets/js/core/bootstrap.min.js'
+// import '../assets/js/plugins/perfect-scrollbar.min.js'
+// import '../assets/js/plugins/smooth-scrollbar.min.js'
+// import '../assets/js/material-dashboard.min.js?v=3.0.4'
 
 
-
-
-function Login() {
+function ForgetPassword() {
     
     
     return (
@@ -66,7 +70,7 @@ function Login() {
                                 <div className="card z-index-0 fadeIn3 fadeInBottom">
                                     <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                                         <div className="bg-gradient-primary shadow-primary border-radius-lg py-3 pe-1">
-                                            <h4 className="text-white font-weight-bolder text-center mt-2 mb-0">Sign in</h4>
+                                            <h4 className="text-white font-weight-bolder text-center mt-2 mb-0">ForgetPassword</h4>
                                             <div className="row mt-3">
 
                                             </div>
@@ -78,13 +82,10 @@ function Login() {
                                                 <label className="form-label">Email</label>
                                                 <input type="email" className="form-control" name ="email"/>
                                             </div>
-                                            <div className="input-group input-group-outline mb-3">
-                                                <label className="form-label">Password</label>
-                                                <input type="password" className="form-control" name ="password"/>
-                                            </div>
+
 
                                             <div className="text-center">
-                                                <button type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+                                                <button type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Send</button>
                                             </div>
                                             <p className="mt-4 text-sm text-center">
                                                 Don't have an account?
@@ -104,4 +105,4 @@ function Login() {
         </React.Fragment>
     );
 }
-export default Login;
+export default ForgetPassword;
