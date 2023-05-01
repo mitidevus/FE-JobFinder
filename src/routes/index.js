@@ -10,10 +10,22 @@
 // import SignUpPage from '~/pages/SignUpPage';
 
 import Home from '../pages/Home';
+import Profile from '../pages/Profile';
+import Company_profile from '../pages/Company_profile';
+import Login from '../pages/login/Login';
+import Register from '../pages/login/Register';
+import ForgetPassword from '../pages/login/ForgetPassword';
 
+import Test from '../pages/Test';
 // Public Routes
 const publicRoutes = [
+    { path: '/test', component: Test },
     { path: '/', component: Home },
+    { path: '/login', component: Login },
+    { path: '/register', component: Register },
+    { path: '/forgetPassword', component: ForgetPassword },
+    { path: '/profile', component: Profile },
+    { path: '/company_profile', component: Company_profile },
     // { path: '/post', component: PostPage },
     // { path: '/about', component: AboutPage },
     // { path: '/hotel/:hotelId', component: HotelPage },
