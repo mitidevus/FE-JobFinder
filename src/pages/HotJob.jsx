@@ -25,8 +25,8 @@ function Home() {
         <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
             <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
                 <div className="pb-4">
-                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Jobs</p>
-                    <p className="py-4">Recently posted jobs</p>
+                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Hot Jobs</p>
+                    <p className="py-4">The top 10 applied jobs</p>
                 </div>
 
                 {/* Container */}
