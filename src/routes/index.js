@@ -15,17 +15,28 @@ import Company_profile from '../pages/Company_profile';
 import Login from '../pages/login/Login';
 import Register from '../pages/login/Register';
 import ForgetPassword from '../pages/login/ForgetPassword';
+import History from '../pages/History';
+import AboutUs from '../pages/AboutUs';
+import MyJob from '../pages/MyJob';
+import Notification from '../pages/Notification';
+import Notification_details from '../pages/Noti_details';
 
 import Test from '../pages/Test';
 // Public Routes
 const publicRoutes = [
     { path: '/test', component: Test },
     { path: '/', component: Home },
+    { path: '/myjobs', component: MyJob },
+    { path: '/about', component: AboutUs },
+    { path: '/notification', component: Notification },
+    { path: '/notification/details', component: Notification_details },
     { path: '/login', component: Login },
     { path: '/register', component: Register },
     { path: '/forgetPassword', component: ForgetPassword },
     { path: '/profile', component: Profile },
+    { path: '/profile/history', component: History },
     { path: '/company_profile', component: Company_profile },
+    
     // { path: '/post', component: PostPage },
     // { path: '/about', component: AboutPage },
     // { path: '/hotel/:hotelId', component: HotelPage },
