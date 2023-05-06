@@ -27,7 +27,7 @@ import Test from '../pages/Test';
 const publicRoutes = [
     { path: '/test', component: Test },
     { path: '/', component: Home },
-    { path: '/jobDetail', component: JobDetail },
+    { path: '/job/:jobId', component: JobDetail },
     { path: '/myjobs', component: MyJob },
     { path: '/about', component: AboutUs },
     { path: '/notification', component: Notification },
