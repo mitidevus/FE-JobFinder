@@ -20,12 +20,14 @@ import AboutUs from '../pages/AboutUs';
 import MyJob from '../pages/MyJob';
 import Notification from '../pages/Notification';
 import Notification_details from '../pages/Noti_details';
+import JobDetail from '../pages/JobDetail';
 
 import Test from '../pages/Test';
 // Public Routes
 const publicRoutes = [
     { path: '/test', component: Test },
     { path: '/', component: Home },
+    { path: '/jobDetail', component: JobDetail },
     { path: '/myjobs', component: MyJob },
     { path: '/about', component: AboutUs },
     { path: '/notification', component: Notification },
