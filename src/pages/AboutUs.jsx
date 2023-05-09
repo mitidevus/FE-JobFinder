@@ -25,15 +25,19 @@ function AboutUs() {
                             </div>
                             <div class="mb-2 text-blueGray-600">
                                 <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Education:</span>
+                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Đỗ Minh Trí</span> - 20127651
                             </div>
                             <div class="mb-2 text-blueGray-600">
                                 <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Experience :</span> abc
+                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Trương Chí Hiển</span> - 20127494
                             </div>
                             <div class="mb-2 text-blueGray-600">
                                 <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Skill:</span>
+                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Hồ Quang Khải</span> - 20127521
+                            </div>
+                            <div class="mb-2 text-blueGray-600">
+                                <i class="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
+                                <span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Trần Trọng Tín</span> - 20127683
                             </div>
 
                         </div>

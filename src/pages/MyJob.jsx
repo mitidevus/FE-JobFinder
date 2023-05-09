@@ -4,10 +4,24 @@ import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
 import Dropdown from "../components/Dropdown"
-import { data } from "../data/history_eg"
+import { Link } from "react-router-dom";
+import { data } from "../data/Home.js";
 
+function formatDate(date) {
+    const now = new Date();
+    const diffTime = date - now;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert difference to days
+
+    if (diffDays <= 0) {
+        return "Expired";
+    } else if (diffDays === 1) {
+        return "1 day left";
+    } else {
+        return `${diffDays} days left`;
+    }
+}
 function MyJob() {
-    const content = data
+    const jobs = data
     return (
         <div class="bg-[#393E46] antialiasedr">
             <div class="container mx-auto my-60">
@@ -37,19 +51,42 @@ function MyJob() {
                                 <h3 class="text-center text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                                     History
                                 </h3>
-                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center grid md:grid-cols-1 gap-5">
+                                <div class="mt-10 py-10 border-t border-blueGray-200 text-center">
 
                                     <div class="flex flex-wrap justify-center">
                                         <div class="w-full lg:w-9/12 px-4">
-                                            {content.map((content, index) => (
-                                                <a
-                                                    key={index}
-                                                    href="/"
-                                                    type="submit"
-                                                    class="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800 mb-2">
-                                                    {content.company}
-                                                </a>
-                                            ))}
+                                            <div className="grid sm:grid-cols-5 md:grid-cols-1 gap-5">
+                                                {/* Grid Items */}
+                                                {jobs.map((job, index) => (
+                                                    <div
+                                                        key={index}
+                                                        className="shadow-sm shadow-[#040c16] rounded-md flex justify-center items-center text-center mx-auto bg-[#FAE3D9]"
+                                                    >
+                                                        <div
+                                                            style={{ backgroundImage: `url(${job.image})` }}
+                                                            className="group container rounded-t flex justify-center items-center text-center mx-auto content-div"
+                                                        >
+                                                            {/* Hover Effects */}
+                                                            <div className="overlay rounded-t group-hover:opacity-60"></div>
+                                                            <div className="opacity-0 z-10 group-hover:opacity-100 ">
+                                                                <span className="pt-2">{formatDate(new Date(job.deadline))}</span>
+                                                                <div className="text-center pt-4">
+                                                                    <Link to={`/job/${job.id}`}>
+                                                                        <button className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg group-hover:translate-y-[-10px] ">
+                                                                            <span className="flex items-center">Detail</span>
+                                                                        </button>
+                                                                    </Link>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div className="pt-2 text-black px-3 py-4">
+                                                            <span className="text-2xl font-bold">{job.company}</span>
+                                                            <p className="pt-1">{job.title}</p>
+                                                            <p className="pt-1">{job.address}</p>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                            </div>
                                         </div>
                                     </div>
 

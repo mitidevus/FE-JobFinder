@@ -3,6 +3,14 @@ import React from "react";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png"
+
+function changeText(target, text){
+    return (
+        <div class="changeText">
+            <input name={target}></input>
+        </div>
+    )
+}
 function Profile() {
     const but = ["python", "C++", "Java", "Java", "Java", "Java", "Java"]
     return (
