@@ -11,7 +11,7 @@
 
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
-import Company_profile from '../pages/Company_profile';
+import CompanyProfile from '../pages/CompanyProfile';
 import Login from '../pages/login/Login';
 import Register from '../pages/login/Register';
 import ForgetPassword from '../pages/login/ForgetPassword';
@@ -21,6 +21,8 @@ import MyJob from '../pages/MyJob';
 import Notification from '../pages/Notification';
 import Notification_details from '../pages/Noti_details';
 import JobDetail from '../pages/JobDetail';
+import EditProfile from '../pages/EditProfile';
+import EditCompanyProfile from '../pages/EditCompanyProfile';
 
 import Test from '../pages/Test';
 // Public Routes
@@ -37,7 +39,9 @@ const publicRoutes = [
     { path: '/forgetPassword', component: ForgetPassword },
     { path: '/profile', component: Profile },
     { path: '/profile/history', component: History },
-    { path: '/company_profile', component: Company_profile },
+    { path: '/company_profile', component: CompanyProfile },
+    { path: '/company_profile/edit', component: EditCompanyProfile },
+    { path: '/profile/edit', component: EditProfile },
     
     // { path: '/post', component: PostPage },
     // { path: '/about', component: AboutPage },

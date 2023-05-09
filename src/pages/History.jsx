@@ -33,11 +33,11 @@ function History() {
         setSelectedCv(null);
     };
     return (
-        <section class="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
-            <div class="w-full lg:w-4/12 px-4 mx-auto ">
-                <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
-                    <div class="px-6">
-                        <div class="text-center mt-12">
+        <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
+            <div className="w-full lg:w-4/12 px-4 mx-auto ">
+                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
+                    <div className="px-6">
+                        <div className="text-center mt-12">
                             <h2 className="text-2xl font-bold mb-4">Applicant List</h2>
 
                             {!selectedCv && (
@@ -105,13 +105,10 @@ function History() {
                                     Back
                                 </button>
                             )}
-                            <div class="py-10 border-t border-blueGray-200 text-center">
-                                <div class="flex flex-wrap justify-center">
-                                    <div class="w-full lg:w-9/12 px-4 mb-4">
-                                        <button type="submit" class="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Edit Profile</button>
-                                    </div>
-                                    <div class="w-full lg:w-9/12 px-4">
-                                        <a href="/profile" type="submit" class="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Back</a>
+                            <div className="py-10 border-t border-blueGray-200 text-center">
+                                <div className="flex flex-wrap justify-center">
+                                    <div className="w-full lg:w-9/12 px-4">
+                                        <a href="/profile" type="submit" className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Back</a>
                                     </div>
                                 </div>
                             </div>

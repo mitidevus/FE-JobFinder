@@ -11,9 +11,9 @@ function ThoiGian() {
     const content = data[0]
     return (
         <React.Fragment>
-            <p class="mt-2"><span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Thoi gian:</span>{content.thoiGian}</p>
-            <p class="mt-2"><span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Ngay:</span>{content.ngay}</p>
-            <p class="mt-2"><span class="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Dia diem:</span>{content.diaDiem}</p>
+            <p className="mt-2"><span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Thoi gian:</span>{content.thoiGian}</p>
+            <p className="mt-2"><span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Ngay:</span>{content.ngay}</p>
+            <p className="mt-2"><span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Dia diem:</span>{content.diaDiem}</p>
         </React.Fragment>
     );
 }
@@ -23,8 +23,8 @@ function Details() {
         return (
             <React.Fragment>
 
-                <p class="mt-5"><span class="font-semibold leading-normal mb-2 text-blueGray-700 text-xl">Dear {content.to}</span></p>
-                <p class="mt-5 mb-5">{content.message}</p>
+                <p className="mt-5"><span className="font-semibold leading-normal mb-2 text-blueGray-700 text-xl">Dear {content.to}</span></p>
+                <p className="mt-5 mb-5">{content.message}</p>
                 <ThoiGian></ThoiGian>
 
             </React.Fragment>
@@ -32,9 +32,9 @@ function Details() {
     }
     return (
         <React.Fragment>
-            <p class="mt-5"><span class="font-semibold leading-normal mb-2 text-blueGray-700 text-xl">Dear {content.to}</span></p>
-            <p class="mt-5 mb-5">{content.message}</p>
-            <p class="mt-5 mb-5">Rat tiec ban chua dat yeu cau</p>
+            <p className="mt-5"><span className="font-semibold leading-normal mb-2 text-blueGray-700 text-xl">Dear {content.to}</span></p>
+            <p className="mt-5 mb-5">{content.message}</p>
+            <p className="mt-5 mb-5">Rat tiec ban chua dat yeu cau</p>
         </React.Fragment>
 
     );
@@ -44,18 +44,18 @@ function Notification_details() {
     const content = data
     return (
 
-        <div class="bg-[#393E46] antialiasedr">
-            <div class="container mx-auto my-60">
+        <div className="bg-[#393E46] antialiasedr">
+            <div className="container mx-auto my-60">
 
 
-                <div class="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
+                <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
 
 
-                    <div class="mt-16 pt-5 pb-5 ml-5">
+                    <div className="mt-16 pt-5 pb-5 ml-5">
 
                         <Details></Details>
                         <a href="/notification">
-                            <button class="bg-transparent hover:bg-blue-500 text-[#393E46] font-semibold hover:text-white py-2 px-4 border border-[#393E46] hover:border-transparent rounded">
+                            <button className="bg-transparent hover:bg-blue-500 text-[#393E46] font-semibold hover:text-white py-2 px-4 border border-[#393E46] hover:border-transparent rounded">
                                 Back
                             </button>
                         </a>
