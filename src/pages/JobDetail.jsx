@@ -310,15 +310,16 @@ function JobDetail() {
         });
     }, [jobId]);
 
-    useEffect(() => {
-        try {
-            getCVByPostId({ postId: jobId, authToken: user?.token }).then((res) => {
-                setCvData(res.data);
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    }, [jobId, user?.token]);
+    // useEffect(() => {
+    //     if (!user) return;
+    //     try {
+    //         getCVByPostId({ postId: jobId, authToken: user?.token }).then((res) => {
+    //             setCvData(res.data);
+    //         });
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }, [jobId]);
 
     if (job) {
         return (
@@ -352,11 +353,11 @@ function JobDetail() {
                                 />
                             </div>
                             <div className="flex justify-center pt-4 pb-2">
-                                <Link to={`/user/${job.userId}`}>
+                                <Link to={`/company_profile/${job?.userId?._id}`}>
                                     <p className="text-3xl text-center hover:text-[#00ADB5]">{job.userId?.__t}</p>
                                 </Link>
                             </div>
-                            <p>{job?.companyDescription}</p>
+                            <p>{job?.userId?.description}</p>
                         </div>
                         <div>
                             <div className="text-base">

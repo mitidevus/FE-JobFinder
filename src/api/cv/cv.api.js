@@ -34,7 +34,6 @@ export const getCVByPostId = async ({ status, sortOption, userId, postId, authTo
                 postId,
             },
             headers: {
-                Authorization: `Bearer ${authToken}`,
                 "auth-token": `${authToken}`,
             },
         });

@@ -1,10 +1,9 @@
-import React, { useState } from "react";
-import { FaBars, FaTimes } from "react-icons/fa";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
-import Search from "./Search";
-import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../features/userSlice";
+import Search from "./Search";
 
 function Navbar() {
     const user = useSelector(selectUser);
@@ -42,7 +41,7 @@ function Navbar() {
                     <Link to="home">Home</Link>
                 </li>
                 <li>
-                    <Link to="about">About</Link>
+                    <Link to="/about">About</Link>
                 </li>
                 <li>
                     <Link to="hotjobs">Hot Jobs</Link>
@@ -70,7 +69,7 @@ function Navbar() {
                                 <Link to="approve">Approve</Link>
                             </li>
                         )}
-                        {user?.userType === 2 && (
+                        {user?.userType === 3 && (
                             <li>
                                 <Link to="myjobs">My Jobs</Link>
                             </li>
@@ -80,7 +79,10 @@ function Navbar() {
                         </li>
                         <li>
                             <Link to="logout">
-                                <button className="bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90" onClick={handleLogout}>
+                                <button
+                                    className="bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
+                                    onClick={handleLogout}
+                                >
                                     Logout
                                 </button>
                             </Link>

@@ -22,16 +22,16 @@ function Home() {
                     <p className="py-4">Top 5 most applied jobs</p>
                 </div>
 
-                {/* Container */}
-                <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
-                    {/* Grid Items */}
+                {jobs && jobs.length > 0 && (
+                
+                <div className="grid sm:grid-cols-2 md:grid-cols-5 gap-2">
                     {jobs.map((job) => (
                         <div
                             key={job._id}
                             className="shadow-lg shadow-[#040c16] rounded-md flex flex-col justify-center items-center text-center mx-auto bg-[#FAE3D9] font-sans"
                         >
                             <div
-                                style={{ backgroundImage: `url(${job.image})` }}
+                                style={{ backgroundImage: `url(${job.userId.avatar})` }}
                                 className="group container rounded-t flex flex-col justify-center items-center text-center mx-auto content-div"
                             >
                                 {/* Hover Effects */}
@@ -55,6 +55,14 @@ function Home() {
                         </div>
                     ))}
                 </div>
+                )}
+
+                {jobs && jobs.length === 0 && (
+                    <div className="flex flex-col justify-center items-center">
+                        <p className="text-2xl font-bold">No jobs</p>
+                    </div>
+                )}
+
             </div>
         </div>
     );
