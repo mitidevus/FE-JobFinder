@@ -6,7 +6,7 @@ import avt from "../assets/avt_img.png"
 
 
 function Profile() {
-    const but = ["python", "C++", "Java", "Java", "Java", "Java", "Java"]
+    const but = ["python", "C++", "C#", "Java"]
     let [selectedImage, setSelectedImage] = useState(null);
     
     return (
@@ -69,17 +69,11 @@ function Profile() {
                         <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                             <div className="mb-2 text-blueGray-600">
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Education:</span>
-                                <ol>
-                                    <li class="mb-1">- Primary School: abc</li>
-                                    <li class="mb-1">- Secondary School: abc</li>
-                                    <li class="mb-1">- High School: abc</li>
-                                    <li class="mb-1">- University: abc</li>
-                                </ol>
+                                <p className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Education:</p>
                             </div>
                             <div className="mb-2 text-blueGray-600">
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Experience :</span> abc
+                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Experience :</span>
                             </div>
                             <div className="mb-2 text-blueGray-600">
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>

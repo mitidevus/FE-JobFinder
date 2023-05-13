@@ -36,14 +36,14 @@ function EditCompanyProfile() {
                                                 <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
                                             <div>
-                                                <label htmlFor="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
+                                                <label htmlFor="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone</label>
                                                 <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
 
                                         </div>
 
                                         <div class="mb-6">
-                                            <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+                                            <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                                             <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                         </div>
                                         <div className="py-5 border-t border-blueGray-200">
@@ -91,6 +91,9 @@ function EditCompanyProfile() {
                                 </div>
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <div className="flex flex-wrap justify-center">
+                                        <div className="w-full lg:w-9/12 px-4 mb-5 ">
+                                            <a href="/profile/edit/change_password" type="submit" className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Change Password</a>
+                                        </div>
                                         <div className="w-full lg:w-9/12 px-4">
                                             <a href="/company_profile/history" type="submit" className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Back</a>
                                         </div>

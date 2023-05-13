@@ -23,6 +23,7 @@ import Notification_details from '../pages/Noti_details';
 import JobDetail from '../pages/JobDetail';
 import EditProfile from '../pages/EditProfile';
 import EditCompanyProfile from '../pages/EditCompanyProfile';
+import ChangePassword from '../pages/login/ChangePassword';
 
 import Test from '../pages/Test';
 // Public Routes
@@ -42,6 +43,7 @@ const publicRoutes = [
     { path: '/company_profile', component: CompanyProfile },
     { path: '/company_profile/edit', component: EditCompanyProfile },
     { path: '/profile/edit', component: EditProfile },
+    { path: '/profile/edit/change_password', component: ChangePassword },
     
     // { path: '/post', component: PostPage },
     // { path: '/about', component: AboutPage },

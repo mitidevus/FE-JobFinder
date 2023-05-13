@@ -55,7 +55,7 @@ function Notification_details() {
 
                         <Details></Details>
                         <a href="/notification">
-                            <button className="bg-transparent hover:bg-blue-500 text-[#393E46] font-semibold hover:text-white py-2 px-4 border border-[#393E46] hover:border-transparent rounded">
+                            <button className="mt-5 bg-transparent hover:bg-blue-500 text-[#393E46] font-semibold hover:text-white py-2 px-4 border border-[#393E46] hover:border-transparent rounded">
                                 Back
                             </button>
                         </a>

@@ -38,7 +38,7 @@ function History() {
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
                     <div className="px-6">
                         <div className="text-center mt-12">
-                            <h2 className="text-2xl font-bold mb-4">Applicant List</h2>
+                            <h2 className="text-2xl font-bold mb-4">CV</h2>
 
                             {!selectedCv && (
                                 <div className="overflow-y-auto w-full h-64">
@@ -49,7 +49,7 @@ function History() {
                                                 key={cv.id}
                                                 onClick={() => handleCvClick(cv)}
                                             >
-                                                <p className="font-bold">{cv.title}</p>
+                                                <p className="font-bold">Ten Cong ty</p>
                                                 <p className="text-sm">{cv.createdAt}</p>
                                             </button>
                                         ))}

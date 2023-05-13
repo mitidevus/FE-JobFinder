@@ -2,59 +2,40 @@
 import React from "react";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
-
+import avt from "../assets/avt_img.png"
+import Tin from "../assets/Tin.jpg"
+import Khai from "../assets/Khai.jpg"
+import ChiHien from "../assets/ChiHien.jpg"
+import MinhTri from "../assets/MinhTri.jpg"
 import { data } from "../data/index.js";
 
 function AboutUs() {
     const works = data;
 
     return (
-        <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46] h-screen">
-            <div className="w-full lg:w-4/12 px-4 mx-auto ">
-                <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16 min-h-100">
-                    <div className="px-6">
-                        <div className="text-center mt-12">
-                            <h3 className="text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                                About Us
-                            </h3>
-                        </div>
-                        <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
-                            <div className="mb-2 text-blueGray-600">
-                                <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">This website is create by 4 people:</span>
-                            </div>
-                            <div className="mb-2 text-blueGray-600">
-                                <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Đỗ Minh Trí</span> - 20127651
-                            </div>
-                            <div className="mb-2 text-blueGray-600">
-                                <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Trương Chí Hiển</span> - 20127494
-                            </div>
-                            <div className="mb-2 text-blueGray-600">
-                                <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Hồ Quang Khải</span> - 20127521
-                            </div>
-                            <div className="mb-2 text-blueGray-600">
-                                <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Trần Trọng Tín</span> - 20127683
-                            </div>
-
-                        </div>
-                        <div className="py-10 border-t border-blueGray-200 text-center">
-                            <div className="flex flex-wrap justify-center">
-                                <div className="w-full lg:w-9/12 px-4">
-                                    <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
-                                        <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Thank you for using our website </span>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                       
+        <div name="home" className="w-full h-full text-gray-300 bg-[#393E46] h-screen">
+            <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
+                <p className="text-4xl font-bold inline text-[#00ADB5] text-center">About Us</p>
+                <div className="grid sm:grid-cols-2 md:grid-cols-2 gap-5 ">
+                    <div className="relative pt-10 flex flex-col justify-center items-center text-center">
+                        <img alt="avatar" src={MinhTri} className="rounded-full border h-48 w-48" />
+                        <p className="text-3xl font-bold inline text-[#00ADB5] pt-5">Đỗ Minh Trí - 20127651</p>
+                    </div>
+                    <div className="relative pt-10 flex flex-col justify-center items-center text-center">
+                        <img alt="avatar" src={ChiHien} className="rounded-full border h-48 w-48" />
+                        <p className="text-3xl font-bold inline text-[#00ADB5] pt-5">Trương Chí Hiển - 20127494</p>
+                    </div>
+                    <div className="relative pt-10 flex flex-col justify-center items-center text-center">
+                        <img alt="avatar" src={Khai} className="rounded-full border h-48 w-48" />
+                        <p className="text-3xl font-bold inline text-[#00ADB5] pt-5">Hồ Quang Khải - 20127521</p>
+                    </div>
+                    <div className="relative pt-10 flex flex-col justify-center items-center text-center">
+                        <img alt="avatar" src={Tin} className="rounded-full border h-48 w-48" />
+                        <p className="text-3xl font-bold inline text-[#00ADB5] pt-5">Trần Trọng Tín - 20127683</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
     );
 }

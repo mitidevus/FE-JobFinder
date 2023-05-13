@@ -19,8 +19,6 @@ function MyJob() {
     return (
         <div className="bg-[#393E46] antialiasedr">
             <div className="container mx-auto my-60">
-
-
                 <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
                     <div className="flex justify-center">
                         <img src={avt} alt="" className="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110" />
@@ -84,7 +82,7 @@ function MyJob() {
                                         </div>
                                     </div>
 
-                                    <div className="mt-10">
+                                    <div className="mt-10 inline-flex">
                                         <ReactPaginate
                                             breakLabel="..."
                                             nextLabel="next >"
@@ -93,11 +91,11 @@ function MyJob() {
                                             pageCount={pageCount}
                                             previousLabel="< previous"
                                             renderOnZeroPageCount={null}
-                                            pageClassName={"inline-flex -space-x-px"}
-                                            pageLinkClassName={"px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                                            className={"inline-flex -space-x-px"}
+                                            pageClassName={"px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
                                             previousClassName={"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
                                             nextClassName={"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
-                                            activeClassName={"px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"}
+                                            activeLinkClassName={"text-blue-600"}
                                         />
                                     </div>
                                 </div>
