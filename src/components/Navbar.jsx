@@ -1,15 +1,26 @@
 import React, { useState } from "react";
 import { FaBars, FaTimes } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
 import Search from "./Search";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../features/userSlice";
 
 function Navbar() {
-    const [nav, setNav] = useState(false);
+    const user = useSelector(selectUser);
 
-    const handleClick = () => {
-        setNav(!nav);
-        console.log(nav);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+
+        try {
+            dispatch(logout());
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     return (
@@ -25,7 +36,7 @@ function Navbar() {
             </div>
 
             {/* Menu */}
-            <ul className="font-bold hidden md:flex">
+            <ul className="font-bold hidden md:flex items-center">
                 {/* md:flex nghĩa là sẽ được hiển thị flexbox trên các thiết bị có độ rộng màn hình lớn hơn hoặc bằng 768px */}
                 <li>
                     <Link to="home">Home</Link>
@@ -34,56 +45,48 @@ function Navbar() {
                     <Link to="about">About</Link>
                 </li>
                 <li>
-                    <Link to="hotjob">Hot Jobs</Link>
+                    <Link to="hotjobs">Hot Jobs</Link>
                 </li>
-                <li>
-                    <Link to="myjobs">My Jobs</Link>
-                </li>
-                <li>
-                    <Link to="account">Account</Link>
-                </li>
-            </ul>
 
-            {/* Hamburger */}
-            <div className="md:hidden z-10" onClick={handleClick}>
-                {/* md:hidden nghĩa là sẽ ẩn trên các thiết bị có độ rộng màn hình nhỏ hơn 768px*/}
-                {nav ? <FaTimes /> : <FaBars />}
-            </div>
+                {!user && (
+                    <>
+                        <li>
+                            <Link to="signin">Sign In</Link>
+                        </li>
+                        <li>
+                            <Link to="signup">
+                                <button className="bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90">
+                                    Sign Up
+                                </button>
+                            </Link>
+                        </li>
+                    </>
+                )}
 
-            {/* Mobile menu */}
-            <ul
-                className={
-                    nav
-                        ? "absolute top-0 left-0 w-full h-screen bg-[#0a192f] flex flex-col justify-center items-center font-bold"
-                        : "hidden"
-                }
-            >
-                {/* h-screen là height: 100vh */}
-                <li className="py-6 text-4xl">
-                    <Link onClick={handleClick} to="home">
-                        Home
-                    </Link>
-                </li>
-                <li className="py-6 text-4xl">
-                    <Link onClick={handleClick} to="about">
-                        About
-                    </Link>
-                </li>
-                <li className="py-6 text-4xl">
-                    <Link onClick={handleClick} to="skills">
-                        Skills
-                    </Link>
-                </li>
-                <li className="py-6 text-4xl">
-                    <Link onClick={handleClick} to="projects">
-                        Projects
-                    </Link>
-                </li>
-                <li className="py-6 text-4xl">
-                    <Link onClick={handleClick} to="contact">
-                        Contact
-                    </Link>
-                </li>
+                {user && (
+                    <>
+                        {user?.userType === 1 && (
+                            <li>
+                                <Link to="approve">Approve</Link>
+                            </li>
+                        )}
+                        {user?.userType === 2 && (
+                            <li>
+                                <Link to="myjobs">My Jobs</Link>
+                            </li>
+                        )}
+                        <li>
+                            <Link to="account">Account</Link>
+                        </li>
+                        <li>
+                            <Link to="logout">
+                                <button className="bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90" onClick={handleLogout}>
+                                    Logout
+                                </button>
+                            </Link>
+                        </li>
+                    </>
+                )}
             </ul>
         </div>
     );

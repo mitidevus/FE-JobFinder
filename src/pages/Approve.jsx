@@ -8,7 +8,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineCalendarMonth } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { data } from "../data/Approve.js";
-import formatDate from "../utils/formatDate.js";
+import { formatDateLeft } from "../utils/formatDate.js";
 import splitTextWithLineBreaks from "../utils/splitTextWithLineBreaks.js";
 
 function Approve() {
@@ -62,7 +62,7 @@ function Approve() {
                     </div>
                 </div>
                 {job && (
-                    <div className="max-w-[1000px] w-full grid sm:grid-cols-2 gap-10 px-4">
+                    <div className="max-w-[1000px] w-full grid sm:grid-cols-2 gap-10 px-4 font-sans">
                         <div className="text-1xl px-3">
                             <div className="flex justify-center">
                                 <img src={job.image} alt={job.company} className="mt-3 w-60 h-60 rounded" />
@@ -74,32 +74,26 @@ function Approve() {
                             </div>
                             <p>Agile, Innovative & Excellent Global Technology Company with deep roots in Vietnam</p>
                             <div className="flex justify-center pt-6">
-                                <button
-                                    className="bg-[#FFF5E4] text-white mx-3 p-4 rounded-full"
-                                    onClick={prevJob}
-                                >
+                                <button className="bg-[#FFF5E4] text-white mx-3 p-4 rounded-full" onClick={prevJob}>
                                     <GrFormPrevious size={"20px"} />
                                 </button>
 
                                 <button
-                                    className="bg-[#7FB77E] text-white ml-10 mr-3 px-7 py-4 rounded-md"
+                                    className="bg-[#7FB77E] text-white ml-10 mr-3 px-5 py-2 rounded-md"
                                     onClick={handleApprove}
                                 >
                                     <GrCheckmark />
                                 </button>
 
                                 <button
-                                    className="bg-[#da4167] text-white mr-10 ml-3 px-7 py-4 rounded-md"
+                                    className="bg-[#da4167] text-white mr-10 ml-3 px-5 py-2 rounded-md"
                                     onClick={handleReject}
                                 >
                                     <GrClose />
                                 </button>
 
-                                <button
-                                    className="bg-[#FFF5E4] text-white mx-3 p-4 rounded-full"
-                                    onClick={nextJob}
-                                >
-                                    <GrFormNext size={"20px"}/>
+                                <button className="bg-[#FFF5E4] text-white mx-3 p-4 rounded-full" onClick={nextJob}>
+                                    <GrFormNext size={"20px"} />
                                 </button>
                             </div>
                         </div>
@@ -116,7 +110,7 @@ function Approve() {
                                 </div>
                                 <div className="flex items-center">
                                     <BiTimeFive />
-                                    <p className="ml-2">{formatDate(new Date(job.deadline))}</p>
+                                    <p className="ml-2">{formatDateLeft(new Date(job.deadline))}</p>
                                 </div>
 
                                 <p className="text-2xl pt-4 font-bold">Description</p>

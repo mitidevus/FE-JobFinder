@@ -9,7 +9,8 @@
 // import SignUpPage from '~/pages/SignUpPage';
 
 import Home from "../pages/Home";
-import Login from "../pages/Login";
+import SignIn from "../pages/SignIn";
+import SignUp from "../pages/SignUp";
 import JobDetail from "../pages/JobDetail";
 import Approve from "../pages/Approve";
 import CreateJob from "../pages/CreateJob";
@@ -18,11 +19,12 @@ import HotJob from "../pages/HotJob";
 // Public Routes
 const publicRoutes = [
     { path: "/", component: Home },
-    { path: "/login", component: Login },
+    { path: "/signin", component: SignIn },
+    { path: "/signup", component: SignUp },
     { path: "/job/:jobId", component: JobDetail },
     { path: "/approve", component: Approve },
     { path: "/createjob", component: CreateJob },
-    { path: "/hotjob", component: HotJob },
+    { path: "/hotjobs", component: HotJob },
     // { path: '/post', component: PostPage },
     // { path: '/about', component: AboutPage },
     // { path: '/hotel/:hotelId', component: HotelPage },
