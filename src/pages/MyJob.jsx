@@ -6,22 +6,16 @@ import avt from "../assets/company_avt.jfif"
 import Dropdown from "../components/Dropdown"
 import { Link } from "react-router-dom";
 import { data } from "../data/Home.js";
+import ReactPaginate from 'react-paginate';
+import formatDate from "../utils/formatDate";
 
-function formatDate(date) {
-    const now = new Date();
-    const diffTime = date - now;
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // convert difference to days
-
-    if (diffDays <= 0) {
-        return "Expired";
-    } else if (diffDays === 1) {
-        return "1 day left";
-    } else {
-        return `${diffDays} days left`;
-    }
-}
 function MyJob() {
     const jobs = data
+    const pageCount = 10
+    // Invoke when user click to request another page.
+    const handlePageClick = (event) => {
+        console.log(event.selected + 1)
+    };
     return (
         <div className="bg-[#393E46] antialiasedr">
             <div className="container mx-auto my-60">
@@ -54,7 +48,7 @@ function MyJob() {
                                 <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
 
                                     <div className="flex flex-wrap justify-center">
-                                        <div className="w-full lg:w-9/12 px-4">
+                                        <div className="w-full px-4">
                                             <div className="grid sm:grid-cols-5 md:grid-cols-1 gap-5">
                                                 {/* Grid Items */}
                                                 {jobs.map((job, index) => (
@@ -90,7 +84,22 @@ function MyJob() {
                                         </div>
                                     </div>
 
-
+                                    <div className="mt-10">
+                                        <ReactPaginate
+                                            breakLabel="..."
+                                            nextLabel="next >"
+                                            onPageChange={handlePageClick}
+                                            pageRangeDisplayed={3}
+                                            pageCount={pageCount}
+                                            previousLabel="< previous"
+                                            renderOnZeroPageCount={null}
+                                            pageClassName={"inline-flex -space-x-px"}
+                                            pageLinkClassName={"px-3 py-2 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                                            previousClassName={"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                                            nextClassName={"px-3 py-2 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white"}
+                                            activeClassName={"px-3 py-2 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white"}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -100,5 +109,6 @@ function MyJob() {
             </div>
 
         </div>
+
     );
 } export default MyJob;

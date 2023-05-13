@@ -4,6 +4,8 @@ import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png";
 import Datepicker from "tailwind-datepicker-react"
+
+
 function EditProfile() {
     const options = {
         title: "Demo Title",
@@ -33,6 +35,7 @@ function EditProfile() {
         language: "en",
     }
     const [show, setShow] = useState(false)
+    let [selectedImage, setSelectedImage] = useState(null);
     const skill = ["C++", "C#", "Python", "Java", "JavaScript", "HTML", "CSS"]
     const handleChange = (selectedDate = Date) => {
         const month = selectedDate.getMonth() + 1
@@ -42,20 +45,43 @@ function EditProfile() {
     const handleClose = (state = Boolean) => {
         setShow(state)
     }
-
+    const [title, setTitle] = useState("");
+    console.log(title)
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
             <div className="w-full lg:w-4/12 px-4 mx-auto ">
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
                     <div className="px-6">
                         <div className="flex flex-wrap justify-center">
-                            <div className="w-full px-4 flex justify-center">
-                                <div className="relative">
-                                    <img alt="..." src={avt} className="shadow-xl rounded-full object-scale-down h-48 w-96 align-middle border-none -m-16 -ml-20 lg:-ml-0 max-w-150-px" />
-                                </div>
-                            </div>
-                            <div className="w-full px-4 text-center mt-20">
+                            <div className="w-full px-4 flex justify-center ">
+                                <div className="relative pt-5">
+                                    <img alt="..." src={avt} className="rounded-full border h-48 w-48" />
+                                    {/* {selectedImage && (
+                                        <div>
+                                            <img
+                                                alt="not found"
+                                                width={"250px"}
+                                                src={URL.createObjectURL(selectedImage)}
+                                                className="rounded-full border h-48 w-48"
+                                            />
+                                            <br />
+                                        </div>
+                                    )}
 
+                                    <br />
+                                    <br />
+
+                                    <input
+                                        type="file"
+                                        name="myImage"
+                                        onChange={(event) => {
+                                            console.log(event.target.files[0]);
+                                            console.log(selectedImage);
+                                            setSelectedImage(event.target.files[0]);
+                                        }}
+                                    /> */}
+
+                                </div>
                             </div>
                         </div>
 
@@ -63,26 +89,26 @@ function EditProfile() {
                             <form method="post">
                                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                                     <div>
-                                        <label htmlFor="first_name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                        <label htmlFor="first_name" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
                                         <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
 
                                     <div>
-                                        <label htmlFor="company" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                                        <label htmlFor="company" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
                                         <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
                                     <div>
-                                        <label htmlFor="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
+                                        <label htmlFor="phone" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
                                         <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
 
                                 </div>
                                 <div class="mb-6">
-                                    <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of birth</label>
+                                    <label htmlFor="email" class="text-startblock mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of birth</label>
                                     <Datepicker options={options} onChange={handleChange} show={show} setShow={handleClose} />
                                 </div>
                                 <div class="mb-6">
-                                    <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
+                                    <label htmlFor="email" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
                                     <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                 </div>
                                 <div className="py-5 border-t border-blueGray-200">
@@ -124,7 +150,7 @@ function EditProfile() {
                                 <div className="py-5 border-t border-blueGray-200">
                                     <div class="mb-6">
                                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                        <textarea type="text" name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <textarea type="text" onChange={(e) => setTitle(e.target.value)} name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
                                 </div>
                                 {/* <div class="mb-6">
