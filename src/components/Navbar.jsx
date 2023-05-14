@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
 import { logout, selectUser } from "../features/userSlice";
 import Search from "./Search";
-import { getJobs } from "../api/post/post.api";
 
 function Navbar() {
-    const [keyword, setKeyword] = React.useState("");
+    const [keyword, setKeyword] = useState("");
     const user = useSelector(selectUser);
 
     const dispatch = useDispatch();
@@ -25,8 +24,9 @@ function Navbar() {
     };
 
     const handleSearch = () => {
-        // Navigate to "/search/:keyword"
-        navigate(`/search/${keyword}`);
+        if (keyword.trim() !== "") {
+            navigate(`/search/${keyword}`);
+        }
     };
 
     return (

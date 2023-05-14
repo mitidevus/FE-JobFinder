@@ -1,8 +1,8 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
-import { createJob } from "../api/post/post.api";
-import { useNavigate } from "react-router";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
+import { createJob } from "../api/post/post.api";
 import { selectUser } from "../features/userSlice";
 
 function CreateJob() {

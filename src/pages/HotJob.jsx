@@ -1,6 +1,5 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
-
 import { Link } from "react-router-dom";
 import { getHotJobs } from "../api/post/post.api";
 import { formatDateLeft } from "../utils/formatDate";
@@ -33,7 +32,6 @@ function Home() {
                                     style={{ backgroundImage: `url(${job.userId.avatar})` }}
                                     className="group container rounded-t flex flex-col justify-center items-center text-center mx-auto content-div"
                                 >
-                                    {/* Hover Effects */}
                                     <div className="overlay rounded-t group-hover:opacity-60"></div>
                                     <div className="opacity-0 z-10 group-hover:opacity-100 ">
                                         <span className="pt-2">{formatDateLeft(new Date(job.expiredDate))}</span>
@@ -55,6 +53,7 @@ function Home() {
                         ))}
                     </div>
                 )}
+
                 {jobs && jobs.length === 0 && (
                     <div className="flex justify-center items-center w-full h-full py-60">
                         <p className="text-2xl font-bold">No jobs</p>

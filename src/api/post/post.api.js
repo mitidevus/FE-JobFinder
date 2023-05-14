@@ -14,12 +14,15 @@ export const createJob = async (data, authToken) => {
 };
 
 export const getJobs = async (params) => {
-    const { page, search } = params || {};
+    const { page, search, minSalary, maxSalary, address } = params || {};
     try {
         return await axiosPrivate.get(`/api/v1/posts`, {
             params: {
                 page,
                 search,
+                minSalary,
+                maxSalary,
+                address,
             },
         });
     } catch (err) {

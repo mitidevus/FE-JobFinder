@@ -1,25 +1,31 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect } from "react";
-
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/post/post.api";
+import Filter from "../components/Filter";
 import { formatDateLeft } from "../utils/formatDate";
 
 function Home() {
-    const [jobs, setJobs] = React.useState([]);
+    const [jobs, setJobs] = useState([]);
+    const [filter, setFilter] = useState({});
 
     useEffect(() => {
-        getJobs().then((res) => {
+        getJobs(filter).then((res) => {
             setJobs(res.data);
         });
-    }, []);
+    }, [filter]);
 
     return (
         <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
             <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
                 <div className="pb-4">
-                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Jobs</p>
-                    <p className="py-4">Recently posted jobs</p>
+                    <div className="flex justify-between">
+                        <div>
+                            <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Jobs</p>
+                            <p className="py-4">Recently posted jobs</p>
+                        </div>
+                        <Filter onFilter={setFilter} />
+                    </div>
                 </div>
 
                 {jobs && jobs.length > 0 && (
@@ -33,7 +39,6 @@ function Home() {
                                     style={{ backgroundImage: `url(${job.userId.avatar})` }}
                                     className="group container rounded-t flex flex-col justify-center items-center text-center mx-auto content-div"
                                 >
-                                    {/* Hover Effects */}
                                     <div className="overlay rounded-t group-hover:opacity-60"></div>
                                     <div className="opacity-0 z-10 group-hover:opacity-100 ">
                                         <span className="pt-2">{formatDateLeft(new Date(job.expiredDate))}</span>
