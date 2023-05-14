@@ -139,7 +139,7 @@ function Approve() {
 
                 {!job && (
                     <div className="flex justify-center items-center w-full h-full py-60">
-                        <p className="text-3xl font-bold">No job to approve.</p>
+                        <p className="text-2xl font-bold">No jobs to approve</p>
                     </div>
                 )}
             </div>

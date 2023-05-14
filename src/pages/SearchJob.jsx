@@ -1,29 +1,33 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React from "react";
+import React, { useEffect } from "react";
 
-import { Link } from "react-router-dom";
-import { getHotJobs } from "../api/post/post.api";
+import { Link, useParams } from "react-router-dom";
+import { getJobs } from "../api/post/post.api";
 import { formatDateLeft } from "../utils/formatDate";
 
-function Home() {
+function SearchJob() {
+    const params = useParams();
+    const search = params.keyword;
     const [jobs, setJobs] = React.useState([]);
 
-    React.useEffect(() => {
-        getHotJobs().then((res) => {
-            setJobs(res.data.posts);
+    useEffect(() => {
+        getJobs({ search }).then((res) => {
+            setJobs(res.data);
         });
-    }, []);
+    }, [search]);
 
     return (
         <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
             <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
                 <div className="pb-4">
-                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Hot Jobs</p>
-                    <p className="py-4">Top 5 most applied jobs</p>
+                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Search Jobs</p>
+                    <p className="py-4">
+                        See result about: <span className="font-bold">{search}</span>
+                    </p>
                 </div>
 
                 {jobs && jobs.length > 0 && (
-                    <div className="grid sm:grid-cols-2 md:grid-cols-5 gap-2">
+                    <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
                         {jobs.map((job) => (
                             <div
                                 key={job._id}
@@ -55,6 +59,7 @@ function Home() {
                         ))}
                     </div>
                 )}
+
                 {jobs && jobs.length === 0 && (
                     <div className="flex justify-center items-center w-full h-full py-60">
                         <p className="text-2xl font-bold">No jobs</p>
@@ -65,4 +70,4 @@ function Home() {
     );
 }
 
-export default Home;
+export default SearchJob;

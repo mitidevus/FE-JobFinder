@@ -22,6 +22,16 @@ export function formatDate(dateString) {
     return `${day}/${month}/${year}`;
 }
 
+export function formatDateYMD(dateString) {
+    // Format: "YYYY-MM-DD"
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+
+    return `${year}-${month}-${day}`;
+}
+
 export function formatDateTime(dateString) {
     const date = new Date(dateString);
     const day = date.getDate();
@@ -31,4 +41,12 @@ export function formatDateTime(dateString) {
     const minute = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
 
     return `${hour}:${minute} ${day}/${month}/${year} `;
+}
+
+export function formatDateISO(dateString) {
+    const date = new Date(dateString);
+    if (isNaN(date.getTime())) {
+        return null;
+    }
+    return date.toISOString();
 }

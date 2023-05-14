@@ -4,8 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
 import { logout, selectUser } from "../features/userSlice";
 import Search from "./Search";
+import { getJobs } from "../api/post/post.api";
 
 function Navbar() {
+    const [keyword, setKeyword] = React.useState("");
     const user = useSelector(selectUser);
 
     const dispatch = useDispatch();
@@ -22,6 +24,11 @@ function Navbar() {
         }
     };
 
+    const handleSearch = () => {
+        // Navigate to "/search/:keyword"
+        navigate(`/search/${keyword}`);
+    };
+
     return (
         <div className="fixed w-full h-[80px] flex justify-between items-center px-4 bg-[#222831] text-[#00ADB5] z-20">
             <div>
@@ -31,7 +38,7 @@ function Navbar() {
             </div>
 
             <div className="w-[700px] hidden md:block">
-                <Search />
+                <Search setKeyword={setKeyword} handleSearch={handleSearch} />
             </div>
 
             {/* Menu */}
@@ -71,13 +78,13 @@ function Navbar() {
                         )}
                         {user?.userType === 3 && (
                             <>
-                            <li>
-                                <Link to="myjobs">My Jobs</Link>
-                            </li>
-                            <li>
-                                <Link to="createjob">Create Job</Link>
-                            </li>
-                           </> 
+                                <li>
+                                    <Link to="myjobs">My Jobs</Link>
+                                </li>
+                                <li>
+                                    <Link to="createjob">Create Job</Link>
+                                </li>
+                            </>
                         )}
                         <li>
                             <Link to="account">Account</Link>

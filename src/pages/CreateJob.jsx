@@ -1,5 +1,9 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
+import { createJob } from "../api/post/post.api";
+import { useNavigate } from "react-router";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 function CreateJob() {
     const [title, setTitle] = React.useState("");
@@ -9,6 +13,9 @@ function CreateJob() {
     const [deadline, setDeadline] = React.useState("");
     const [address, setAddress] = React.useState("");
     const [requirements, setRequirements] = React.useState("");
+
+    const user = useSelector(selectUser);
+    const navigate = useNavigate();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -24,6 +31,15 @@ function CreateJob() {
         };
 
         console.log(data);
+
+        createJob(data, user?.token)
+            .then((res) => {
+                console.log(res.data);
+                navigate(`/`);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     };
 
     return (

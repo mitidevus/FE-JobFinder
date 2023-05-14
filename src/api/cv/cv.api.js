@@ -1,10 +1,15 @@
 import { axiosPrivate } from "../api";
 
-export const createCV = async (data) => {
+export const createCV = async (data, authToken) => {
     try {
-        return await axiosPrivate.post("/api/v1/cvs", data);
+        return await axiosPrivate.post("/api/v1/cvs", {
+            headers: {
+                "auth-token": `${authToken}`,
+            },
+            body: data,
+        });
     } catch (err) {
-        throw new Error(err);
+        throw err;
     }
 };
 
