@@ -1,6 +1,35 @@
 import React from "react";
+import { useState } from "react";
+import { forgotPassword } from "../api/auth/auth.api";
 
 function ForgetPassword() {
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!email) {
+            return alert("Please fill all fields!");
+        }
+
+        const userAuth = {
+            email,
+        };
+
+        try {
+            const response = await forgotPassword(userAuth);
+            if (response.status === 200) {
+                setSuccess(response.data.message);
+                setEmail("");
+            }
+        } catch (error) {
+            setError(error.response.data.message);
+            console.log(error);
+        }
+    };
+
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
             <div className="text-gray-300 bg-[#393E46] flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -9,10 +38,16 @@ function ForgetPassword() {
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                             Forget Password
                         </h1>
+                        {error && (
+                            <p className="bg-[#D14D72] text-sm text-white font-bold py-3 px-4 rounded">{error}</p>
+                        )}
+                        {success && (
+                            <p className="bg-[#1B9C85] text-sm text-white font-bold py-3 px-4 rounded">{success}</p>
+                        )}
                         <form className="space-y-4 md:space-y-6" method="post">
                             <div>
                                 <label
-                                    for="email"
+                                    htmlFor="email"
                                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                 >
                                     Your email
@@ -23,13 +58,15 @@ function ForgetPassword() {
                                     id="email"
                                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
+                                    onChange={(e) => setEmail(e.target.value)}
                                 />
                             </div>
                             <button
                                 type="submit"
                                 className="w-full text-white bg-[#1B9C85] hover:bg-[#1dbfaf] focus:ring-4 focus:outline-none focus:ring-primary-300 font-semibold rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                                onClick={handleSubmit}
                             >
-                                Sign in
+                                Send
                             </button>
                         </form>
                     </div>

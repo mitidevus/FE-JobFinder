@@ -41,7 +41,7 @@ function Navbar() {
                     <Link to="home">Home</Link>
                 </li>
                 <li>
-                    <Link to="/about">About</Link>
+                    <Link to="about">About</Link>
                 </li>
                 <li>
                     <Link to="hotjobs">Hot Jobs</Link>
@@ -70,9 +70,14 @@ function Navbar() {
                             </li>
                         )}
                         {user?.userType === 3 && (
+                            <>
                             <li>
                                 <Link to="myjobs">My Jobs</Link>
                             </li>
+                            <li>
+                                <Link to="createjob">Create Job</Link>
+                            </li>
+                           </> 
                         )}
                         <li>
                             <Link to="account">Account</Link>

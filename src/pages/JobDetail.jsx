@@ -90,7 +90,7 @@ function FormModal({ cvData, onClose }) {
                                     </button>
                                 ))}
 
-                            {cvData.length === 0 && (
+                            {cvData === null && (
                                 <div className="flex justify-center items-center h-64">
                                     <p className="text-2xl font-bold">No CVs</p>
                                 </div>
@@ -295,12 +295,94 @@ function FormModal({ cvData, onClose }) {
     );
 }
 
+function ApplyForm({ jobId, onClose }) {
+    const [description, setDescription] = useState("");
+    const [file, setFile] = useState(null);
+
+    const handleApply = () => {
+        if (!description || !file) {
+            return alert("Please fill all fields!");
+        }
+
+        const formData = new FormData();
+        formData.append("description", description);
+        formData.append("file", file);
+        formData.append("postId", jobId);
+
+        for (let [key, value] of formData.entries()) {
+            console.log(`${key}: ${value}`);
+        }
+    };
+
+    return (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 text-black bg-opacity-75 flex justify-center items-center">
+            <div className="w-[600px] bg-white rounded-lg p-8 max-w-[1100px]">
+                <div className="relative flex justify-between items-center">
+                    <h2 className="text-2xl font-bold mb-4">Upload your CV</h2>
+
+                    <button
+                        className="absolute top-[-16px] right-[-16px] bg-[#da4167] text-white px-3 py-1 font-bold rounded"
+                        onClick={onClose}
+                    >
+                        X
+                    </button>
+                </div>
+
+                <div className="overflow-y-auto w-full h-64 font-sans">
+                    <div className="flex flex-col">
+                        <div className="flex flex-col mt-4">
+                            <div className="mt-2">
+                                {/* Attached File */}
+                                <div className="flex justify-between items-center">
+                                    <p className="font-bold">{file ? file.name : "No file"}</p>
+                                    <label
+                                        htmlFor="file"
+                                        className="bg-[#00ADB5] text-white px-4 py-2 rounded cursor-pointer"
+                                    >
+                                        Choose File
+                                    </label>
+                                    <input
+                                        type="file"
+                                        name="file"
+                                        id="file"
+                                        className="hidden"
+                                        onChange={(e) => setFile(e.target.files[0])}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-2">
+                                <p className="font-bold">Description</p>
+                                <textarea
+                                    type="text"
+                                    name="description"
+                                    id="description"
+                                    className="border-2 border-gray-300 rounded-md p-2 w-full"
+                                    rows={5}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="flex justify-end mt-8">
+                    <button className="bg-[#A4D0A4] text-white px-4 py-2 rounded mr-4" onClick={handleApply}>
+                        Apply
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+}
+
 function JobDetail() {
     const params = useParams();
     const jobId = params.jobId;
     const [showModal, setShowModal] = useState(false);
     const [job, setJob] = useState({});
     const [cvData, setCvData] = useState([]);
+    const [showApply, setShowApply] = useState(false);
 
     const user = useSelector(selectUser);
 
@@ -309,6 +391,14 @@ function JobDetail() {
             setJob(res.data);
         });
     }, [jobId]);
+
+    useEffect(() => {
+        if (showApply || showModal) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+    }, [showApply, showModal]);
 
     // useEffect(() => {
     //     if (!user) return;
@@ -323,7 +413,7 @@ function JobDetail() {
 
     if (job) {
         return (
-            <div name="jobdetail" className="w-full h-full bg-[#393E46] text-gray-300">
+            <div name="jobdetail" className="w-full h-full bg-[#393E46] text-gray-300 overflow-hidden">
                 <div className="pt-[120px] pb-[50px] flex flex-col justify-center items-center w-full h-full">
                     <div className="max-w-[1100px] w-full grid grid-cols-2 gap-8">
                         <div className="pb-8 pl-4">
@@ -413,6 +503,15 @@ function JobDetail() {
                                     {/* <p className="ml-2">{job.userId?.phone}</p> */}
                                     <p className="ml-2">0344043493</p>
                                 </div>
+
+                                <button
+                                    className="mt-4 w-[150px] bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
+                                    onClick={() => setShowApply(true)}
+                                >
+                                    Apply
+                                </button>
+
+                                {showApply && <ApplyForm jobId={job._id} onClose={() => setShowApply(false)} />}
                             </div>
                         </div>
                     </div>

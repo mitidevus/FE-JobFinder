@@ -16,6 +16,22 @@ export const signUp = async (data) => {
     }
 };
 
+export const forgotPassword = async (data) => {
+    try {
+        return await axiosPrivate.post("/api/v1/auth/forgotPassword", data);
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const resetPassword = async (data) => {
+    try {
+        return await axiosPrivate.post("/api/v1/auth/resetPassword", data);
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getCompany = async (id, accessToken) => {
     try {
         const config = {
