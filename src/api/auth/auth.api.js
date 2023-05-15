@@ -42,6 +42,6 @@ export const getCompany = async (id, accessToken) => {
         const response = await axiosPrivate.get(`/api/v1/users/${id}`, config);
         return response.data;
     } catch (error) {
-        throw new Error(error);
+        throw error;
     }
 };

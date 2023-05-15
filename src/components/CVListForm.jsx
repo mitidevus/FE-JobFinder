@@ -1,27 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatDateTime } from "../utils/formatDate.js";
 import { sendEmail } from "../api/email/email.api.js";
+import { AiOutlineDownload } from "react-icons/ai";
+import { getCVByPostId, inviteCV } from "../api/cv/cv.api.js";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice.js";
 
-function CVListForm({ cvData, onClose }) {
+function CVListForm({ jobId, onClose }) {
+    const [CVList, setCVList] = useState([]);
     const [selectedCv, setSelectedCv] = useState(null);
     const [invite, setInvite] = useState(false);
     const [subjectEmail, setSubjectEmail] = useState("");
     const [timeEmail, setTimeEmail] = useState("");
     const [addressEmail, setAddressEmail] = useState();
     const [messageEmail, setMessageEmail] = useState("");
+    const [isInvited, setIsInvited] = useState(false);
+    const [filter, setFilter] = useState(1);
 
-    // form logic here
-    const handleCvClick = (cv) => {
-        setSelectedCv(cv);
-    };
+    const user = useSelector(selectUser);
 
-    const handleCvClose = () => {
-        setSelectedCv(null);
-    };
+    useEffect(() => {
+        const fetchCvData = async () => {
+            try {
+                const response = await getCVByPostId({ postId: jobId, authToken: user?.token });
+                setCVList(response.data);
+                setIsInvited(false);
+            } catch (error) {
+                console.error(error);
+            }
+        };
 
-    const handleInviteClose = () => {
-        setInvite(false);
-    };
+        if (user) {
+            fetchCvData();
+        }
+    }, [jobId, user, isInvited]);
 
     const handleInvite = async (e) => {
         e.preventDefault();
@@ -38,9 +50,15 @@ function CVListForm({ cvData, onClose }) {
         };
 
         try {
-            await sendEmail(data).then((res) => {
-                alert("Email sent successfully!");
-            });
+            const emailPromise = sendEmail(data);
+            const invitePromise = inviteCV({ id: selectedCv?._id, authToken: user?.token });
+
+            await Promise.all([emailPromise, invitePromise]);
+
+            alert("Emails sent successfully!");
+            setInvite(false);
+            setSelectedCv(null);
+            setIsInvited(true);
         } catch (error) {
             alert("Email sent failed!");
             console.log(error);
@@ -51,7 +69,18 @@ function CVListForm({ cvData, onClose }) {
         <div className="absolute top-0 left-0 w-full h-full bg-gray-900 text-black bg-opacity-75 flex justify-center items-center">
             <div className="w-[600px] bg-white rounded-lg p-8 max-w-[1100px]">
                 <div className="relative flex justify-between items-center">
-                    <h2 className="text-2xl font-bold mb-4">Applicant List</h2>
+                    <div className="flex justify-between items-center mb-4 w-full">
+                        <span className="text-2xl font-bold">Applicant List</span>
+                        <select
+                            className="border border-gray-400 text-black py-1 px-1 rounded-lg mr-10"
+                            value={filter}
+                            onChange={(e) => setFilter(e.target.value)}
+                        >
+                            <option value="1">Pending</option>
+                            <option value="2">Rejected</option>
+                            <option value="4">Invited</option>
+                        </select>
+                    </div>
 
                     <button
                         className="absolute top-[-16px] right-[-16px] bg-[#da4167] text-white px-3 py-1 font-bold rounded"
@@ -64,19 +93,19 @@ function CVListForm({ cvData, onClose }) {
                 {!selectedCv && (
                     <div className="overflow-y-auto w-full h-64 font-sans">
                         <div className="flex flex-col">
-                            {cvData &&
-                                cvData.map((cv) => (
+                            {CVList &&
+                                CVList.map((cv) => (
                                     <button
                                         className="flex justify-between hover:bg-[#98D8AA] px-2 py-4 rounded-sm"
-                                        key={cv._id}
-                                        onClick={() => handleCvClick(cv)}
+                                        key={cv?._id}
+                                        onClick={() => setSelectedCv(cv)}
                                     >
-                                        <p className="font-bold">{cv.title}</p>
-                                        <p className="text-sm">{formatDateTime(cv.createdAt)}</p>
+                                        <p className="font-bold">Truong Chi Hien</p>
+                                        <p className="text-sm">{formatDateTime(cv?.createdAt)}</p>
                                     </button>
                                 ))}
 
-                            {cvData === null && (
+                            {CVList === null && (
                                 <div className="flex justify-center items-center h-64">
                                     <p className="text-2xl font-bold">No CVs</p>
                                 </div>
@@ -89,25 +118,31 @@ function CVListForm({ cvData, onClose }) {
                 {selectedCv && !invite && (
                     <div className="overflow-y-auto w-full h-64 font-sans">
                         <div className="flex flex-col">
-                            <div className="flex justify-between px-2 py-4">
-                                <p className="font-bold">{selectedCv.title}</p>
-                                <p className="text-sm">{formatDateTime(selectedCv.createdAt)}</p>
-                            </div>
-                            <div className="flex flex-col mt-4">
-                                <div className="flex items-center">
-                                    <p className="font-bold">Status:</p>
-                                    {selectedCv.status === 1 && (
-                                        <p className="ml-2 font-semibold text-[#00ADB5]">Pending</p>
-                                    )}
-                                    {selectedCv.status === 2 && (
-                                        <p className="ml-2 font-semibold text-[#D14D72]">Rejected</p>
-                                    )}
-                                    {selectedCv.status === 3 && (
-                                        <p className="ml-2 font-semibold text-[#8F43EE]">Interested</p>
-                                    )}
-                                    {selectedCv.status === 4 && (
-                                        <p className="ml-2 font-semibold text-[#98D8AA]">Invited</p>
-                                    )}
+                            <div className="flex flex-col">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex">
+                                        <p className="font-bold">Status:</p>
+                                        {selectedCv?.status === 1 && (
+                                            <p className="ml-2 font-semibold text-[#00ADB5]">Pending</p>
+                                        )}
+                                        {selectedCv?.status === 2 && (
+                                            <p className="ml-2 font-semibold text-[#D14D72]">Rejected</p>
+                                        )}
+                                        {selectedCv?.status === 3 && (
+                                            <p className="ml-2 font-semibold text-[#8F43EE]">Interested</p>
+                                        )}
+                                        {selectedCv?.status === 4 && (
+                                            <p className="ml-2 font-semibold text-[#98D8AA]">Invited</p>
+                                        )}
+                                    </div>
+                                    <div className="mr-2">
+                                        <a href={selectedCv?.CVFileURL} target="_blank" rel="noopener noreferrer">
+                                            <div className="flex items-center text-[#6DA9E4]">
+                                                <AiOutlineDownload size={"20px"} />
+                                                <span className="font-semibold ml-1">Download CV</span>
+                                            </div>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div className="flex flex-row mt-2">
                                     <div className="w-5/12">
@@ -117,7 +152,8 @@ function CVListForm({ cvData, onClose }) {
                                             name="name"
                                             id="name"
                                             className="border-2 border-gray-300 rounded-md p-2"
-                                            value={selectedCv.username}
+                                            // value={selectedCv?.username}
+                                            value="Do Minh Tri"
                                             readOnly
                                             disabled
                                         />
@@ -129,7 +165,8 @@ function CVListForm({ cvData, onClose }) {
                                             name="email"
                                             id="email"
                                             className="border-2 border-gray-300 rounded-md p-2 w-full"
-                                            value={selectedCv.email}
+                                            // value={selectedCv?.email}
+                                            value="minhtri.2410@gmail.com"
                                             readOnly
                                             disabled
                                         />
@@ -143,7 +180,8 @@ function CVListForm({ cvData, onClose }) {
                                             name="phone"
                                             id="phone"
                                             className="border-2 border-gray-300 rounded-md p-2"
-                                            value={selectedCv.phone}
+                                            // value={selectedCv?.phone}
+                                            value="0344043493"
                                             readOnly
                                             disabled
                                         />
@@ -155,7 +193,8 @@ function CVListForm({ cvData, onClose }) {
                                             name="address"
                                             id="address"
                                             className="border-2 border-gray-300 rounded-md p-2 w-full"
-                                            value={selectedCv.address}
+                                            // value={selectedCv?.address}
+                                            value="227 Nguyen Van Cu, District 5, Ho Chi Minh City"
                                             readOnly
                                             disabled
                                         />
@@ -169,21 +208,8 @@ function CVListForm({ cvData, onClose }) {
                                         name="description"
                                         id="description"
                                         className="border-2 border-gray-300 rounded-md p-2 w-full"
-                                        value={selectedCv.description}
+                                        value={selectedCv?.description}
                                         rows={5}
-                                        readOnly
-                                        disabled
-                                    />
-                                </div>
-
-                                <div className="mt-2">
-                                    <p className="font-bold">CV</p>
-                                    <input
-                                        type="text"
-                                        name="cv"
-                                        id="cv"
-                                        className="border-2 border-gray-300 rounded-md p-2 w-full"
-                                        value={selectedCv.CVFileURL}
                                         readOnly
                                         disabled
                                     />
@@ -196,10 +222,6 @@ function CVListForm({ cvData, onClose }) {
                 {selectedCv && invite && (
                     <div className="overflow-y-auto w-full h-64 font-sans">
                         <div className="flex flex-col">
-                            <div className="flex justify-between px-2 py-4">
-                                <p className="font-bold">{selectedCv.title}</p>
-                                <p className="text-sm">{formatDateTime(selectedCv.createdAt)}</p>
-                            </div>
                             <div className="flex flex-col mt-4">
                                 <input
                                     type="text"
@@ -249,10 +271,13 @@ function CVListForm({ cvData, onClose }) {
                 <div className="flex justify-end mt-8">
                     {selectedCv && !invite && (
                         <>
-                            <button className="bg-[#B7B7B7] text-white px-4 py-2 rounded mr-4" onClick={handleCvClose}>
+                            <button
+                                className="bg-[#B7B7B7] text-white px-4 py-2 rounded mr-4"
+                                onClick={() => setSelectedCv(null)}
+                            >
                                 Back
                             </button>
-                            {selectedCv.status === 1 && (
+                            {selectedCv?.status === 1 && (
                                 <button
                                     className="bg-[#A4D0A4] text-white px-4 py-2 rounded mr-4"
                                     onClick={() => setInvite(true)}
@@ -266,7 +291,7 @@ function CVListForm({ cvData, onClose }) {
                         <>
                             <button
                                 className="bg-[#B7B7B7] text-white px-4 py-2 rounded mr-4"
-                                onClick={handleInviteClose}
+                                onClick={() => setInvite(false)}
                             >
                                 Back
                             </button>

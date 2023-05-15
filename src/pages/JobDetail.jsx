@@ -23,7 +23,6 @@ function JobDetail() {
     const params = useParams();
     const jobId = params.jobId;
     const [job, setJob] = useState({});
-    const [cvData, setCvData] = useState([]);
 
     const [showCVList, setShowCVList] = useState(false);
     const [showUpdate, setShowUpdate] = useState(false);
@@ -33,9 +32,12 @@ function JobDetail() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getJob(jobId).then((res) => {
-            setJob(res.data);
-        });
+        const fetchJob = async () => {
+            const response = await getJob(jobId);
+            setJob(response.data);
+        };
+
+        fetchJob();
     }, [jobId]);
 
     useEffect(() => {
@@ -45,17 +47,6 @@ function JobDetail() {
             document.body.classList.remove("overflow-hidden");
         }
     }, [showCVList, showUpdate, showApply]);
-
-    // useEffect(() => {
-    //     if (!user) return;
-    //     try {
-    //         getCVByPostId({ postId: jobId, authToken: user?.token }).then((res) => {
-    //             setCvData(res.data);
-    //         });
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // }, [jobId]);
 
     const handleClosePost = () => {
         const confirm = window.confirm("Are you sure to close this job?");
@@ -127,7 +118,7 @@ function JobDetail() {
                                     </div>
                                 )}
                             </div>
-                            {showCVList && <CVListForm cvData={cvData} onClose={() => setShowCVList(false)} />}
+                            {showCVList && <CVListForm jobId={jobId} onClose={() => setShowCVList(false)} />}
                             {showUpdate && (
                                 <UpdateForm job={job} authToken={user?.token} onClose={() => setShowUpdate(false)} />
                             )}
@@ -138,13 +129,13 @@ function JobDetail() {
                             <div className="flex justify-center">
                                 <img
                                     src={job?.userId?.avatar}
-                                    alt={job?.userId?.__t}
+                                    alt={job?.userId?.companyName}
                                     className="mt-3 w-60 h-60 rounded"
                                 />
                             </div>
                             <div className="flex justify-center pt-4 pb-2">
                                 <Link to={`/company_profile/${job?.userId?._id}`}>
-                                    <p className="text-3xl text-center hover:text-[#00ADB5]">{job?.userId?.__t}</p>
+                                    <p className="text-3xl text-center hover:text-[#00ADB5]">{job?.userId?.companyName}</p>
                                 </Link>
                             </div>
                             <p>{job?.userId?.description}</p>
@@ -202,14 +193,16 @@ function JobDetail() {
                                     <p className="ml-2">{job?.userId?.phone}</p>
                                 </div>
 
-                                <button
-                                    className="mt-4 w-[150px] bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
-                                    onClick={() => setShowApply(true)}
-                                >
-                                    Apply
-                                </button>
+                                {job?.userId?._id !== user?._id && (
+                                    <button
+                                        className="mt-4 w-[150px] bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
+                                        onClick={() => setShowApply(true)}
+                                    >
+                                        Apply
+                                    </button>
+                                )}
 
-                                {showApply && (
+                                {job?.userId?._id !== user?._id && showApply && (
                                     <ApplyForm
                                         jobId={job?._id}
                                         authToken={user?.token}

@@ -8,58 +8,70 @@ export const createCV = async (data, authToken) => {
             },
             body: data,
         });
-    } catch (err) {
-        throw err;
+    } catch (error) {
+        throw error;
     }
 };
 
-export const getCVs = async () => {
+export const getCVByPostId = async (params) => {
+    const { status, sortOption, userId, postId, authToken } = params || {};
     try {
-        return await axiosPrivate.get("/api/v1/cvs//jobseeker?status=1&sortOption=desc");
-    } catch (err) {
-        throw new Error(err);
-    }
-};
-
-export const getCV = async (id) => {
-    try {
-        return await axiosPrivate.get(`/api/v1/cvs/${id}`);
-    } catch (err) {
-        throw new Error(err);
-    }
-};
-
-export const getCVByPostId = async ({ status, sortOption, userId, postId, authToken }) => {
-    try {
-        return await axiosPrivate.get(`/api/v1/cvs`, {
-            params: {
-                status,
-                sortOption,
-                userId,
-                postId,
-            },
-            headers: {
-                "auth-token": `${authToken}`,
-            },
+        return await axiosPrivate.get("/api/v1/cvs", {
+            params: { status, sortOption, userId, postId },
+            headers: { "auth-token": authToken },
         });
-        // return await axiosPrivate.get(`/api/v1/cvs?postId=${postId}`);
-    } catch (err) {
-        throw err;
+    } catch (error) {
+        throw error;
     }
 };
 
 export const updateCV = async (id, data) => {
     try {
         return await axiosPrivate.put(`/api/v1/cvs/${id}`, data);
-    } catch (err) {
-        throw new Error(err);
+    } catch (error) {
+        throw error;
     }
 };
 
 export const deleteCV = async (id) => {
     try {
         return await axiosPrivate.delete(`/api/v1/cvs/${id}`);
-    } catch (err) {
-        throw new Error(err);
+    } catch (error) {
+        throw error;
+    }
+};
+
+// export const inviteCV = async (params) => {
+//     const { id, authToken } = params || {};
+//     try {
+//         return await axiosPrivate.put(`/api/v1/cvs/${id}`, {
+//             body: {
+//                 status: 4,
+//             },
+//             headers: {
+//                 "auth-token": `${authToken}`,
+//             },
+//         });
+//     } catch (error) {
+//         throw error;
+//     }
+// };
+
+export const inviteCV = async (params) => {
+    const { id, authToken } = params || {};
+    try {
+        return await axiosPrivate.put(
+            `/api/v1/cvs/${id}`,
+            {
+                status: 4,
+            },
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
+    } catch (error) {
+        throw error;
     }
 };

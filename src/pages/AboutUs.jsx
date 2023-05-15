@@ -7,7 +7,7 @@ import Tin from "../assets/Tin.jpg";
 
 function AboutUs() {
     return (
-        <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
+        <div name="home" className="w-full h-full text-gray-300 bg-[#393E46] font-sans">
             <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
                 <p className="text-4xl font-bold inline text-[#00ADB5] text-center">About Us</p>
                 <div className="grid sm:grid-cols-2 md:grid-cols-2 gap-5 ">
