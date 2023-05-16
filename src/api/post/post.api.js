@@ -56,3 +56,10 @@ export const searchJobs = async (data) => {
         throw new Error(err);
     }
 };
+export const getJobsByUserId = async (id) => {
+    try {
+        return await axiosPrivate.get(`/api/v1/posts?userId=${id}`);
+    } catch (err) {
+        throw new Error(err);
+    }
+};

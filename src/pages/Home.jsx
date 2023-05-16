@@ -13,6 +13,7 @@ function Home() {
         getJobs().then((res) => {
             setJobs(res.data);
         });
+        console.log(jobs)
     }, []);
 
     return (

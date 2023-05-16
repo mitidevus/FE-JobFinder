@@ -35,8 +35,38 @@ function EditProfile() {
         language: "en",
     }
     const [show, setShow] = useState(false)
-    let [selectedImage, setSelectedImage] = useState(null);
+    const [name, setName] = useState("")
+    const [address, setAddress] = useState("")
+    const [phone, setPhone] = useState("")
+    const [date, setDate] = useState("")
+    const [email, setEmail] = useState("")
+    const [education, setEducation] = useState("")
+    const [experience, setExperience] = useState("")
+    const [skills, setSkills] = useState([])
+    const [description, setDescription] = useState("")
+    const handleCheckBoxs = (e, arr) => {
+        arr.append(e)
+        return arr
+    }
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const data = {
+            name,
+            address,
+            phone,
+            date: new Date(),
+            email,
+            education,
+            experience,
+            skills,
+            description,
+        }
+        console.log(data)
+    }
+
     const skill = ["C++", "C#", "Python", "Java", "JavaScript", "HTML", "CSS"]
+
+
     const handleChange = (selectedDate = Date) => {
         const month = selectedDate.getMonth() + 1
         console.log(selectedDate.getFullYear() + "-" + month + "-" + selectedDate.getDate())
@@ -89,58 +119,46 @@ function EditProfile() {
                             <form method="post">
                                 <div class="grid gap-6 mb-6 md:grid-cols-2">
                                     <div>
-                                        <label htmlFor="first_name" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                        <input type="text" id="first_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <label htmlFor="name" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                        <input type="text" id="name" name="name" onChange={(e) => setName(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
 
                                     <div>
-                                        <label htmlFor="company" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                        <input type="text" id="company" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <label htmlFor="address" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
+                                        <input type="text" id="address" onChange={(e) => setAddress(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
                                     <div>
                                         <label htmlFor="phone" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                                        <input type="tel" id="phone" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <input type="tel" id="phone" onChange={(e) => setPhone(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
 
                                 </div>
                                 <div class="mb-6">
-                                    <label htmlFor="email" class="text-startblock mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of birth</label>
-                                    <Datepicker options={options} onChange={handleChange} show={show} setShow={handleClose} />
+                                    <label htmlFor="email" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Date of birth</label>
+                                    <Datepicker options={options} onChange={(e) => setDate(e.target.value)} show={show} setShow={handleClose} />
                                 </div>
                                 <div class="mb-6">
-                                    <label htmlFor="email" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email address</label>
-                                    <input type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                    <label htmlFor="email" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                                    <input type="email" id="email" onChange={(e) => setEmail(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                 </div>
                                 <div className="py-5 border-t border-blueGray-200">
                                     <p class="text-start block mb-2 text-base font-medium text-gray-900 dark:text-white">Education</p>
                                     <div class="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Primary School</label>
-                                        <input type="text" name="PrimarySchool" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Secondary School</label>
-                                        <input type="text" name="SecondarySchool" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">High School</label>
-                                        <input type="text" name="HighSchool" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                                    </div>
-                                    <div class="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">University</label>
-                                        <input type="text" name="University" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">University</label>
+                                        <textarea type="text" onChange={(e) => setEducation(e.target.value)} name="University" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
                                 </div>
                                 <div className="py-5 border-t border-blueGray-200">
                                     <div class="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Experience</label>
-                                        <textarea type="text" name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Experience</label>
+                                        <textarea type="text" name="experience" onChange={(e) => setExperience(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
                                     <div class="mb-6">
-                                        <label class="block mb-3 text-sm font-medium text-gray-900 dark:text-white">Skills</label>
+                                        <label class="text-start block mb-3 text-sm font-medium text-gray-900 dark:text-white">Skills</label>
                                         <div class="mb-6 grid md:grid-cols-4 gap-2 text-justify">
                                             {skill.map((skill, index) => (
                                                 <div key={index}>
-                                                    <input id="default-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                    <input id="default-checkbox" type="checkbox" value={skill} onClick={(e) => setSkills(e.target.value)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
                                                     <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{skill}</label>
                                                 </div>
                                             ))}
@@ -149,8 +167,8 @@ function EditProfile() {
                                 </div>
                                 <div className="py-5 border-t border-blueGray-200">
                                     <div class="mb-6">
-                                        <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                        <textarea type="text" onChange={(e) => setTitle(e.target.value)} name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                        <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
+                                        <textarea type="text" onChange={(e) => setDescription(e.target.value)} name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
                                 </div>
                                 {/* <div class="mb-6">

@@ -5,21 +5,37 @@ import { Link } from "react-router-dom";
 import avt from "../assets/company_avt.jfif";
 import { data } from "../data/Home.js";
 import { formatDate } from "../utils/formatDate";
-
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
+import { getJobsByUserId } from "../api/post/post.api"
 function MyJob() {
-    const jobs = data;
+    const user = useSelector(selectUser);
+    const [jobs, setJobs] = React.useState([])
+ 
+   
+    React.useEffect(() => {
+        getJobsByUserId(user._id).then((res) => {
+            setJobs(res.data);
+        });
+    }, []);
     const pageCount = 10;
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
         console.log(event.selected + 1);
+        console.log(user)
     };
+
+    if(!user){
+        return alert("You need to sign in before")
+    }
     return (
+
         <div className="bg-[#393E46] antialiasedr font-sans">
             <div className="container mx-auto my-60">
                 <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
                     <div className="flex justify-center">
                         <img
-                            src={avt}
+                            src={user.avatar}
                             alt=""
                             className="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110"
                         />
@@ -27,7 +43,7 @@ function MyJob() {
 
                     <div className="mt-16">
                         <h3 className="text-center text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                            Nha tuyen dung A
+                            {user.companyName}
                         </h3>
                         <div className="my-5 px-6">
                             <a

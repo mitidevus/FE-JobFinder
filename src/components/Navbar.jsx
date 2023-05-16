@@ -69,19 +69,27 @@ function Navbar() {
                                 <Link to="approve">Approve</Link>
                             </li>
                         )}
+                        {user?.userType === 2 && (
+                            <>
+                                <li>
+                                    <Link to="profile">Account</Link>
+                                </li>
+                            </>
+                        )}
                         {user?.userType === 3 && (
                             <>
-                            <li>
-                                <Link to="myjobs">My Jobs</Link>
-                            </li>
-                            <li>
-                                <Link to="createjob">Create Job</Link>
-                            </li>
-                           </> 
+                                <li>
+                                    <Link to="myjobs">My Jobs</Link>
+                                </li>
+                                <li>
+                                    <Link to="createjob">Create Job</Link>
+                                </li>
+                                <li>
+                                    <Link to={"company_profile/" + user._id}>Account</Link>
+                                </li>
+                            </>
                         )}
-                        <li>
-                            <Link to="account">Account</Link>
-                        </li>
+
                         <li>
                             <Link to="logout">
                                 <button

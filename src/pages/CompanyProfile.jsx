@@ -4,27 +4,30 @@ import React from "react";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
-
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
 function CompanyProfile() {
-
+    const user = useSelector(selectUser);
+    if(!user || user.userType!==3){
+        return alert("You need to sign in an account for company")
+    }
     return (
-
         <div className="bg-[#393E46] antialiasedr">
             <div className="container mx-auto my-60">
 
 
                 <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
                     <div className="flex justify-center">
-                        <img src={avt} alt="" className="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110" />
+                        <img src={user.avatar} alt="" className="rounded-full mx-auto absolute -top-20 w-32 h-32 shadow-md border-4 border-white transition duration-200 transform hover:scale-110" />
                     </div>
 
                     <div className="mt-16">
                         <h3 className="text-center text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                            Nha tuyen dung A
+                            {user.companyName}
                         </h3>
-                        <p className="text-center text-sm text-gray-400 font-medium">abc@gmail.com</p>
-                        <p className="text-center text-sm text-gray-400 font-medium">012-345-6789</p>
-                        <p className="text-center text-sm text-gray-400 font-medium">DiaChi</p>
+                        <p className="text-center text-sm text-gray-400 font-medium">{user.email}</p>
+                        <p className="text-center text-sm text-gray-400 font-medium">{user.phone}</p>
+                        <p className="text-center text-sm text-gray-400 font-medium">{user.address}</p>
                         <div className="my-5 px-6">
                             <a href="/" className="text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white">Go to <span className="font-bold">"Trang chu cua cong ty"</span></a>
                         </div>
@@ -42,7 +45,7 @@ function CompanyProfile() {
                                         <div className="w-full lg:w-9/12 px-4">
                                             <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
                                                 <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Description: </span>
-                                                This is a company
+                                                {user.description}
                                             </p>
                                         </div>
                                     </div>
