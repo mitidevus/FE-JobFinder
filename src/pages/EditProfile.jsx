@@ -101,7 +101,7 @@ function EditProfile() {
         console.log("data = ", data)
         try {
             await updateProfile(user._id,{ data, authToken: user?.token });
-            navigate("/");
+            //navigate("/");
             alert("Create job successfully!");
         } catch (error) {
             console.log(error);
