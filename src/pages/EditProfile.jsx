@@ -99,6 +99,14 @@ function EditProfile() {
         data.experience = exp
         data.education = edu
         console.log("data = ", data)
+        try {
+            await updateProfile(user._id,{ data, authToken: user?.token });
+            navigate("/");
+            alert("Create job successfully!");
+        } catch (error) {
+            console.log(error);
+            //setError(error.response?.data?.message || "Failed to create job");
+        }
         //updateProfile(user._id, data, user.token)
     }
 
