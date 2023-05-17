@@ -1,11 +1,13 @@
 
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
+
 function CompanyProfile() {
     const user = useSelector(selectUser);
     if(!user || user.userType!==3){
@@ -27,15 +29,7 @@ function CompanyProfile() {
                         </h3>
                         <p className="text-center text-sm text-gray-400 font-medium">{user.email}</p>
                         <p className="text-center text-sm text-gray-400 font-medium">{user.phone}</p>
-                        <p className="text-center text-sm text-gray-400 font-medium">{user.address}</p>
-                        <div className="my-5 px-6">
-                            <a href="/" className="text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white">Go to <span className="font-bold">"Trang chu cua cong ty"</span></a>
-                        </div>
-                        <div className="flex justify-between items-center my-5 px-6">
-                            <a href="" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3">Facebook</a>
-                            <a href="" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3">Twitter</a>
-                            <a href="" className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3">Instagram</a>
-                        </div>
+                        <p className="text-center text-sm text-gray-400 font-medium mb-10">{user.address}</p>
 
                         <div className="w-full">
                             <div className="px-6">
