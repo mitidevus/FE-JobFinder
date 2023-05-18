@@ -2,7 +2,7 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
@@ -13,6 +13,8 @@ import { getJobsByUserId } from "../api/post/post.api"
 import { formatDate } from "../utils/formatDate";
 function CompanyProfile() {
     const u = useSelector(selectUser);
+    const params = useParams();
+    const id = params.companyId;
     // const [searchParams, setSearchParams] = useSearchParams();
     // setSearchParams("companyId")
     // searchParams.get("__firebase_request_key")
@@ -20,13 +22,13 @@ function CompanyProfile() {
     const [user, setUser] = useState(u)
     const [jobs, setJobs] = useState([])
     useEffect(() => {
-        getProfile(u._id, u?.token).then((res) => {
+        getProfile(id, u?.token).then((res) => {
             setUser(res.data);
         });
-        getJobsByUserId(u._id).then((res) => {
-            setJobs(res.data);
+        getJobsByUserId(id).then((res) => {
+            setJobs(res.data.posts);
             console.log(res.data)
-            
+
         });
     }, [jobs]);
 
@@ -67,6 +69,9 @@ function CompanyProfile() {
                                 </div>
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <div className="grid sm:grid-cols-5 md:grid-cols-1 gap-5">
+                                        <h3 className="text-center text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+                                            Post
+                                        </h3>
                                         {/* Grid Items */}
                                         {jobs.map((job, index) => (
                                             <div
@@ -105,13 +110,15 @@ function CompanyProfile() {
 
 
                                 </div>
-                                <div className="py-10 border-t border-blueGray-200 text-center">
-                                    <div className="flex flex-wrap justify-center">
-                                        <div className="w-full lg:w-9/12 px-4">
-                                            <a href="/company_profile/edit" type="submit" className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Edit Profile</a>
+                                {u._id===id && (
+                                    <div className="py-10 border-t border-blueGray-200 text-center">
+                                        <div className="flex flex-wrap justify-center">
+                                            <div className="w-full lg:w-9/12 px-4">
+                                                <a href="/company_profile/edit" type="submit" className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Edit Profile</a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                )}
                             </div>
                         </div>
                     </div>

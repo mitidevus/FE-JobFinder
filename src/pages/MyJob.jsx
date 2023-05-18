@@ -10,12 +10,12 @@ import { useSelector } from "react-redux";
 import { getJobsByUserId } from "../api/post/post.api"
 function MyJob() {
     const user = useSelector(selectUser);
-    const [jobs, setJobs] = React.useState({})
+    const [jobs, setJobs] = React.useState([])
  
    
     React.useEffect(() => {
         getJobsByUserId(user._id).then((res) => {
-            setJobs(res.data);
+            setJobs(res.data.posts);
         });
     }, [jobs]);
     const pageCount = 10;
