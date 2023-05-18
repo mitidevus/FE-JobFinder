@@ -14,11 +14,16 @@ function History() {
     const [cv, setCV] = useState([]);
     const [selectedCv, setSelectedCv] = useState(null);
     const [job, setJob] = useState({});
+
     React.useEffect(() => {
         getCVByUserId(user._id,user?.token).then((res) => {
             setCV(res.data);
         });
+
     }, []);
+    for (let i = 0;i<cv.length;i++) {
+        cv[i].title = getJob(cv[i].postId)
+    }
     // form logic here
 
     const handleCvClick = (cv) => {
@@ -37,7 +42,7 @@ function History() {
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
                     <div className="px-6">
                         <div className="text-center mt-12">
-                            <h2 className="text-2xl font-bold mb-4">Applicant List</h2>
+                            <h2 className="text-2xl font-bold mb-4">CV</h2>
 
                             {!selectedCv && (
                                 <div className="overflow-y-auto w-full h-64">
