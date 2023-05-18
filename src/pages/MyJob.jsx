@@ -10,14 +10,14 @@ import { useSelector } from "react-redux";
 import { getJobsByUserId } from "../api/post/post.api"
 function MyJob() {
     const user = useSelector(selectUser);
-    const [jobs, setJobs] = React.useState([])
+    const [jobs, setJobs] = React.useState({})
  
    
     React.useEffect(() => {
         getJobsByUserId(user._id).then((res) => {
             setJobs(res.data);
         });
-    }, []);
+    }, [jobs]);
     const pageCount = 10;
     // Invoke when user click to request another page.
     const handlePageClick = (event) => {
@@ -45,40 +45,7 @@ function MyJob() {
                         <h3 className="text-center text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                             {user.companyName}
                         </h3>
-                        <div className="my-5 px-6">
-                            <a
-                                href="/"
-                                className="text-gray-200 block rounded-lg text-center font-medium leading-6 px-6 py-3 bg-gray-900 hover:bg-black hover:text-white"
-                            >
-                                Go to <span className="font-bold">"Trang chu cua cong ty"</span>
-                            </a>
-                        </div>
-                        <div className="flex justify-between items-center my-5 px-6">
-                            <a
-                                href=""
-                                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-                            >
-                                Facebook
-                            </a>
-                            <a
-                                href=""
-                                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-                            >
-                                Twitter
-                            </a>
-                            <a
-                                href=""
-                                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-                            >
-                                Instagram
-                            </a>
-                            <a
-                                href=""
-                                className="text-gray-500 hover:text-gray-900 hover:bg-gray-100 rounded transition duration-150 ease-in font-medium text-sm text-center w-full py-3"
-                            >
-                                Email
-                            </a>
-                        </div>
+
 
                         <div className="w-full">
                             <div className="px-6">

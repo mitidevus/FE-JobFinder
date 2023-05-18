@@ -1,26 +1,28 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
-import {getProfile} from "../api/user/user.api"
+import { getProfile } from "../api/user/user.api"
+import { getJob } from "../api/post/post.api"
+
 function Profile() {
     const u = useSelector(selectUser);
-    const [user,setUser] = useState(u)
+
+    const [user, setUser] = useState({})
     useEffect(() => {
-        getProfile(u._id,u?.token).then((res) => {
+        getProfile(u._id, u?.token).then((res) => {
             setUser(res.data);
         });
     }, []);
-    
-    
+
+
     const but = ["python", "C++", "Java", "Java", "Java", "Java", "Java"]
     let [selectedImage, setSelectedImage] = useState(null);
-    if (!user || user.userType !== 2) {
-        return alert("You need to sign in an account for job seeker")
-    }
+
+
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
             <div className="w-full lg:w-4/12 px-4 mx-auto ">

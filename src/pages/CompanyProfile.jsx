@@ -1,30 +1,36 @@
 
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React , {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
-import {getProfile} from "../api/user/user.api"
+import { getProfile } from "../api/user/user.api"
 import { getJobsByUserId } from "../api/post/post.api"
+import { formatDate } from "../utils/formatDate";
 function CompanyProfile() {
     const u = useSelector(selectUser);
-    const [user,setUser] = useState(u)
+    // const [searchParams, setSearchParams] = useSearchParams();
+    // setSearchParams("companyId")
+    // searchParams.get("__firebase_request_key")
+    // console.log("asd", searchParams)
+    const [user, setUser] = useState(u)
     const [jobs, setJobs] = useState([])
     useEffect(() => {
-        getProfile(u._id,u?.token).then((res) => {
+        getProfile(u._id, u?.token).then((res) => {
             setUser(res.data);
         });
-    }, []);
-    useEffect(() => {
-        getJobsByUserId(user._id).then((res) => {
+        getJobsByUserId(u._id).then((res) => {
             setJobs(res.data);
-            console.log(setJobs(res.data))
+            console.log(res.data)
+            
         });
-    }, []);
-    if(!user || user.userType!==3){
+    }, [jobs]);
+
+    if (!user || user.userType !== 3) {
         return alert("You need to sign in an account for company")
     }
     return (
@@ -48,7 +54,7 @@ function CompanyProfile() {
 
                         <div className="w-full">
                             <div className="px-6">
-                               
+
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <div className="flex flex-wrap justify-center">
                                         <div className="w-full lg:w-9/12 px-4">
@@ -60,7 +66,44 @@ function CompanyProfile() {
                                     </div>
                                 </div>
                                 <div className="py-10 border-t border-blueGray-200 text-center">
-                                    
+                                    <div className="grid sm:grid-cols-5 md:grid-cols-1 gap-5">
+                                        {/* Grid Items */}
+                                        {jobs.map((job, index) => (
+                                            <div
+                                                key={index}
+                                                className="shadow-sm shadow-[#040c16] rounded-md flex justify-center items-center text-center mx-auto bg-[#FAE3D9]"
+                                            >
+                                                <div
+                                                    style={{ backgroundImage: `url(${job.image})` }}
+                                                    className="group container rounded-t flex justify-center items-center text-center mx-auto content-div"
+                                                >
+                                                    {/* Hover Effects */}
+                                                    <div className="overlay rounded-t group-hover:opacity-60"></div>
+                                                    <div className="opacity-0 z-10 group-hover:opacity-100 ">
+                                                        <span className="pt-2">
+                                                            {formatDate(new Date(job.deadline))}
+                                                        </span>
+                                                        <div className="text-center pt-4">
+                                                            <Link to={`/job/${job.id}`}>
+                                                                <button className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg group-hover:translate-y-[-10px] ">
+                                                                    <span className="flex items-center">
+                                                                        Detail
+                                                                    </span>
+                                                                </button>
+                                                            </Link>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="pt-2 text-black px-3 py-4">
+                                                    <span className="text-2xl font-bold">{job.company}</span>
+                                                    <p className="pt-1">{job.title}</p>
+                                                    <p className="pt-1">{job.address}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+
                                 </div>
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <div className="flex flex-wrap justify-center">
