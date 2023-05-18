@@ -8,12 +8,20 @@ import avt from "../assets/company_avt.jfif"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import {getProfile} from "../api/user/user.api"
+import { getJobsByUserId } from "../api/post/post.api"
 function CompanyProfile() {
     const u = useSelector(selectUser);
     const [user,setUser] = useState(u)
+    const [jobs, setJobs] = useState([])
     useEffect(() => {
         getProfile(u._id,u?.token).then((res) => {
             setUser(res.data);
+        });
+    }, []);
+    useEffect(() => {
+        getJobsByUserId(user._id).then((res) => {
+            setJobs(res.data);
+            console.log(setJobs(res.data))
         });
     }, []);
     if(!user || user.userType!==3){
@@ -50,6 +58,9 @@ function CompanyProfile() {
                                             </p>
                                         </div>
                                     </div>
+                                </div>
+                                <div className="py-10 border-t border-blueGray-200 text-center">
+                                    
                                 </div>
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <div className="flex flex-wrap justify-center">

@@ -5,10 +5,19 @@ import { data } from "../data/history_eg";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { cvData } from "../data/CV.js";
-
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
+import {getCVByUserId} from "../api/cv/cv.api"
 function History() {
+    const user = useSelector(selectUser);
+    const [cv, setCV] = useState([])
     const [selectedCv, setSelectedCv] = useState(null);
 
+    React.useEffect(() => {
+        getCVByUserId(user._id,user?.token).then((res) => {
+            setCV(res.data);
+        });
+    }, []);
     // form logic here
 
     const handleCvClick = (cv) => {
@@ -29,10 +38,10 @@ function History() {
                             {!selectedCv && (
                                 <div className="overflow-y-auto w-full h-64">
                                     <div className="flex flex-col">
-                                        {cvData.map((cv) => (
+                                        {cv.map((cv) => (
                                             <button
                                                 className="flex justify-between hover:bg-[#98D8AA] px-2 py-4 rounded-sm"
-                                                key={cv.id}
+                                                key={cv._id}
                                                 onClick={() => handleCvClick(cv)}
                                             >
                                                 <p className="font-bold">{cv.title}</p>
