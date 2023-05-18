@@ -1,15 +1,21 @@
 
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React from "react";
+import React , {useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
-
+import {getProfile} from "../api/user/user.api"
 function CompanyProfile() {
-    const user = useSelector(selectUser);
+    const u = useSelector(selectUser);
+    const [user,setUser] = useState(u)
+    useEffect(() => {
+        getProfile(u._id,u?.token).then((res) => {
+            setUser(res.data);
+        });
+    }, []);
     if(!user || user.userType!==3){
         return alert("You need to sign in an account for company")
     }
@@ -27,6 +33,7 @@ function CompanyProfile() {
                         <h3 className="text-center text-xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                             {user.companyName}
                         </h3>
+                        <p className="text-center text-sm text-gray-400 font-medium">{user.field}</p>
                         <p className="text-center text-sm text-gray-400 font-medium">{user.email}</p>
                         <p className="text-center text-sm text-gray-400 font-medium">{user.phone}</p>
                         <p className="text-center text-sm text-gray-400 font-medium mb-10">{user.address}</p>

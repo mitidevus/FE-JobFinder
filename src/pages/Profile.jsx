@@ -1,16 +1,24 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
-
+import {getProfile} from "../api/user/user.api"
 function Profile() {
-    const user = useSelector(selectUser);
+    const u = useSelector(selectUser);
+    const [user,setUser] = useState(u)
+    useEffect(() => {
+        getProfile(u._id,u?.token).then((res) => {
+            setUser(res.data);
+        });
+    }, []);
+    
+    
     const but = ["python", "C++", "Java", "Java", "Java", "Java", "Java"]
     let [selectedImage, setSelectedImage] = useState(null);
-    if(!user || user.userType!==2){
+    if (!user || user.userType !== 2) {
         return alert("You need to sign in an account for job seeker")
     }
     return (
@@ -22,7 +30,7 @@ function Profile() {
                             <div className="w-full px-4 flex justify-center">
                                 <div className="relative pt-5">
                                     <img alt="avatar" src={avt} className="rounded-full border h-48 w-48" />
-                                   
+
                                 </div>
                             </div>
                         </div>
@@ -42,23 +50,22 @@ function Profile() {
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
                                 <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Phone number :</span> {user.phone}
                             </div>
-                            <div className="mb-2 text-blueGray-600">
-                                <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Date of birth :</span> 20/08/2002
-                            </div>
+
                         </div>
                         <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                             <div className="mb-2 text-blueGray-600">
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
                                 <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Education:</span>
-                                {user.academicLevel.map((data) => {
-                                    <p className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">{data}</p>
-                                })}
+                                {user.academicLevel.map((data, index) => (
+                                    <p key={index}>{data}</p>
+                                ))}
                             </div>
                             <div className="mb-2 text-blueGray-600">
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
                                 <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Experience :</span>
-                                {user.experience}
+                                {user.experience.map((data, index) => (
+                                    <p key={index}>{data}</p>
+                                ))}
                             </div>
                             <div className="mb-2 text-blueGray-600">
                                 <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>

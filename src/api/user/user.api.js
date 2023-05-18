@@ -1,34 +1,31 @@
 import { axiosPrivate } from "../api";
 
-export const updateProfile = async (params) => {
-    const { data, authToken } = params || {};
+export const updateProfile = async (id, data, authToken) => {
     try {
-        return await axiosPrivate.patch(`/api/v1/user/${id}`,
-            { ...data },
+        return await axiosPrivate.patch(`/api/v1/users/${id}`,
+            data,
             {
                 headers: {
                     "auth-token": `${authToken}`,
                 },
+            }).then((res) => {
+                console.log(res.data);
             });
     } catch (err) {
-        throw new Error(err);
+        console.error(err.response.data);
     }
 };
-export const createJob = async (params) => {
-    const { data, authToken } = params || {};
+
+export const getProfile = async (id, accessToken) => {
     try {
-        return await axiosPrivate.post(
-            "/api/v1/posts",
-            {
-                ...data,
+        const config = {
+            headers: {
+                "auth-token": accessToken,
             },
-            {
-                headers: {
-                    "auth-token": `${authToken}`,
-                },
-            }
-        );
+        };
+        const response = await axiosPrivate.get(`/api/v1/users/${id}`, config);
+        return response;
     } catch (error) {
-        throw error;
+        throw new Error(error);
     }
 };

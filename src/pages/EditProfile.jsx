@@ -1,10 +1,10 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png";
 import Datepicker from "tailwind-datepicker-react"
-import {updateProfile} from "../api/user/user.api"
+import { updateProfile } from "../api/user/user.api"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 
@@ -42,8 +42,6 @@ function EditProfile() {
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
     const [phone, setPhone] = useState("")
-
-    const [email, setEmail] = useState("")
     const [education, setEducation] = useState("")
     const [experience, setExperience] = useState("")
     const [description, setDescription] = useState("")
@@ -62,12 +60,15 @@ function EditProfile() {
             name,
             address,
             phone,
-            email,
-            education,
+            academicLevel: education,
             experience,
             skills: sk,
             description
         }
+        const exp = experience.split('\n')
+        const edu = education.split('\n')
+        data.experience = exp
+        data.academicLevel = edu
         if (name === "") {
             delete data.name
         }
@@ -77,11 +78,8 @@ function EditProfile() {
         if (phone === "") {
             delete data.phone
         }
-        if (email === "") {
-            delete data.email
-        }
         if (education === "") {
-            delete data.education
+            delete data.academicLevel
         }
         if (experience === "") {
             delete data.experience
@@ -92,25 +90,22 @@ function EditProfile() {
         if (description === "") {
             delete data.description
         }
-        const des = description.split('\n')
-        const exp = experience.split('\n')
-        const edu = education.split('\n')
-        data.description = des
-        data.experience = exp
-        data.education = edu
-        console.log("data = ", data)
+
+       
+        console.log("user = ", user)
+        
         try {
-            await updateProfile(user._id,{ data, authToken: user?.token });
+            updateProfile(user._id, data, user?.token);
             //navigate("/");
             alert("Create job successfully!");
-        } catch (error) {
-            console.log(error);
-            //setError(error.response?.data?.message || "Failed to create job");
+        } catch (err) {
+            throw new Error(err);
         }
         //updateProfile(user._id, data, user.token)
     }
-
-
+    if(!user){
+        return alert("You need to sign in before")
+    }
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
             <div className="w-full lg:w-4/12 px-4 mx-auto ">
@@ -118,7 +113,7 @@ function EditProfile() {
                     <div className="px-6">
                         <div className="flex flex-wrap justify-center">
                             <div className="w-full px-4 flex justify-center ">
-                                <div className="relative pt-5">
+                                <div className="relative pt-5 pb-5">
                                     <img alt="..." src={avt} className="rounded-full border h-48 w-48" />
                                     {/* {selectedImage && (
                                         <div>
@@ -166,10 +161,6 @@ function EditProfile() {
                                         <input type="tel" id="phone" onChange={(e) => setPhone(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                     </div>
 
-                                </div>
-                                <div class="mb-6">
-                                    <label htmlFor="email" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                    <input type="email" id="email" onChange={(e) => setEmail(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                 </div>
                                 <div className="py-5 border-t border-blueGray-200">
                                     <div class="mb-6">

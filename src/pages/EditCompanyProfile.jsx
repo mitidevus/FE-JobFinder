@@ -6,6 +6,7 @@ import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
+import { updateProfile } from "../api/user/user.api"
 
 function EditCompanyProfile() {
     const user = useSelector(selectUser);
@@ -13,19 +14,17 @@ function EditCompanyProfile() {
     const [address, setAddress] = useState("")
     const [phone, setPhone] = useState("")
 
-    const [email, setEmail] = useState("")
     const [description, setDescription] = useState("")
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {
-            name,
+            companyName: name,
             address,
             phone,
-            email,
             description
         }
         if (name === "") {
-            delete data.name
+            delete data.companyName
         }
         if (address === "") {
             delete data.address
@@ -33,16 +32,18 @@ function EditCompanyProfile() {
         if (phone === "") {
             delete data.phone
         }
-        if (email === "") {
-            delete data.email
-        }
         if (description === "") {
             delete data.description
         }
-        const des = description.split('\n')
-        data.description = des
 
         console.log("data = ", data)
+        try {
+            updateProfile(user._id, data, user?.token);
+            //navigate("/");
+            alert("Create job successfully!");
+        } catch (err) {
+            throw new Error(err);
+        }
         //updateProfile(user._id, data, user.token)
     }
 
@@ -64,7 +65,7 @@ function EditCompanyProfile() {
                             <div className="px-6">
 
                                 <div className="py-10 border-t border-blueGray-200 text-center">
-                                    <form method="post">
+                                    <form>
                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
                                                 <label htmlFor="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
@@ -82,14 +83,10 @@ function EditCompanyProfile() {
 
                                         </div>
 
-                                        <div class="mb-6">
-                                            <label htmlFor="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-                                            <input type="email" id="email" onChange={(e) => setEmail(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-                                        </div>
                                         <div className="py-5 border-t border-blueGray-200">
                                             <div class="mb-6">
                                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                                <textarea type="text" name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <textarea type="text" onChange={(e) => setDescription(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
                                         </div>
                                         {/* <div class="mb-6">
@@ -103,7 +100,7 @@ function EditCompanyProfile() {
                                         <div className="pt-10 border-t border-blueGray-200 ">
                                             <div className="flex flex-wrap justify-center">
                                                 <div className="w-full lg:w-9/12 px-4">
-                                                    <button type="submit" onChange={(e) => setDescription(e.target.value)} className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Change</button>
+                                                    <button type="submit" onClick={handleSubmit} className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Change</button>
                                                 </div>
                                             </div>
                                         </div>
