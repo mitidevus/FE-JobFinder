@@ -12,7 +12,7 @@ function CreateJob() {
     const [salary, setSalary] = React.useState("");
     const [expiredDate, setExpiredDate] = React.useState("");
     const [address, setAddress] = React.useState("");
-    const [requirements, setRequirements] = React.useState("");
+    const [jobRequirement, setJobRequirement] = React.useState();
     const [error, setError] = React.useState("");
     const nowDate = new Date();
 
@@ -22,7 +22,7 @@ function CreateJob() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!title || !position || !description || !salary || !expiredDate || !address || !requirements) {
+        if (!title || !position || !description || !salary || !expiredDate || !address || !jobRequirement) {
             return setError("Please fill all fields!");
         }
 
@@ -39,13 +39,13 @@ function CreateJob() {
             salary,
             expiredDate,
             address,
-            requirements,
+            jobRequirement,
         };
 
         try {
             await createJob({ data, authToken: user?.token });
             navigate("/");
-            alert("Create job successfully!");
+            alert("Create job successfully. Please wait for admin to approve your job!");
         } catch (error) {
             console.log(error);
             setError(error.response?.data?.message || "Failed to create job");
@@ -145,7 +145,7 @@ function CreateJob() {
                                     id="requirements"
                                     className="text-black border-2 border-gray-300 rounded-md p-2 w-full "
                                     rows={5}
-                                    onChange={(e) => setRequirements(e.target.value)}
+                                    onChange={(e) => setJobRequirement(e.target.value)}
                                 />
                             </div>
                         </div>

@@ -93,6 +93,23 @@ export const closeJobEmployer = async (params) => {
     }
 };
 
+export const openJobEmployer = async (params) => {
+    const { id, authToken } = params || {};
+    try {
+        return await axiosPrivate.put(
+            `/api/v1/posts/open/${id}`,
+            {},
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
+    } catch (error) {
+        throw error;
+    }
+};
+
 export const getHotJobs = async () => {
     try {
         return await axiosPrivate.get("/api/v1/posts/hot-jobs");
@@ -117,7 +134,7 @@ export const getPostsByAdmin = async (params) => {
     }
 };
 
-export const pendingPost = async (params) => {  
+export const pendingPost = async (params) => {
     const { id, authToken } = params || {};
     try {
         return await axiosPrivate.put(

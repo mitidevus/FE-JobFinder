@@ -6,7 +6,7 @@ function ApplyForm({ jobId, authToken, onClose }) {
     const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
 
-    const handleApply = () => {
+    const handleApply = async () => {
         if (!description || !file) {
             return alert("Please fill all fields!");
         }
@@ -16,17 +16,14 @@ function ApplyForm({ jobId, authToken, onClose }) {
         formData.append("file", file);
         formData.append("postId", jobId);
 
-        for (let [key, value] of formData.entries()) {
-            console.log(`${key}: ${value}`);
+        try {
+            await createCV({ formData, authToken });
+            alert("Apply successfully!");
+            onClose();
+        } catch (error) {
+            console.log(error);
+            alert("Failed to apply!");
         }
-
-        createCV(formData, authToken)
-            .then((res) => {
-                console.log(res.data);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     };
 
     return (

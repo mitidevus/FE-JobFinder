@@ -1,12 +1,18 @@
 import { axiosPrivate } from "../api";
 
-export const createCV = async (data, authToken) => {
+export const createCV = async (params) => {
+    const { formData, authToken } = params || {};
+
+    for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+    }
+
     try {
-        return await axiosPrivate.post("/api/v1/cvs", {
+        return await axiosPrivate.post("/api/v1/cvs", formData, {
             headers: {
-                "auth-token": `${authToken}`,
+                "auth-token": authToken,
+                "Content-Type": "multipart/form-data", // Thêm tùy chọn Content-Type
             },
-            body: data,
         });
     } catch (error) {
         throw error;

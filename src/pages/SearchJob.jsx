@@ -5,23 +5,33 @@ import { getJobs } from "../api/post/post.api";
 import Filter from "../components/Filter";
 import { formatDateLeft } from "../utils/formatDate";
 import { handleTitle } from "../utils/handleTitle";
+import Pagination from "../components/Pagination";
 
 function SearchJob() {
     const params = useParams();
     const search = params.keyword;
     const [jobs, setJobs] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState({
         search,
     });
 
     useEffect(() => {
         const fetchJobs = async () => {
-            const res = await getJobs(filter);
+            console.log({ ...filter, page: currentPage })
+            const res = await getJobs({ ...filter, page: currentPage });
             setJobs(res.data.posts);
+            setPageNumber(res.data.totalPages);
         };
 
         fetchJobs();
-    }, [search, filter]);
+    }, [search, filter, currentPage]);
+
+    const handleFilter = (filter) => {
+        setFilter(filter);
+        setCurrentPage(1);
+    };
 
     return (
         <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
@@ -36,7 +46,7 @@ function SearchJob() {
                                 See result about: <span className="font-bold">{search}</span>
                             </p>
                         </div>
-                        <Filter onFilter={setFilter} />
+                        <Filter filter={filter} onFilter={handleFilter} />
                     </div>
                 </div>
 
@@ -78,6 +88,8 @@ function SearchJob() {
                         <p className="text-2xl font-bold">No jobs</p>
                     </div>
                 )}
+
+                <Pagination currentPage={currentPage} totalPages={pageNumber} onPageChange={setCurrentPage} />
             </div>
         </div>
     );

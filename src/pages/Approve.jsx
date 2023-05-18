@@ -39,6 +39,8 @@ function Approve() {
         fetchJobs();
     }, [filter, user]);
 
+    console.log(job)
+
     // Click left button to change job
     const prevJob = () => {
         const index = jobs.findIndex((item) => item?._id === job?._id);
@@ -267,10 +269,10 @@ function Approve() {
                                 </div>
 
                                 <p className="text-2xl pt-4 font-bold">Description</p>
-                                <p className="">{splitTextWithLineBreaks(limitDescription(job?.description, 60))}</p>
+                                <p className="">{splitTextWithLineBreaks(job?.description)}</p>
 
                                 <p className="text-2xl pt-4 font-bold">Requirements</p>
-                                <p className="">{splitTextWithLineBreaks(job?.jobRequirement)}</p>
+                                <p className="">{splitTextWithLineBreaks(job?.jobRequirement[0])}</p>
 
                                 <p className="text-2xl pt-4 font-bold">Contact</p>
                                 <div className="flex items-center mt-1">

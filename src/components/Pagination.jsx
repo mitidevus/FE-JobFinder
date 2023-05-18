@@ -28,11 +28,7 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         ));
     };
 
-    return (
-        <div className="flex justify-center mt-5 font-sans">
-            <div className="pagination">{renderPageNumbers()}</div>
-        </div>
-    );
+    return <div className="flex justify-center mt-10 font-sans">{renderPageNumbers()}</div>;
 }
 
 export default Pagination;

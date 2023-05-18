@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { formatDateISO, formatDateYMD } from "../utils/formatDate";
 import { useNavigate } from "react-router";
 import { updateJob } from "../api/post/post.api";
+import { formatDateISO, formatDateYMD } from "../utils/formatDate";
 
 function UpdateForm({ job, authToken, onClose }) {
     const [updatedJob, setUpdatedJob] = useState({
@@ -50,7 +50,7 @@ function UpdateForm({ job, authToken, onClose }) {
         try {
             await updateJob({ id: job?._id, data, authToken });
 
-            alert("Update job successfully!");
+            alert("Update job successfully. Please wait for admin to approve your job!");
             onClose();
             navigate("/");
         } catch (error) {

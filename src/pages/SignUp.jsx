@@ -10,6 +10,7 @@ function SignUp() {
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
+    const [field, setField] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassWord] = useState("");
@@ -30,16 +31,37 @@ function SignUp() {
             return setError("Confirm password does not match!");
         }
 
-        const userAuth = {
-            name,
-            email,
-            password,
-            userType,
-            phone,
-            address,
-            avatar: "https://i.stack.imgur.com/34AD2.jpg",
-            description: "I'm a member of Jobee!",
-        };
+        if (userType === 3 && !field) {
+            return setError("Please fill all fields!");
+        }
+
+        // If userType === 3 name is companyName, have field of company
+        // If userType === 2 name is name, no field of company
+        let userAuth;
+        if (userType === 2) {
+            userAuth = {
+                name,
+                email,
+                password,
+                userType,
+                phone,
+                address,
+                avatar: "https://i.stack.imgur.com/34AD2.jpg",
+                description: "I'm a member of Jobee!",
+            };
+        } else {
+            userAuth = {
+                companyName: name,
+                email,
+                password,
+                userType,
+                phone,
+                address,
+                avatar: "https://i.stack.imgur.com/34AD2.jpg",
+                description: "I'm a member of Jobee!",
+                field,
+            };
+        }
 
         try {
             const response = await signUp(userAuth);
@@ -51,6 +73,7 @@ function SignUp() {
             }
         } catch (error) {
             setError(error.response.data.message);
+            console.log(error);
         }
     };
 
@@ -170,12 +193,30 @@ function SignUp() {
                                 </label>
                                 <select
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onChange={(e) => setUserType(e.target.value)}
+                                    onChange={(e) => setUserType(parseInt(e.target.value))}
                                 >
                                     <option value="2">Job Seeker</option>
                                     <option value="3">Recruiter</option>
                                 </select>
                             </div>
+                            {userType === 3 && (
+                                <div>
+                                    <label
+                                        htmlFor="field"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Field
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="field"
+                                        id="field"
+                                        className="font-sans bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required
+                                        onChange={(e) => setField(e.target.value)}
+                                    />
+                                </div>
+                            )}
                             <div className="flex items-start">
                                 <div className="flex items-center h-5">
                                     <input

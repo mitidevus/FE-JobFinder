@@ -11,13 +11,14 @@ import { RxLockClosed } from "react-icons/rx";
 import { TbMoneybag } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { closeJobEmployer, deleteJob, getJob } from "../api/post/post.api.js";
+import { closeJobEmployer, openJobEmployer, deleteJob, getJob } from "../api/post/post.api.js";
 import ApplyForm from "../components/ApplyForm.jsx";
 import CVListForm from "../components/CVListForm.jsx";
 import UpdateForm from "../components/UpdateForm.jsx";
 import { selectUser } from "../features/userSlice.js";
 import { formatDate, formatDateLeft } from "../utils/formatDate.js";
 import { splitTextWithLineBreaks } from "../utils/splitTextWithLineBreaks.js";
+import { CgLockUnlock } from "react-icons/cg";
 
 function JobDetail() {
     const params = useParams();
@@ -62,6 +63,20 @@ function JobDetail() {
         }
     };
 
+    const handleOpenPost = async () => {
+        const confirm = window.confirm("Are you sure to open this job?");
+        if (confirm) {
+            try {
+                await openJobEmployer({ id: jobId, authToken: user?.token });
+                alert("Open job successfully!");
+                navigate("/");
+            } catch (error) {
+                console.log(error);
+                alert("Failed to open job!");
+            }
+        }
+    };
+
     const handleDeletePost = async () => {
         const confirm = window.confirm("Are you sure to delete this job?");
         if (confirm) {
@@ -102,12 +117,24 @@ function JobDetail() {
                                             <HiPencil size={"30px"} />
                                         </button>
 
+                                        {job?.status !== 4 && (
                                         <button
                                             className="mr-2 p-2 bg-[#6D5D6E] text-white hover:opacity-90 rounded duration-200"
                                             onClick={handleClosePost}
                                         >
                                             <RxLockClosed size={"30px"} />
                                         </button>
+                                        )}
+
+                                        {/* 6465fca09d6c81af0965c286 */}
+
+                                        {job?.status === 4 && (
+                                        <button
+                                            className="mr-2 p-2 bg-[#00ADB5] text-white hover:opacity-90 rounded duration-200"
+                                            onClick={handleOpenPost}>
+                                                <CgLockUnlock size={"30px"} />
+                                            </button>
+                                        )}
 
                                         <button
                                             className="p-2 bg-[#da4167] text-white hover:opacity-90 rounded duration-200"
@@ -144,6 +171,14 @@ function JobDetail() {
                         </div>
                         <div>
                             <div className="text-base">
+                                {job?.status === 4 && (
+                                    <div className="flex mb-2">
+                                        <p className="text-2xl font-semibold">Status:</p>
+                                        <p className="text-2xl first-letter:ml-2 font-semibold text-[#F7D060]">
+                                            Closed
+                                        </p>
+                                    </div>
+                                )}
                                 <p className="text-4xl font-bold text-pink-500">{job?.title}</p>
                                 <p className="text-2xl pt-4 font-bold">Information</p>
                                 <div className="flex items-center">
@@ -181,7 +216,7 @@ function JobDetail() {
                                 <p className="">{splitTextWithLineBreaks(job?.description)}</p>
 
                                 <p className="text-2xl pt-4 font-bold">Requirements</p>
-                                <p className="">{splitTextWithLineBreaks(job?.jobRequirement)}</p>
+                                <p className="">{splitTextWithLineBreaks(job?.jobRequirement?.[0])}</p>
 
                                 <p className="text-2xl pt-4 font-bold">Contact</p>
                                 <div className="flex items-center mt-1">
@@ -195,7 +230,7 @@ function JobDetail() {
                                     <p className="ml-2">{job?.userId?.phone}</p>
                                 </div>
 
-                                {job?.userId?._id !== user?._id && user?.userType !== 1 && (
+                                {job?.status !== 4 && job?.userId?._id !== user?._id && user?.userType !== 1 && (
                                     <button
                                         className="mt-4 w-[150px] bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
                                         onClick={() => setShowApply(true)}
@@ -204,7 +239,7 @@ function JobDetail() {
                                     </button>
                                 )}
 
-                                {job?.userId?._id !== user?._id && user?.userType !== 1 && showApply && (
+                                {job?.status !== 4 && job?.userId?._id !== user?._id && user?.userType !== 1 && showApply && (
                                     <ApplyForm
                                         jobId={job?._id}
                                         authToken={user?.token}

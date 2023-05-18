@@ -9,6 +9,7 @@ export const signIn = async (data) => {
 };
 
 export const signUp = async (data) => {
+    console.log(data)
     try {
         return await axiosPrivate.post("/api/v1/auth/signup", data);
     } catch (error) {
