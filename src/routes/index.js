@@ -32,7 +32,7 @@ const publicRoutes = [
     { path: '/notification', component: Notification },
     { path: '/notification/details', component: Notification_details },
     { path: '/forgetPassword', component: ForgetPassword },
-    { path: '/profile', component: Profile },
+    { path: '/profile/:id', component: Profile },
     { path: '/profile/history', component: History },
     { path: '/company_profile/:companyId', component: CompanyProfile },
     { path: '/company_profile/edit', component: EditCompanyProfile },

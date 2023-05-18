@@ -26,6 +26,7 @@ export const getProfile = async (id, accessToken) => {
         const response = await axiosPrivate.get(`/api/v1/users/${id}`, config);
         return response;
     } catch (error) {
+        console.error(error.response.data);
         throw new Error(error);
     }
 };

@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
-import { logout, selectUser } from "../features/userSlice";
+import userSlice, { logout, selectUser } from "../features/userSlice";
 import Search from "./Search";
 
 function Navbar() {
@@ -72,7 +72,7 @@ function Navbar() {
                         {user?.userType === 2 && (
                             <>
                                 <li>
-                                    <Link to="profile">Account</Link>
+                                    <Link to={"profile/" + user._id}>Account</Link>
                                 </li>
                             </>
                         )}
