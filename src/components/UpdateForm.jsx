@@ -4,29 +4,59 @@ import { useNavigate } from "react-router";
 import { updateJob } from "../api/post/post.api";
 
 function UpdateForm({ job, authToken, onClose }) {
-    const [updatedJob, setUpdatedJob] = useState(job);
-    const [expiredDate, setExpiredDate] = useState(formatDateYMD(job.expiredDate));
+    const [updatedJob, setUpdatedJob] = useState({
+        title: job?.title,
+        position: job?.position,
+        address: job?.address,
+        salary: job?.salary,
+        description: job?.description,
+        jobRequirement: job?.jobRequirement,
+    });
+    const [expiredDate, setExpiredDate] = useState(formatDateYMD(job?.expiredDate));
+    const [error, setError] = useState("");
 
     const navigate = useNavigate();
 
-    const handleUpdate = () => {
+    const handleUpdate = async () => {
         const data = {
             ...updatedJob,
             expiredDate: formatDateISO(expiredDate),
         };
-        console.log(data);
+
+        if (
+            !data.title ||
+            !data.position ||
+            !data.address ||
+            !data.salary ||
+            !data.description ||
+            !data.jobRequirement
+        ) {
+            return setError("Please fill all fields!");
+        }
+
+        if (new Date(data.expiredDate) < new Date()) {
+            return setError("Expired date must be greater than today!");
+        }
 
         // If updatedJob === job
+        if (JSON.stringify(updatedJob) === JSON.stringify(job) && expiredDate === formatDateYMD(job?.expiredDate)) {
+            return setError("No changes!");
+        }
+
+        console.log(expiredDate);
+        console.log(formatDateYMD(job?.expiredDate));
 
         // If updatedJob !== job
-        updateJob(job?._id, data, authToken)
-            .then((res) => {
-                console.log(res.data);
-                navigate(`/`);
-            })
-            .catch((err) => {
-                console.log(err);
-            });
+        try {
+            await updateJob({ id: job?._id, data, authToken });
+
+            alert("Update job successfully!");
+            onClose();
+            navigate("/");
+        } catch (error) {
+            console.log(error);
+            setError(error.response?.data?.message || "Failed to update job");
+        }
     };
 
     return (
@@ -43,7 +73,9 @@ function UpdateForm({ job, authToken, onClose }) {
                     </button>
                 </div>
 
-                <div className="overflow-y-auto w-full h-64 font-sans">
+                {error && <p className="bg-[#D14D72] text-sm text-white font-bold py-3 px-4 rounded mb-4">{error}</p>}
+
+                <div className="overflow-y-auto w-full h-[320px] font-sans">
                     <div className="flex flex-col">
                         <div className="flex">
                             <div className="w-6/12">
@@ -133,12 +165,11 @@ function UpdateForm({ job, authToken, onClose }) {
                             />
                         </div>
                     </div>
-
-                    <div className="flex justify-end mt-8">
-                        <button className="bg-[#A4D0A4] text-white px-4 py-2 rounded mr-4" onClick={handleUpdate}>
-                            Update
-                        </button>
-                    </div>
+                </div>
+                <div className="flex justify-end mt-4">
+                    <button className="bg-[#A4D0A4] text-white px-4 py-2 rounded mr-4" onClick={handleUpdate}>
+                        Update
+                    </button>
                 </div>
             </div>
         </div>

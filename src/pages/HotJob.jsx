@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getHotJobs } from "../api/post/post.api";
 import { formatDateLeft } from "../utils/formatDate";
+import { handleTitle } from "../utils/handleTitle";
 
 function Home() {
     const [jobs, setJobs] = React.useState([]);
@@ -48,7 +49,7 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="pt-2 text-black px-3 py-4">
-                                    <span className="text-xl font-semibold">{job?.title}</span>
+                                    <span className="text-xl font-semibold">{handleTitle(job?.title)}</span>
                                     <p className="text-lg font-semibold pt-1">{job?.userId?.companyName}</p>
                                     <p className="pt-1">{job?.address}</p>
                                 </div>

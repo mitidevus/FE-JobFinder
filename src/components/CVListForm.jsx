@@ -2,65 +2,100 @@ import React, { useEffect, useState } from "react";
 import { formatDateTime } from "../utils/formatDate.js";
 import { sendEmail } from "../api/email/email.api.js";
 import { AiOutlineDownload } from "react-icons/ai";
-import { getCVByPostId, inviteCV } from "../api/cv/cv.api.js";
+import { getCVByPostId, pendingCV, rejectCV, approveCV, inviteCV } from "../api/cv/cv.api.js";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice.js";
 
 function CVListForm({ jobId, onClose }) {
     const [CVList, setCVList] = useState([]);
     const [selectedCv, setSelectedCv] = useState(null);
-    const [invite, setInvite] = useState(false);
+    const [inviteForm, setInviteForm] = useState(false);
+    const [isHandle, setIsHandle] = useState(false);
+    const [filter, setFilter] = useState(1); // 1: Pending, 2: Rejected, 3: Approved, 4: Invited
+    const [error, setError] = useState("");
+
     const [subjectEmail, setSubjectEmail] = useState("");
     const [timeEmail, setTimeEmail] = useState("");
     const [addressEmail, setAddressEmail] = useState();
     const [messageEmail, setMessageEmail] = useState("");
-    const [isInvited, setIsInvited] = useState(false);
-    const [filter, setFilter] = useState(1);
 
     const user = useSelector(selectUser);
 
     useEffect(() => {
-        const fetchCvData = async () => {
+        const fetchData = async () => {
             try {
-                const response = await getCVByPostId({ postId: jobId, authToken: user?.token });
+                const response = await getCVByPostId({ postId: jobId, authToken: user?.token, status: filter });
+                setIsHandle(false);
                 setCVList(response.data);
-                setIsInvited(false);
             } catch (error) {
                 console.error(error);
+                setError(error.response?.data?.message);
             }
         };
 
-        if (user) {
-            fetchCvData();
+        fetchData();
+    }, [jobId, user, filter, isHandle]);
+
+    const handlePending = async () => {
+        try {
+            await pendingCV({ id: selectedCv?._id, authToken: user?.token });
+            setSelectedCv(null);
+            setIsHandle(true);
+        } catch (error) {
+            console.log(error);
         }
-    }, [jobId, user, isInvited]);
+    };
+
+    const handleReject = async () => {
+        try {
+            await rejectCV({ id: selectedCv?._id, authToken: user?.token });
+            setSelectedCv(null);
+            setIsHandle(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const handleApprove = async () => {
+        try {
+            await approveCV({ id: selectedCv?._id, authToken: user?.token });
+            setSelectedCv(null);
+            setIsHandle(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleInvite = async (e) => {
         e.preventDefault();
-        if (!subjectEmail || !messageEmail) {
-            return alert("Please fill all fields!");
+        if (!subjectEmail || !messageEmail || !timeEmail || !addressEmail) {
+            return setError("Please fill all fields!");
         }
 
+        if (new Date(timeEmail) < new Date()) {
+            return setError("Time must be greater than today!");
+        }
+
+        setError("");
+
         const data = {
+            userId: user._id,
             subject: subjectEmail,
             message: messageEmail,
             time: timeEmail,
             address: addressEmail,
-            toEmail: selectedCv.email,
+            toEmail: selectedCv?.userId?.email,
         };
 
         try {
-            const emailPromise = sendEmail(data);
-            const invitePromise = inviteCV({ id: selectedCv?._id, authToken: user?.token });
-
-            await Promise.all([emailPromise, invitePromise]);
+            await Promise.all([sendEmail(data), inviteCV({ id: selectedCv?._id, authToken: user?.token })]);
 
             alert("Emails sent successfully!");
-            setInvite(false);
+            setInviteForm(false);
             setSelectedCv(null);
-            setIsInvited(true);
+            setIsHandle(true);
         } catch (error) {
-            alert("Email sent failed!");
+            setError(error.response?.data?.message || "Failed to send email");
             console.log(error);
         }
     };
@@ -71,15 +106,20 @@ function CVListForm({ jobId, onClose }) {
                 <div className="relative flex justify-between items-center">
                     <div className="flex justify-between items-center mb-4 w-full">
                         <span className="text-2xl font-bold">Applicant List</span>
-                        <select
-                            className="border border-gray-400 text-black py-1 px-1 rounded-lg mr-10"
-                            value={filter}
-                            onChange={(e) => setFilter(e.target.value)}
-                        >
-                            <option value="1">Pending</option>
-                            <option value="2">Rejected</option>
-                            <option value="4">Invited</option>
-                        </select>
+                        {!selectedCv && (
+                            <select
+                                className="border border-gray-400 text-black py-1 px-1 rounded-lg mr-10"
+                                value={filter}
+                                onChange={(e) => {
+                                    setFilter(e.target.value);
+                                }}
+                            >
+                                <option value="1">Pending</option>
+                                <option value="2">Rejected</option>
+                                <option value="3">Approved</option>
+                                <option value="4">Invited</option>
+                            </select>
+                        )}
                     </div>
 
                     <button
@@ -90,6 +130,7 @@ function CVListForm({ jobId, onClose }) {
                     </button>
                 </div>
 
+                {/* Render CV list */}
                 {!selectedCv && (
                     <div className="overflow-y-auto w-full h-64 font-sans">
                         <div className="flex flex-col">
@@ -100,7 +141,7 @@ function CVListForm({ jobId, onClose }) {
                                         key={cv?._id}
                                         onClick={() => setSelectedCv(cv)}
                                     >
-                                        <p className="font-bold">Truong Chi Hien</p>
+                                        <p className="font-bold">{cv?.userId?.name}</p>
                                         <p className="text-sm">{formatDateTime(cv?.createdAt)}</p>
                                     </button>
                                 ))}
@@ -114,8 +155,8 @@ function CVListForm({ jobId, onClose }) {
                     </div>
                 )}
 
-                {/* Render CV detail */}
-                {selectedCv && !invite && (
+                {/* Render CV Detail Form*/}
+                {selectedCv && !inviteForm && (
                     <div className="overflow-y-auto w-full h-64 font-sans">
                         <div className="flex flex-col">
                             <div className="flex flex-col">
@@ -129,7 +170,7 @@ function CVListForm({ jobId, onClose }) {
                                             <p className="ml-2 font-semibold text-[#D14D72]">Rejected</p>
                                         )}
                                         {selectedCv?.status === 3 && (
-                                            <p className="ml-2 font-semibold text-[#8F43EE]">Interested</p>
+                                            <p className="ml-2 font-semibold text-[#8F43EE]">Approved</p>
                                         )}
                                         {selectedCv?.status === 4 && (
                                             <p className="ml-2 font-semibold text-[#98D8AA]">Invited</p>
@@ -152,8 +193,7 @@ function CVListForm({ jobId, onClose }) {
                                             name="name"
                                             id="name"
                                             className="border-2 border-gray-300 rounded-md p-2"
-                                            // value={selectedCv?.username}
-                                            value="Do Minh Tri"
+                                            value={selectedCv?.userId?.name}
                                             readOnly
                                             disabled
                                         />
@@ -165,8 +205,7 @@ function CVListForm({ jobId, onClose }) {
                                             name="email"
                                             id="email"
                                             className="border-2 border-gray-300 rounded-md p-2 w-full"
-                                            // value={selectedCv?.email}
-                                            value="minhtri.2410@gmail.com"
+                                            value={selectedCv?.userId?.email}
                                             readOnly
                                             disabled
                                         />
@@ -180,8 +219,7 @@ function CVListForm({ jobId, onClose }) {
                                             name="phone"
                                             id="phone"
                                             className="border-2 border-gray-300 rounded-md p-2"
-                                            // value={selectedCv?.phone}
-                                            value="0344043493"
+                                            value={selectedCv?.userId?.phone}
                                             readOnly
                                             disabled
                                         />
@@ -193,8 +231,7 @@ function CVListForm({ jobId, onClose }) {
                                             name="address"
                                             id="address"
                                             className="border-2 border-gray-300 rounded-md p-2 w-full"
-                                            // value={selectedCv?.address}
-                                            value="227 Nguyen Van Cu, District 5, Ho Chi Minh City"
+                                            value={selectedCv?.userId?.address}
                                             readOnly
                                             disabled
                                         />
@@ -219,9 +256,14 @@ function CVListForm({ jobId, onClose }) {
                     </div>
                 )}
 
-                {selectedCv && invite && (
+                {/* Render Invite Form */}
+                {selectedCv && inviteForm && (
                     <div className="overflow-y-auto w-full h-64 font-sans">
                         <div className="flex flex-col">
+                            {error && (
+                                <p className="bg-[#D14D72] text-sm text-white font-bold py-3 px-4 rounded">{error}</p>
+                            )}
+
                             <div className="flex flex-col mt-4">
                                 <input
                                     type="text"
@@ -269,7 +311,8 @@ function CVListForm({ jobId, onClose }) {
                 )}
 
                 <div className="flex justify-end mt-8">
-                    {selectedCv && !invite && (
+                    {/* Button in CV Detail Form */}
+                    {selectedCv && !inviteForm && (
                         <>
                             <button
                                 className="bg-[#B7B7B7] text-white px-4 py-2 rounded mr-4"
@@ -277,21 +320,53 @@ function CVListForm({ jobId, onClose }) {
                             >
                                 Back
                             </button>
+
+                            {/* If CV is "Pending" */}
                             {selectedCv?.status === 1 && (
+                                <>
+                                    <button
+                                        className="bg-[#D14D72] text-white px-4 py-2 rounded mr-4"
+                                        onClick={handleReject}
+                                    >
+                                        Reject
+                                    </button>
+                                    <button
+                                        className="bg-[#8F43EE] text-white px-4 py-2 rounded mr-4"
+                                        onClick={handleApprove}
+                                    >
+                                        Approve
+                                    </button>
+                                </>
+                            )}
+
+                            {/* If CV is "Rejected" or "Approved" */}
+                            {(selectedCv?.status === 2 || selectedCv?.status === 3) && (
+                                <button
+                                    className="bg-[#00ADB5] text-white px-4 py-2 rounded mr-4"
+                                    onClick={handlePending}
+                                >
+                                    Pending
+                                </button>
+                            )}
+
+                            {/* If CV is "Approved" */}
+                            {selectedCv?.status === 3 && (
                                 <button
                                     className="bg-[#A4D0A4] text-white px-4 py-2 rounded mr-4"
-                                    onClick={() => setInvite(true)}
+                                    onClick={() => setInviteForm(true)}
                                 >
                                     Invite
                                 </button>
                             )}
                         </>
                     )}
-                    {selectedCv && invite && (
+
+                    {/* Button in Invite Form */}
+                    {selectedCv && inviteForm && (
                         <>
                             <button
                                 className="bg-[#B7B7B7] text-white px-4 py-2 rounded mr-4"
-                                onClick={() => setInvite(false)}
+                                onClick={() => setInviteForm(false)}
                             >
                                 Back
                             </button>

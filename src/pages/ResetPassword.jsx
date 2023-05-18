@@ -23,16 +23,16 @@ function ResetPassword() {
             password,
         };
 
-        try {
-            // const response = await axios.post("http://localhost:2345/api/v1/auth/signin", userAuth);
-            const response = await signIn(userAuth);
-            if (response.status === 201) {
-                dispatch(login(response.data));
-                navigate("/");
-            }
-        } catch (error) {
-            setError(error.response.data.message);
-        }
+        // try {
+        //     // const response = await axios.post("http://localhost:2345/api/v1/auth/signin", userAuth);
+        //     const response = await signIn(userAuth);
+        //     if (response.status === 201) {
+        //         dispatch(login(response.data));
+        //         navigate("/");
+        //     }
+        // } catch (error) {
+        //     setError(error.response.data.message);
+        // }
     };
 
     return (

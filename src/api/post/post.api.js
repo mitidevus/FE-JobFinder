@@ -44,20 +44,27 @@ export const getJob = async (id) => {
     }
 };
 
-export const updateJob = async (id, data, authToken) => {
+export const updateJob = async (params) => {
+    const { id, data, authToken } = params || {};
     try {
-        return await axiosPrivate.patch(`/api/v1/posts/${id}`, {
-            headers: {
-                "auth-token": `${authToken}`,
+        return await axiosPrivate.patch(
+            `/api/v1/posts/${id}`,
+            {
+                ...data,
             },
-            body: data,
-        });
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
     } catch (error) {
         throw error;
     }
 };
 
-export const deleteJob = async (id, authToken) => {
+export const deleteJob = async (params) => {
+    const { id, authToken } = params || {};
     try {
         return await axiosPrivate.delete(`/api/v1/posts/${id}`, {
             headers: {
@@ -69,13 +76,18 @@ export const deleteJob = async (id, authToken) => {
     }
 };
 
-export const closeJob = async (id, authToken) => {
+export const closeJobEmployer = async (params) => {
+    const { id, authToken } = params || {};
     try {
-        return await axiosPrivate.put(`/api/v1/posts/close/${id}`, {
-            headers: {
-                "auth-token": `${authToken}`,
-            },
-        });
+        return await axiosPrivate.put(
+            `/api/v1/posts/close/${id}`,
+            {},
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
     } catch (error) {
         throw error;
     }
@@ -89,17 +101,36 @@ export const getHotJobs = async () => {
     }
 };
 
-export const getUnApprovedJobs = async (params) => {
-    const { authToken } = params || {};
+export const getPostsByAdmin = async (params) => {
+    const { status, authToken } = params || {};
     try {
         return await axiosPrivate.get("/api/v1/posts/admin", {
             params: {
-                status: 1,
+                status,
             },
             headers: {
                 "auth-token": `${authToken}`,
             },
         });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const pendingPost = async (params) => {  
+    const { id, authToken } = params || {};
+    try {
+        return await axiosPrivate.put(
+            `/api/v1/posts/${id}`,
+            {
+                status: 1,
+            },
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
     } catch (error) {
         throw error;
     }
@@ -131,6 +162,25 @@ export const approvePost = async (params) => {
             `/api/v1/posts/${id}`,
             {
                 status: 3,
+            },
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const closeJob = async (params) => {
+    const { id, authToken } = params || {};
+    try {
+        return await axiosPrivate.put(
+            `/api/v1/posts/${id}`,
+            {
+                status: 4,
             },
             {
                 headers: {

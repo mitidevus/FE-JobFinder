@@ -11,13 +11,13 @@ import { RxLockClosed } from "react-icons/rx";
 import { TbMoneybag } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { closeJob, deleteJob, getJob } from "../api/post/post.api.js";
+import { closeJobEmployer, deleteJob, getJob } from "../api/post/post.api.js";
 import ApplyForm from "../components/ApplyForm.jsx";
 import CVListForm from "../components/CVListForm.jsx";
 import UpdateForm from "../components/UpdateForm.jsx";
 import { selectUser } from "../features/userSlice.js";
 import { formatDate, formatDateLeft } from "../utils/formatDate.js";
-import splitTextWithLineBreaks from "../utils/splitTextWithLineBreaks.js";
+import { splitTextWithLineBreaks } from "../utils/splitTextWithLineBreaks.js";
 
 function JobDetail() {
     const params = useParams();
@@ -48,31 +48,31 @@ function JobDetail() {
         }
     }, [showCVList, showUpdate, showApply]);
 
-    const handleClosePost = () => {
+    const handleClosePost = async () => {
         const confirm = window.confirm("Are you sure to close this job?");
         if (confirm) {
-            closeJob(jobId, user?.token)
-                .then((res) => {
-                    console.log(res.data);
-                    navigate(`/`);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            try {
+                await closeJobEmployer({ id: jobId, authToken: user?.token });
+                alert("Close job successfully!");
+                navigate("/");
+            } catch (error) {
+                console.log(error);
+                alert("Failed to close job!");
+            }
         }
     };
 
-    const handleDeletePost = () => {
+    const handleDeletePost = async () => {
         const confirm = window.confirm("Are you sure to delete this job?");
         if (confirm) {
-            deleteJob(jobId, user?.token)
-                .then((res) => {
-                    console.log(res.data);
-                    navigate(`/`);
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+            try {
+                await deleteJob({ id: jobId, authToken: user?.token });
+                alert("Delete job successfully!");
+                navigate("/");
+            } catch (error) {
+                console.log(error);
+                alert("Failed to delete job!");
+            }
         }
     };
 
@@ -135,7 +135,9 @@ function JobDetail() {
                             </div>
                             <div className="flex justify-center pt-4 pb-2">
                                 <Link to={`/company_profile/${job?.userId?._id}`}>
-                                    <p className="text-3xl text-center hover:text-[#00ADB5]">{job?.userId?.companyName}</p>
+                                    <p className="text-3xl text-center hover:text-[#00ADB5]">
+                                        {job?.userId?.companyName}
+                                    </p>
                                 </Link>
                             </div>
                             <p>{job?.userId?.description}</p>
@@ -193,7 +195,7 @@ function JobDetail() {
                                     <p className="ml-2">{job?.userId?.phone}</p>
                                 </div>
 
-                                {job?.userId?._id !== user?._id && (
+                                {job?.userId?._id !== user?._id && user?.userType !== 1 && (
                                     <button
                                         className="mt-4 w-[150px] bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
                                         onClick={() => setShowApply(true)}
@@ -202,7 +204,7 @@ function JobDetail() {
                                     </button>
                                 )}
 
-                                {job?.userId?._id !== user?._id && showApply && (
+                                {job?.userId?._id !== user?._id && user?.userType !== 1 && showApply && (
                                     <ApplyForm
                                         jobId={job?._id}
                                         authToken={user?.token}

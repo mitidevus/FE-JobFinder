@@ -4,21 +4,26 @@ import { Link } from "react-router-dom";
 import { getJobs } from "../api/post/post.api";
 import Filter from "../components/Filter";
 import { formatDateLeft } from "../utils/formatDate";
+import { handleTitle } from "../utils/handleTitle";
+import Pagination from "../components/Pagination";
 
 function Home() {
     const [jobs, setJobs] = useState([]);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState({});
 
     console.log(jobs);
 
     useEffect(() => {
         const fetchJobs = async () => {
-            const response = await getJobs(filter);
+            const response = await getJobs({ page: currentPage, ...filter });
             setJobs(response.data.posts);
+            setPageNumber(response.data.totalPages);
         };
 
         fetchJobs();
-    }, [filter]);
+    }, [filter, currentPage]);
 
     return (
         <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
@@ -57,7 +62,7 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="pt-2 text-black px-3 py-4">
-                                    <span className="text-xl font-semibold">{job?.title}</span>
+                                    <span className="text-xl font-semibold">{handleTitle(job?.title)}</span>
                                     <p className="text-lg font-semibold pt-1">{job?.userId?.companyName}</p>
                                     <p className="pt-1">{job?.address}</p>
                                 </div>
@@ -71,6 +76,10 @@ function Home() {
                         <p className="text-2xl font-bold">No jobs</p>
                     </div>
                 )}
+
+                <div className="flex justify-center mt-5 font-sans">
+                    <Pagination currentPage={currentPage} totalPages={pageNumber} onPageChange={setCurrentPage} />
+                </div>
             </div>
         </div>
     );

@@ -14,6 +14,7 @@ export function formatDateLeft(dateString) {
 }
 
 export function formatDate(dateString) {
+    // Format: "DD-MM-YYYY"
     const date = new Date(dateString);
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -25,14 +26,15 @@ export function formatDate(dateString) {
 export function formatDateYMD(dateString) {
     // Format: "YYYY-MM-DD"
     const date = new Date(dateString);
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-
+  
     return `${year}-${month}-${day}`;
-}
+  }
 
 export function formatDateTime(dateString) {
+    // Format: "HH:MM DD-MM-YYYY"
     const date = new Date(dateString);
     const day = date.getDate();
     const month = date.getMonth() + 1;
@@ -44,6 +46,7 @@ export function formatDateTime(dateString) {
 }
 
 export function formatDateISO(dateString) {
+    // Format: "YYYY-MM-DDTHH:MM:SS.SSSZ"
     const date = new Date(dateString);
     if (isNaN(date.getTime())) {
         return null;

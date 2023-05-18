@@ -25,37 +25,62 @@ export const getCVByPostId = async (params) => {
     }
 };
 
-export const updateCV = async (id, data) => {
+export const pendingCV = async (params) => {
+    const { id, authToken } = params || {};
     try {
-        return await axiosPrivate.put(`/api/v1/cvs/${id}`, data);
+        return await axiosPrivate.put(
+            `/api/v1/cvs/${id}`,
+            {
+                status: 1,
+            },
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
     } catch (error) {
         throw error;
     }
 };
 
-export const deleteCV = async (id) => {
+export const rejectCV = async (params) => {
+    const { id, authToken } = params || {};
     try {
-        return await axiosPrivate.delete(`/api/v1/cvs/${id}`);
+        return await axiosPrivate.put(
+            `/api/v1/cvs/${id}`,
+            {
+                status: 2,
+            },
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
     } catch (error) {
         throw error;
     }
 };
 
-// export const inviteCV = async (params) => {
-//     const { id, authToken } = params || {};
-//     try {
-//         return await axiosPrivate.put(`/api/v1/cvs/${id}`, {
-//             body: {
-//                 status: 4,
-//             },
-//             headers: {
-//                 "auth-token": `${authToken}`,
-//             },
-//         });
-//     } catch (error) {
-//         throw error;
-//     }
-// };
+export const approveCV = async (params) => {
+    const { id, authToken } = params || {};
+    try {
+        return await axiosPrivate.put(
+            `/api/v1/cvs/${id}`,
+            {
+                status: 3,
+            },
+            {
+                headers: {
+                    "auth-token": `${authToken}`,
+                },
+            }
+        );
+    } catch (error) {
+        throw error;
+    }
+};
 
 export const inviteCV = async (params) => {
     const { id, authToken } = params || {};

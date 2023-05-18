@@ -6,8 +6,10 @@ import { useDispatch } from "react-redux";
 import { signup } from "../features/userSlice";
 
 function SignUp() {
-    const [role, setRole] = useState(1);
+    const [userType, setUserType] = useState(2);
     const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+    const [address, setAddress] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassWord] = useState("");
@@ -20,29 +22,30 @@ function SignUp() {
     const handleSignUp = async (e) => {
         e.preventDefault();
 
-        if (!name || !email || !password || !confirmPassword) {
-            return alert("Please fill all fields!");
+        if (!name || !phone || !address || !email || !password || !confirmPassword) {
+            return setError("Please fill all fields!");
         }
 
         if (password !== confirmPassword) {
-            return alert("Password and confirm password must be the same!");
+            return setError("Confirm password does not match!");
         }
 
         const userAuth = {
             name,
             email,
             password,
-            userType: role,
-            phone: "",
-            address: "",
+            userType,
+            phone,
+            address,
             avatar: "https://i.stack.imgur.com/34AD2.jpg",
-            description: "I'm an JobFinder!",
+            description: "I'm a member of Jobee!",
         };
 
         try {
             const response = await signUp(userAuth);
             if (response.status === 201) {
                 alert("Sign up successfully!");
+                console.log(response.data);
                 dispatch(signup(response.data));
                 navigate("/");
             }
@@ -53,7 +56,7 @@ function SignUp() {
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">
-            <div className="text-gray-300 bg-[#393E46] flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 mt-20    ">
+            <div className="text-gray-300 bg-[#393E46] flex flex-col items-center justify-center px-6 mx-auto h-full py-10 mt-20">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:m-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                         <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -78,6 +81,40 @@ function SignUp() {
                                     required
                                     onChange={(e) => setName(e.target.value)}
                                 />
+                            </div>
+                            <div className="flex justify-between items-center">
+                                <div>
+                                    <label
+                                        htmlFor="phone"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Phone
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        id="phone"
+                                        className="font-sans bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                </div>
+                                <div>
+                                    <label
+                                        htmlFor="address"
+                                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                    >
+                                        Address
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        id="address"
+                                        className="font-sans bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        required
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
+                                </div>
                             </div>
                             <div>
                                 <label
@@ -133,10 +170,10 @@ function SignUp() {
                                 </label>
                                 <select
                                     className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    onChange={(e) => setRole(e.target.value)}
+                                    onChange={(e) => setUserType(e.target.value)}
                                 >
-                                    <option value="1">Job Seeker</option>
-                                    <option value="2">Recruiter</option>
+                                    <option value="2">Job Seeker</option>
+                                    <option value="3">Recruiter</option>
                                 </select>
                             </div>
                             <div className="flex items-start">

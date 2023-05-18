@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { getJobs } from "../api/post/post.api";
 import Filter from "../components/Filter";
 import { formatDateLeft } from "../utils/formatDate";
+import { handleTitle } from "../utils/handleTitle";
 
 function SearchJob() {
     const params = useParams();
@@ -63,7 +64,7 @@ function SearchJob() {
                                     </div>
                                 </div>
                                 <div className="pt-2 text-black px-3 py-4">
-                                    <span className="text-xl font-semibold">{job?.title}</span>
+                                    <span className="text-xl font-semibold">{handleTitle(job?.title)}</span>
                                     <p className="text-lg font-semibold pt-1">{job?.userId?.companyName}</p>
                                     <p className="pt-1">{job?.address}</p>
                                 </div>
