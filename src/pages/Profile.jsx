@@ -6,7 +6,6 @@ import avt from "../assets/avt_img.png"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import { getProfile } from "../api/user/user.api"
-import { getJob } from "../api/post/post.api"
 import { useParams } from "react-router-dom";
 
 function Profile() {

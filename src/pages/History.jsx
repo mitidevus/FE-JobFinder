@@ -8,11 +8,12 @@ import { cvData } from "../data/CV.js";
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import {getCVByUserId} from "../api/cv/cv.api"
+import { getJob } from "../api/post/post.api"
 function History() {
     const user = useSelector(selectUser);
-    const [cv, setCV] = useState([])
+    const [cv, setCV] = useState([]);
     const [selectedCv, setSelectedCv] = useState(null);
-
+    const [job, setJob] = useState({});
     React.useEffect(() => {
         getCVByUserId(user._id,user?.token).then((res) => {
             setCV(res.data);
@@ -27,6 +28,9 @@ function History() {
     const handleCvClose = () => {
         setSelectedCv(null);
     };
+    function getTitle (id){
+        return getJob(id)
+    }
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
             <div className="w-full lg:w-4/12 px-4 mx-auto ">
