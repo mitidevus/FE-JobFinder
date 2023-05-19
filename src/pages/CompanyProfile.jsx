@@ -76,7 +76,7 @@ function CompanyProfile() {
                                                     className="shadow-sm shadow-[#040c16] rounded-md flex justify-center items-center text-center mx-auto bg-[#FAE3D9]"
                                                 >
                                                     <div
-                                                        style={{ backgroundImage: `url(${job.image})` }}
+                                                        style={{ backgroundImage: `url(${job?.userId?.avatar})` }}
                                                         className="group container rounded-t flex justify-center items-center text-center mx-auto content-div"
                                                     >
                                                         {/* Hover Effects */}
@@ -86,7 +86,7 @@ function CompanyProfile() {
                                                                 {formatDate(new Date(job.deadline))}
                                                             </span>
                                                             <div className="text-center pt-4">
-                                                                <Link to={`/job/${job.id}`}>
+                                                                <Link to={`/job/${job._id}`}>
                                                                     <button className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg group-hover:translate-y-[-10px] ">
                                                                         <span className="flex items-center">
                                                                             Detail

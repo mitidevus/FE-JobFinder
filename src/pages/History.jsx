@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { cvData } from "../data/CV.js";
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
-import {getCVByUserId} from "../api/cv/cv.api"
+import { getCVByUserId } from "../api/cv/cv.api"
 import { getJob } from "../api/post/post.api"
 function History() {
     const user = useSelector(selectUser);
@@ -16,14 +16,11 @@ function History() {
     const [job, setJob] = useState({});
 
     React.useEffect(() => {
-        getCVByUserId(user._id,user?.token).then((res) => {
+        getCVByUserId(user._id, user?.token).then((res) => {
             setCV(res.data);
         });
 
     }, []);
-    for (let i = 0;i<cv.length;i++) {
-        cv[i].title = getJob(cv[i].postId)
-    }
     // form logic here
 
     const handleCvClick = (cv) => {
@@ -33,12 +30,12 @@ function History() {
     const handleCvClose = () => {
         setSelectedCv(null);
     };
-    function getTitle (id){
+    function getTitle(id) {
         return getJob(id)
     }
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
-            <div className="w-full lg:w-4/12 px-4 mx-auto ">
+            <div className="w-full lg:w-5/12 px-4 mx-auto ">
                 <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
                     <div className="px-6">
                         <div className="text-center mt-12">
@@ -53,7 +50,19 @@ function History() {
                                                 key={cv._id}
                                                 onClick={() => handleCvClick(cv)}
                                             >
-                                                <p className="font-bold">{cv.title}</p>
+                                                <p className="font-bold">{cv.postId.title} - {cv.postId.userId.companyName}</p>
+                                                {cv.status === 1 && (
+                                                    <p>Waiting</p>
+                                                )}
+                                                {cv.status === 2 && (
+                                                    <p>Fail</p>
+                                                )}
+                                                {cv.status === 3 && (
+                                                    <p>Pending</p>
+                                                )}
+                                                {cv.status === 4 && (
+                                                    <p>Approve</p>
+                                                )}
                                                 <p className="text-sm">{cv.createdAt}</p>
                                             </button>
                                         ))}
@@ -72,21 +81,21 @@ function History() {
                                         <div className="flex flex-col mt-4">
                                             <div className="flex items-center">
                                                 <p className="font-bold">Name:</p>
-                                                <Link to={`/profile/${selectedCv.id}`} className="ml-2 text-blue-500">
-                                                    <p className="ml-2">{selectedCv.username}</p>
+                                                <Link to={`/profile/${selectedCv.userId._id}`} className="ml-2 text-blue-500">
+                                                    <p className="ml-2">{selectedCv.userId.name}</p>
                                                 </Link>
                                             </div>
                                             <div className="flex items-center">
                                                 <p className="font-bold">Email:</p>
-                                                <p className="ml-2">{selectedCv.email}</p>
+                                                <p className="ml-2">{selectedCv.userId.email}</p>
                                             </div>
                                             <div className="flex items-center">
                                                 <p className="font-bold">Phone:</p>
-                                                <p className="ml-2">{selectedCv.phone}</p>
+                                                <p className="ml-2">{selectedCv.userId.phone}</p>
                                             </div>
                                             <div className="flex items-center">
                                                 <p className="font-bold">Address:</p>
-                                                <p className="ml-2">{selectedCv.address}</p>
+                                                <p className="ml-2">{selectedCv.userId.address}</p>
                                             </div>
                                             <div className="flex">
                                                 <p className="font-bold">Description:</p>
@@ -116,7 +125,7 @@ function History() {
                                 <div className="flex flex-wrap justify-center">
                                     <div className="w-full lg:w-9/12 px-4">
                                         <a
-                                            href="/profile"
+                                            href={"/profile/" + user._id}
                                             type="submit"
                                             className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                         >
