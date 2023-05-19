@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 
 import { data } from "../data/history_eg";
-
+import { AiOutlineDownload } from "react-icons/ai";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { cvData } from "../data/CV.js";
@@ -13,7 +13,7 @@ function History() {
     const user = useSelector(selectUser);
     const [cv, setCV] = useState([]);
     const [selectedCv, setSelectedCv] = useState(null);
-    const [job, setJob] = useState({});
+
 
     React.useEffect(() => {
         getCVByUserId(user._id, user?.token).then((res) => {
@@ -52,16 +52,16 @@ function History() {
                                             >
                                                 <p className="font-bold">{cv.postId.title} - {cv.postId.userId.companyName}</p>
                                                 {cv.status === 1 && (
-                                                    <p>Waiting</p>
-                                                )}
-                                                {cv.status === 2 && (
-                                                    <p>Fail</p>
-                                                )}
-                                                {cv.status === 3 && (
                                                     <p>Pending</p>
                                                 )}
+                                                {cv.status === 2 && (
+                                                    <p>Rejected</p>
+                                                )}
+                                                {cv.status === 3 && (
+                                                    <p>Approved</p>
+                                                )}
                                                 {cv.status === 4 && (
-                                                    <p>Approve</p>
+                                                    <p>Invited</p>
                                                 )}
                                                 <p className="text-sm">{cv.createdAt}</p>
                                             </button>
@@ -107,7 +107,15 @@ function History() {
                                             </div>
                                             <div className="flex items-center">
                                                 <p className="font-bold">CV:</p>
-                                                <p className="ml-2">{selectedCv.cv}</p>
+
+                                                <div className="ml-2">
+                                                    <a href={selectedCv?.CVFileURL} target="_blank" rel="noopener noreferrer">
+                                                        <div className="flex items-center text-[#6DA9E4]">
+                                                            <AiOutlineDownload size={"20px"} />
+                                                            <span className="font-semibold ml-1">Download CV</span>
+                                                        </div>
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

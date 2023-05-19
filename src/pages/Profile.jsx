@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
+
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png"
@@ -51,25 +52,25 @@ function Profile() {
                                 </div>
                                 <div className="mb-2 text-blueGray-600 mt-10">
                                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Address :</span> {user.address}
+                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Address:</span> {user.address}
                                 </div>
                                 <div className="mb-2 text-blueGray-600">
                                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Phone number :</span> {user.phone}
+                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Phone number:</span> {user.phone}
                                 </div>
 
                             </div>
                             <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                                 <div className="mb-2 text-blueGray-600">
                                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Education:</span>
+                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Education: </span>
                                     {user && user.academicLevel.map((data, index) => (
                                         <p key={index}>{data}</p>
                                     ))}
                                 </div>
                                 <div className="mb-2 text-blueGray-600">
                                     <i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Experience :</span>
+                                    <span className="font-semibold leading-normal mb-2 text-blueGray-700 mb-2">Experience: </span>
                                     {user && user.experience.map((data, index) => (
                                         <p key={index}>{data}</p>
                                     ))}

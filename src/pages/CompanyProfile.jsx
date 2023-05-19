@@ -11,6 +11,7 @@ import { useSelector } from "react-redux";
 import { getProfile } from "../api/user/user.api"
 import { getJobsByUserId } from "../api/post/post.api"
 import { formatDate } from "../utils/formatDate";
+import {formatDateLeft } from "../utils/formatDate";
 function CompanyProfile() {
     const u = useSelector(selectUser);
     const params = useParams();
@@ -83,7 +84,7 @@ function CompanyProfile() {
                                                         <div className="overlay rounded-t group-hover:opacity-60"></div>
                                                         <div className="opacity-0 z-10 group-hover:opacity-100 ">
                                                             <span className="pt-2">
-                                                                {formatDate(new Date(job.deadline))}
+                                                                {formatDateLeft(new Date(job?.expiredDate))}
                                                             </span>
                                                             <div className="text-center pt-4">
                                                                 <Link to={`/job/${job._id}`}>

@@ -1,9 +1,10 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/avt_img.png";
-import Datepicker from "tailwind-datepicker-react"
+
 import { updateProfile } from "../api/user/user.api"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
@@ -11,34 +12,8 @@ import { useSelector } from "react-redux";
 let sk = []
 function EditProfile() {
     const user = useSelector(selectUser);
-    const skill = ["C++", "C#", "Python", "Java", "JavaScript", "HTML", "CSS"]
-    const options = {
-        title: "Demo Title",
-        autoHide: true,
-        todayBtn: false,
-        clearBtn: true,
-        maxDate: new Date("2030-01-01"),
-        minDate: new Date("1950-01-01"),
-        theme: {
-            background: "",
-            todayBtn: "",
-            clearBtn: "",
-            icons: "",
-            text: "",
-            disabledText: "",
-            input: "",
-            inputIcon: "",
-            selected: "",
-        },
-        icons: {
-            // () => ReactElement | JSX.Element
-            prev: () => <span>Previous</span>,
-            next: () => <span>Next</span>,
-        },
-        datepickerClassNames: "top-12",
-        defaultDate: new Date("2022-01-01"),
-        language: "en",
-    }
+    const navigate = useNavigate();
+    const skill = ["C++", "C#", "Python", "Java", "JavaScript", "HTML", "CSS", "Ruby"]
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
     const [phone, setPhone] = useState("")
@@ -97,7 +72,8 @@ function EditProfile() {
         try {
             updateProfile(user._id, data, user?.token);
             //navigate("/");
-            alert("Create job successfully!");
+            alert("Update successful");
+            navigate("/profile/" + user._id)
         } catch (err) {
             throw new Error(err);
         }

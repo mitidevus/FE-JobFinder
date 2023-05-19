@@ -6,14 +6,15 @@ import { RiShareBoxLine } from "react-icons/ri";
 import avt from "../assets/company_avt.jfif"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { updateProfile } from "../api/user/user.api"
 
 function EditCompanyProfile() {
     const user = useSelector(selectUser);
+    const navigate = useNavigate();
     const [name, setName] = useState("")
     const [address, setAddress] = useState("")
     const [phone, setPhone] = useState("")
-
     const [description, setDescription] = useState("")
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -41,6 +42,7 @@ function EditCompanyProfile() {
             updateProfile(user._id, data, user?.token);
             //navigate("/");
             alert("Create job successfully!");
+            navigate("/profile/" + user._id)
         } catch (err) {
             throw new Error(err);
         }

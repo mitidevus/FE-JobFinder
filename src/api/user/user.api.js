@@ -13,6 +13,7 @@ export const updateProfile = async (id, data, authToken) => {
             });
     } catch (err) {
         console.error(err.response.data);
+        throw new Error(err);
     }
 };
 
