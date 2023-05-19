@@ -1,70 +1,71 @@
 import { useLayoutEffect } from "react";
-// import { useSelector } from "react-redux";
-// import { selectUser } from "~/features/userSlice";
+import { useSelector } from "react-redux";
+import { selectUser } from "./features/userSlice";
 import { Navigate, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
-import { publicRoutes } from "./routes";
+import { publicRoutes, employeeRoutes, employerRoutes, adminRoutes } from "./routes";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-// const ScrollToTop = ({ children }) => {
-//     const location = useLocation();
-//     useLayoutEffect(() => {
-//         document.documentElement.scrollTo(0, 0);
-//     }, [location.pathname]);
-//     return children;
-// };
+const ScrollToTop = ({ children }) => {
+    const location = useLocation();
+    useLayoutEffect(() => {
+        document.documentElement.scrollTo(0, 0);
+    }, [location.pathname]);
+    return children;
+};
 
 function App() {
-    // const user = useSelector(selectUser);
+    const user = useSelector(selectUser);
 
     return (
         <Router>
-            {/* <ScrollToTop> */}
-            <div
-                className="App"
-                style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    minHeight: "100vh",
-                    justifyContent: "space-between",
-                }}
-            >
-                <Navbar />
-                <Routes>
-                    {publicRoutes.map((route, index) => {
-                        const Page = route.component;
+            <ScrollToTop>
+                <div
+                    className="App"
+                    style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        minHeight: "100vh",
+                        justifyContent: "space-between",
+                    }}
+                >
+                    <Navbar />
+                    <Routes>
+                        {publicRoutes.map((route, index) => {
+                            const Page = route.component;
 
-                        return <Route key={index} path={route.path} element={<Page />} />;
-                    })}
+                            return <Route key={index} path={route.path} element={<Page />} />;
+                        })}
 
-                    {/* {user &&
-                            privateRoutes.map((route, index) => {
+                        {user &&
+                            user?.userType === 2 &&
+                            employeeRoutes.map((route, index) => {
                                 const Page = route.component;
 
                                 return <Route key={index} path={route.path} element={<Page />} />;
                             })}
 
                         {user &&
-                            user.userType === 2 &&
-                            hotelOwnerRoutes.map((route, index) => {
+                            user?.userType === 3 &&
+                            employerRoutes.map((route, index) => {
                                 const Page = route.component;
 
                                 return <Route key={index} path={route.path} element={<Page />} />;
                             })}
 
                         {user &&
-                            user.userType === 0 &&
+                            user?.userType === 1 &&
                             adminRoutes.map((route, index) => {
                                 const Page = route.component;
 
                                 return <Route key={index} path={route.path} element={<Page />} />;
-                            })} */}
+                            })}
 
-                    <Route path="*" element={<Navigate to="/" replace />} />
-                </Routes>
-                <Footer />
-            </div>
-            {/* </ScrollToTop> */}
+                        <Route path="*" element={<Navigate to="/" replace />} />
+                    </Routes>
+                    <Footer />
+                </div>
+            </ScrollToTop>
         </Router>
     );
 }

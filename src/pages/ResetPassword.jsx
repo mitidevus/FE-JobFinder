@@ -1,38 +1,42 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import { signIn } from "../api/auth/auth.api";
-import { login } from "../features/userSlice";
+import { useNavigate, useParams } from "react-router-dom";
+import { resetPassword } from "../api/auth/auth.api";
 
 function ResetPassword() {
+    const params = useParams();
+    const userId = params.id;
+    const authToken = params.token;
+
     const navigate = useNavigate();
-    const dispatch = useDispatch();
-    const [email, setEmail] = useState("");
+
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!email || !password) {
-            return alert("Please fill all fields!");
+        if (!password || !confirmPassword) {
+            return setError("Please fill all fields!");
         }
 
         const userAuth = {
-            email,
+            id: userId,
+            token: authToken,
             password,
         };
 
-        // try {
-        //     // const response = await axios.post("http://localhost:2345/api/v1/auth/signin", userAuth);
-        //     const response = await signIn(userAuth);
-        //     if (response.status === 201) {
-        //         dispatch(login(response.data));
-        //         navigate("/");
-        //     }
-        // } catch (error) {
-        //     setError(error.response.data.message);
-        // }
+        try {
+            const response = await resetPassword(userAuth);
+            if (response.status === 200) {
+                alert("Reset password successfully. Please login again!");
+                navigate("/signin");
+            }
+        }
+        catch (error) {
+            console.log(error);
+            setError(error.response.data.message);
+        }
     };
 
     return (
@@ -61,7 +65,7 @@ function ResetPassword() {
                                     className="font-sans bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
                                     autoComplete="off"
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => setPassword(e.target.value)}
                                 />
                             </div>
                             <div>
@@ -78,7 +82,7 @@ function ResetPassword() {
                                     className="font-sans bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                     required
                                     autoComplete="off"
-                                    onChange={(e) => setPassword(e.target.value)}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                 />
                             </div>
                             <button

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineDelete, AiOutlineMail } from "react-icons/ai";
 import { BiTimeFive, BiUser } from "react-icons/bi";
 import { BsTelephone } from "react-icons/bs";
+import { CgLockUnlock } from "react-icons/cg";
 import { HiPencil } from "react-icons/hi";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineCalendarMonth } from "react-icons/md";
@@ -11,14 +12,13 @@ import { RxLockClosed } from "react-icons/rx";
 import { TbMoneybag } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { closeJobEmployer, openJobEmployer, deleteJob, getJob } from "../api/post/post.api.js";
+import { closeJobEmployer, deleteJob, getJob, openJobEmployer } from "../api/post/post.api.js";
 import ApplyForm from "../components/ApplyForm.jsx";
 import CVListForm from "../components/CVListForm.jsx";
 import UpdateForm from "../components/UpdateForm.jsx";
 import { selectUser } from "../features/userSlice.js";
 import { formatDate, formatDateLeft } from "../utils/formatDate.js";
 import { splitTextWithLineBreaks } from "../utils/splitTextWithLineBreaks.js";
-import { CgLockUnlock } from "react-icons/cg";
 
 function JobDetail() {
     const params = useParams();
@@ -55,7 +55,7 @@ function JobDetail() {
             try {
                 await closeJobEmployer({ id: jobId, authToken: user?.token });
                 alert("Close job successfully!");
-                navigate("/");
+                navigate("/myjobs");
             } catch (error) {
                 console.log(error);
                 alert("Failed to close job!");
@@ -69,7 +69,7 @@ function JobDetail() {
             try {
                 await openJobEmployer({ id: jobId, authToken: user?.token });
                 alert("Open job successfully!");
-                navigate("/");
+                navigate("/myjobs");
             } catch (error) {
                 console.log(error);
                 alert("Failed to open job!");
@@ -83,7 +83,7 @@ function JobDetail() {
             try {
                 await deleteJob({ id: jobId, authToken: user?.token });
                 alert("Delete job successfully!");
-                navigate("/");
+                navigate("/myjobs");
             } catch (error) {
                 console.log(error);
                 alert("Failed to delete job!");
@@ -101,49 +101,48 @@ function JobDetail() {
                                 <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">
                                     Job Detail
                                 </p>
-                                {user?._id === job?.userId?._id && (
-                                    <div className="absolute top-0 right-[-600px]">
+                                <div className="absolute top-0 right-[-600px]">
+                                    {user?._id === job?.userId?._id && job?.status === 3 && job?.status !== 4 && (
                                         <button
                                             className="mr-2 p-2 bg-[#6DA9E4] text-white hover:opacity-90 rounded duration-200"
                                             onClick={() => setShowCVList(true)}
                                         >
                                             <RiFolderUserLine size={"30px"} />
                                         </button>
-
+                                    )}
+                                    {user?._id === job?.userId?._id && job?.status !== 1 && (
                                         <button
                                             className="mr-2 p-2 bg-[#F7D060] text-white hover:opacity-90 rounded duration-200"
                                             onClick={() => setShowUpdate(true)}
                                         >
                                             <HiPencil size={"30px"} />
                                         </button>
-
-                                        {job?.status !== 4 && (
+                                    )}
+                                    {user?._id === job?.userId?._id && job?.status === 3 && (
                                         <button
                                             className="mr-2 p-2 bg-[#6D5D6E] text-white hover:opacity-90 rounded duration-200"
                                             onClick={handleClosePost}
                                         >
                                             <RxLockClosed size={"30px"} />
                                         </button>
-                                        )}
-
-                                        {/* 6465fca09d6c81af0965c286 */}
-
-                                        {job?.status === 4 && (
+                                    )}
+                                    {user?._id === job?.userId?._id && job?.status === 4 && (
                                         <button
                                             className="mr-2 p-2 bg-[#00ADB5] text-white hover:opacity-90 rounded duration-200"
-                                            onClick={handleOpenPost}>
-                                                <CgLockUnlock size={"30px"} />
-                                            </button>
-                                        )}
-
+                                            onClick={handleOpenPost}
+                                        >
+                                            <CgLockUnlock size={"30px"} />
+                                        </button>
+                                    )}
+                                    {user?._id === job?.userId?._id && (
                                         <button
                                             className="p-2 bg-[#da4167] text-white hover:opacity-90 rounded duration-200"
                                             onClick={handleDeletePost}
                                         >
                                             <AiOutlineDelete size={"30px"} />
                                         </button>
-                                    </div>
-                                )}
+                                    )}
+                                </div>
                             </div>
                             {showCVList && <CVListForm jobId={jobId} onClose={() => setShowCVList(false)} />}
                             {showUpdate && (
@@ -239,13 +238,16 @@ function JobDetail() {
                                     </button>
                                 )}
 
-                                {job?.status !== 4 && job?.userId?._id !== user?._id && user?.userType !== 1 && showApply && (
-                                    <ApplyForm
-                                        jobId={job?._id}
-                                        authToken={user?.token}
-                                        onClose={() => setShowApply(false)}
-                                    />
-                                )}
+                                {job?.status !== 4 &&
+                                    job?.userId?._id !== user?._id &&
+                                    user?.userType !== 1 &&
+                                    showApply && (
+                                        <ApplyForm
+                                            jobId={job?._id}
+                                            authToken={user?.token}
+                                            onClose={() => setShowApply(false)}
+                                        />
+                                    )}
                             </div>
                         </div>
                     </div>

@@ -20,7 +20,7 @@ export const createJob = async (params) => {
 };
 
 export const getJobs = async (params) => {
-    const { page, search, minSalary, maxSalary, address } = params || {};
+    const { page, search, minSalary, maxSalary, address, userId } = params || {};
     try {
         return await axiosPrivate.get(`/api/v1/posts`, {
             params: {
@@ -29,6 +29,7 @@ export const getJobs = async (params) => {
                 minSalary,
                 maxSalary,
                 address,
+                userId,
             },
         });
     } catch (error) {
@@ -113,6 +114,23 @@ export const openJobEmployer = async (params) => {
 export const getHotJobs = async () => {
     try {
         return await axiosPrivate.get("/api/v1/posts/hot-jobs");
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getPostsByEmployer = async (params) => {
+    const { status, page, authToken } = params || {};
+    try {
+        return await axiosPrivate.get("/api/v1/posts/employer", {
+            params: {
+                page,
+                status,
+            },
+            headers: {
+                "auth-token": `${authToken}`,
+            },
+        });
     } catch (error) {
         throw error;
     }

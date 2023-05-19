@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { signIn } from "../api/auth/auth.api";
-import { login } from "../features/userSlice";
+import { signin } from "../features/userSlice";
 
 function SignIn() {
     const navigate = useNavigate();
@@ -24,10 +24,9 @@ function SignIn() {
         };
 
         try {
-            // const response = await axios.post("http://localhost:2345/api/v1/auth/signin", userAuth);
             const response = await signIn(userAuth);
             if (response.status === 201) {
-                dispatch(login(response.data));
+                dispatch(signin(response.data));
                 navigate("/");
             }
         } catch (error) {

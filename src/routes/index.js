@@ -11,7 +11,7 @@ import CompanyProfile from "../pages/CompanyProfile";
 import ForgetPassword from "../pages/ForgetPassword";
 import History from "../pages/History";
 import AboutUs from "../pages/AboutUs";
-import MyJob from "../pages/MyJob";
+import MyJobs from "../pages/MyJobs";
 import Notification from "../pages/Notification";
 import Notification_details from "../pages/Noti_details";
 import EditProfile from "../pages/EditProfile";
@@ -27,26 +27,25 @@ const publicRoutes = [
     { path: "/signin", component: SignIn },
     { path: "/signup", component: SignUp },
     { path: "/forgetPassword", component: ForgetPassword },
-    { path: "/resetPassword", component: ResetPassword },
-    { path: "/createjob", component: CreateJob },
-    { path: "/myjobs", component: MyJob },
+    { path: "/resetPassword/:id/:token", component: ResetPassword },
     { path: "/about", component: AboutUs },
-    { path: "/approve", component: Approve },
     { path: "/notification", component: Notification },
     { path: "/notification/details", component: Notification_details },
-    { path: "/profile", component: Profile },
-    { path: "/profile/history", component: History },
-    { path: "/profile/edit", component: EditProfile },
     { path: "/company_profile/:companyId", component: CompanyProfile },
+];
+
+const employeeRoutes = [
+    { path: "/profile/history", component: History },
+    { path: "/profile", component: Profile },
+    { path: "/profile/edit", component: EditProfile },
+];
+
+const employerRoutes = [
+    { path: "/createjob", component: CreateJob },
+    { path: "/myjobs", component: MyJobs },
     { path: "/company_profile/edit", component: EditCompanyProfile },
 ];
 
-// const privateRoutes = [{ path: '/account', component: AccountPage }];
+const adminRoutes = [{ path: "/approve", component: Approve }];
 
-// const hotelOwnerRoutes = [{ path: '/myhotel', component: HotelPage }];
-
-// const adminRoutes = [{ path: '/approve', component: ApprovePage }];
-
-// export { publicRoutes, privateRoutes, hotelOwnerRoutes, adminRoutes };
-
-export { publicRoutes };
+export { publicRoutes, employeeRoutes, employerRoutes, adminRoutes };

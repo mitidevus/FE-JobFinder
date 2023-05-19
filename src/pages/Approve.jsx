@@ -2,21 +2,16 @@ import React, { useEffect, useState } from "react";
 import { AiOutlineMail } from "react-icons/ai";
 import { BiTimeFive, BiUser } from "react-icons/bi";
 import { BsTelephone } from "react-icons/bs";
-import { GrCheckmark, GrClose, GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineCalendarMonth } from "react-icons/md";
+import { TbMoneybag } from "react-icons/tb";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { approvePost, closeJob, getPostsByAdmin, pendingPost, rejectPost } from "../api/post/post.api.js";
+import { selectUser } from "../features/userSlice.js";
 import { formatDate, formatDateLeft } from "../utils/formatDate.js";
 import { splitTextWithLineBreaks } from "../utils/splitTextWithLineBreaks.js";
-import { limitDescription } from "../utils/splitTextWithLineBreaks.js";
-import { getPostsByAdmin } from "../api/post/post.api.js";
-import { selectUser } from "../features/userSlice.js";
-import { useSelector } from "react-redux";
-import { TbMoneybag } from "react-icons/tb";
-import { approvePost } from "../api/post/post.api.js";
-import { rejectPost } from "../api/post/post.api.js";
-import { pendingPost } from "../api/post/post.api.js";
-import { closeJob } from "../api/post/post.api.js";
 
 function Approve() {
     const [jobs, setJobs] = useState([]);
@@ -39,7 +34,7 @@ function Approve() {
         fetchJobs();
     }, [filter, user]);
 
-    console.log(job)
+    console.log(job);
 
     // Click left button to change job
     const prevJob = () => {
@@ -61,68 +56,51 @@ function Approve() {
         }
     };
 
-    // Click approve button to approve job
-    const handleApprove = async () => {
+    const handleAction = async (action) => {
         try {
-            await approvePost({ id: job?._id, authToken: user?.token });
-            console.log("Job approved successfully.");
+            const actionMap = {
+                approve: approvePost,
+                reject: rejectPost,
+                pending: pendingPost,
+                close: closeJob,
+            };
+
+            await actionMap[action]({ id: job?._id, authToken: user?.token });
+            console.log(`Job ${action} successfully.`);
 
             const index = jobs.findIndex((item) => item?._id === job?._id);
             const newJobs = [...jobs];
             newJobs.splice(index, 1);
             setJobs(newJobs);
-            setJob(newJobs[0] || "");
+
+            if (index === newJobs.length) {
+                setJob(newJobs[0] || "");
+            } else {
+                setJob(newJobs[index] || "");
+            }
         } catch (error) {
-            console.error("Failed to approve job:", error);
+            console.error(`Failed to ${action} job:`, error);
         }
+    };
+
+    // Click approve button to approve job
+    const handleApprove = () => {
+        handleAction("approve");
     };
 
     // Click reject button to reject job
-    const handleReject = async () => {
-        try {
-            await rejectPost({ id: job?._id, authToken: user?.token });
-            console.log("Job rejected successfully.");
-
-            const index = jobs.findIndex((item) => item?._id === job?._id);
-            const newJobs = [...jobs];
-            newJobs.splice(index, 1);
-            setJobs(newJobs);
-            setJob(newJobs[0] || "");
-        } catch (error) {
-            console.error("Failed to approve job:", error);
-        }
+    const handleReject = () => {
+        handleAction("reject");
     };
 
     // Click pending button to pending job
-    const handlePending = async () => {
-        try {
-            await pendingPost({ id: job?._id, authToken: user?.token });
-            console.log("Job pending successfully.");
-
-            const index = jobs.findIndex((item) => item?._id === job?._id);
-            const newJobs = [...jobs];
-            newJobs.splice(index, 1);
-            setJobs(newJobs);
-            setJob(newJobs[0] || "");
-        } catch (error) {
-            console.error("Failed to approve job:", error);
-        }
+    const handlePending = () => {
+        handleAction("pending");
     };
 
     // Click close button to close job
-    const handleClose = async () => {
-        try {
-            await closeJob({ id: job?._id, authToken: user?.token });
-            console.log("Job closed successfully.");
-
-            const index = jobs.findIndex((item) => item?._id === job?._id);
-            const newJobs = [...jobs];
-            newJobs.splice(index, 1);
-            setJobs(newJobs);
-            setJob(newJobs[0] || "");
-        } catch (error) {
-            console.error("Failed to approve job:", error);
-        }
+    const handleClose = () => {
+        handleAction("close");
     };
 
     return (

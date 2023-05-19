@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/post/post.api";
 import Filter from "../components/Filter";
+import Pagination from "../components/Pagination";
 import { formatDateLeft } from "../utils/formatDate";
 import { handleTitle } from "../utils/handleTitle";
-import Pagination from "../components/Pagination";
 
 function Home() {
     const [jobs, setJobs] = useState([]);

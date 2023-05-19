@@ -1,7 +1,5 @@
 import axios from "axios";
 import { api } from "../constants";
-import { useSelector } from "react-redux";
-import { selectUser } from "../features/userSlice";
 
 //Export default thì ko nên đôi khi import thì mình ko biết là đang import cái nào
 // VD: import axios from '../api/api';
@@ -14,5 +12,5 @@ import { selectUser } from "../features/userSlice";
 
 export const axiosPrivate = axios.create({
     baseURL: api.prod,
-    headers: { "Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
 });

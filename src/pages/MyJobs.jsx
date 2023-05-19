@@ -1,52 +1,59 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { getJobs } from "../api/post/post.api";
-import Filter from "../components/Filter";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { getPostsByEmployer } from "../api/post/post.api";
 import Pagination from "../components/Pagination";
+import { selectUser } from "../features/userSlice";
 import { formatDateLeft } from "../utils/formatDate";
 import { handleTitle } from "../utils/handleTitle";
 
-function SearchJob() {
-    const params = useParams();
-    const search = params.keyword;
+function MyJobs() {
     const [jobs, setJobs] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [filter, setFilter] = useState({
-        search,
-    });
+    const [status, setStatus] = useState(3);
+
+    const user = useSelector(selectUser);
 
     useEffect(() => {
         const fetchJobs = async () => {
-            console.log({ ...filter, page: currentPage });
-            const res = await getJobs({ ...filter, page: currentPage });
-            setJobs(res.data.posts);
-            setPageNumber(res.data.totalPages);
+            try {
+                const response = await getPostsByEmployer({ status, page: currentPage, authToken: user?.token });
+                setJobs(response.data.posts);
+                setPageNumber(response.data.totalPages);
+            } catch (error) {
+                console.error(error);
+            }
         };
 
         fetchJobs();
-    }, [search, filter, currentPage]);
-
-    const handleFilter = (filter) => {
-        setFilter(filter);
-        setCurrentPage(1);
-    };
+    }, [status, currentPage, user]);
 
     return (
-        <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
+        <div name="hotjobs" className="w-full h-full text-gray-300 bg-[#393E46]">
             <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
                 <div className="pb-4">
                     <div className="flex justify-between">
                         <div>
                             <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">
-                                Search Jobs
+                                My Jobs
                             </p>
-                            <p className="py-4">
-                                See result about: <span className="font-bold">{search}</span>
-                            </p>
+                            <p className="py-4">Posts posted by your company</p>
                         </div>
-                        <Filter filter={filter} onFilter={handleFilter} />
+
+                        <div className="flex flex-col">
+                            <label className="font-semibold mb-1">Status</label>
+                            <select
+                                className="border border-gray-400 text-black py-2 px-2 rounded-lg"
+                                value={status}
+                                onChange={(e) => setStatus(e.target.value)}
+                            >
+                                <option value="3">Open</option>
+                                <option value="4">Closed</option>
+                                <option value="1">Pending</option>
+                                <option value="2">Rejected</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
@@ -84,7 +91,7 @@ function SearchJob() {
                 )}
 
                 {jobs && jobs.length === 0 && (
-                    <div className="flex justify-center items-center w-full h-full py-60">
+                    <div className="flex justify-center items-center w-full h-full py-40">
                         <p className="text-2xl font-bold">No jobs</p>
                     </div>
                 )}
@@ -95,4 +102,4 @@ function SearchJob() {
     );
 }
 
-export default SearchJob;
+export default MyJobs;

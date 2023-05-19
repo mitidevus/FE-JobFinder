@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { formatDateTime } from "../utils/formatDate.js";
-import { sendEmail } from "../api/email/email.api.js";
 import { AiOutlineDownload } from "react-icons/ai";
-import { getCVByPostId, pendingCV, rejectCV, approveCV, inviteCV } from "../api/cv/cv.api.js";
 import { useSelector } from "react-redux";
+import { approveCV, getCVByPostId, inviteCV, pendingCV, rejectCV } from "../api/cv/cv.api.js";
+import { sendEmail } from "../api/email/email.api.js";
 import { selectUser } from "../features/userSlice.js";
+import { formatDateTime } from "../utils/formatDate.js";
 
 function CVListForm({ jobId, onClose }) {
     const [CVList, setCVList] = useState([]);
