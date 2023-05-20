@@ -1,4 +1,4 @@
 export const api = {
-    prod: 'http://localhost:2345',
+    prod: 'https://jobee-obmk.onrender.com',
     dev: 'http://localhost:2345',
 };
