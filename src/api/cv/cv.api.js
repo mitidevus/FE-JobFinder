@@ -31,6 +31,18 @@ export const getCVByPostId = async (params) => {
     }
 };
 
+export const getCVByUserId = async (id, token) => {
+    try {
+        return await axiosPrivate.get(`/api/v1/cvs/jobseeker?sortOption=desc&userId=${id}`, {
+            headers: {
+                "auth-token": `${token}`,
+            },
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
+};
+
 export const pendingCV = async (params) => {
     const { id, authToken } = params || {};
     try {
