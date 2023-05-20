@@ -23,7 +23,7 @@ function Profile() {
         });
     }, []);
 
-
+//bg-[#222831] text-[#00ADB5] 
 
 
     return (
