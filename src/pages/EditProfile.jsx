@@ -52,7 +52,29 @@ function EditProfile() {
             skills: sk,
             description
         }
-
+        const exp = experience.split('\n')
+        data.experience = exp
+        if (experience === "") {
+            delete data.experience
+        }
+        if (avt === "") {
+            delete data.avatar
+        }
+        if (education === "") {
+            delete data.academicLevel
+        }
+        if (name === "") {
+            delete data.name
+        }
+        if (address === "") {
+            delete data.address
+        }
+        if (phone === "") {
+            delete data.phone
+        }
+        if (description === "") {
+            delete data.description
+        }
         if (sk.length === 0) {
             delete data.skills
         }
@@ -123,7 +145,7 @@ function EditProfile() {
                                         <div className="py-5 border-t border-blueGray-200">
                                             <div class="mb-6">
                                                 <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Education</label>
-                                                <textarea type="text" value={user.education} onChange={(e) => setEducation(e.target.value)} name="University" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <textarea type="text" value={user.academicLevel} onChange={(e) => setEducation(e.target.value)} name="University" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
 
 
