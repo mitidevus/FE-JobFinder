@@ -1,31 +1,14 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { getHotJobs } from "../api/post/post.api";
+import React from "react";
 import { formatDateLeft } from "../utils/formatDate";
 import { handleTitle } from "../utils/handleTitle";
+import { Link } from "react-router-dom";
+import Pagination from "./Pagination";
 
-function Home() {
-    const [jobs, setJobs] = React.useState([]);
-
-    useEffect(() => {
-        const fetchHotJobs = async () => {
-            const res = await getHotJobs();
-            setJobs(res.data.posts);
-        };
-
-        fetchHotJobs();
-    }, []);
-
+function Jobs({ jobs, pageNumber, currentPage, setCurrentPage }) {
     return (
-        <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
-            <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
-                <div className="pb-4">
-                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Hot Jobs</p>
-                    <p className="py-4">Top 8 most applied jobs</p>
-                </div>
-
-                {jobs && jobs.length > 0 && (
+        <>
+            {jobs && jobs.length > 0 && (
+                <>
                     <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
                         {jobs.map((job) => (
                             <div
@@ -51,23 +34,27 @@ function Home() {
                                 <div className="pt-2 text-black px-3 py-4">
                                     <span className="text-xl font-semibold">{handleTitle(job?.title)}</span>
                                     <Link to={`/company_profile/${job?.userId?._id}`}>
-                                        <p className="text-lg font-semibold pt-1 hover:text-[#00ADB5]">{job?.userId?.companyName}</p>
+                                        <p className="text-lg font-semibold pt-1 hover:text-[#00ADB5]">
+                                            {job?.userId?.companyName}
+                                        </p>
                                     </Link>
                                     <p className="pt-1">{job?.address}</p>
                                 </div>
                             </div>
                         ))}
                     </div>
-                )}
 
-                {jobs && jobs.length === 0 && (
-                    <div className="flex justify-center items-center w-full h-screen">
-                        <p className="text-2xl font-bold">No jobs</p>
-                    </div>
-                )}
-            </div>
-        </div>
+                    <Pagination currentPage={currentPage} totalPages={pageNumber} onPageChange={setCurrentPage} />
+                </>
+            )}
+
+            {jobs && jobs.length === 0 && (
+                <div className="flex justify-center items-center w-full h-full py-60">
+                    <p className="text-2xl font-bold">No jobs</p>
+                </div>
+            )}
+        </>
     );
 }
 
-export default Home;
+export default Jobs;

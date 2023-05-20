@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
-import userSlice, { logout, selectUser } from "../features/userSlice";
+import { logout, selectUser } from "../features/userSlice";
 import Search from "./Search";
 
 function Navbar() {
@@ -76,13 +76,6 @@ function Navbar() {
                                 <Link to="approve">Approve</Link>
                             </li>
                         )}
-                        {user?.userType === 2 && (
-                            <>
-                                <li>
-                                    <Link to={"profile/" + user._id}>Account</Link>
-                                </li>
-                            </>
-                        )}
                         {user?.userType === 3 && (
                             <>
                                 <li>
@@ -93,6 +86,17 @@ function Navbar() {
                                 </li>
                             </>
                         )}
+                        <li>
+                            <Link to={user?.userType === 2 ? `profile/${user?._id}` : `company_profile/${user?._id}`}>
+                                <img
+                                    className="rounded-full"
+                                    src={user?.avatar}
+                                    alt="Avatar"
+                                    title="Profile"
+                                    style={{ width: "50px", cursor: "pointer" }}
+                                />
+                            </Link>
+                        </li>
 
                         <li>
                             <Link to="logout">

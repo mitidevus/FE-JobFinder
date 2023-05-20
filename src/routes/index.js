@@ -31,13 +31,13 @@ const publicRoutes = [
     { path: "/about", component: AboutUs },
     { path: "/notification", component: Notification },
     { path: "/notification/details", component: Notification_details },
+    { path: "/profile/:id", component: Profile },
     { path: "/company_profile/:companyId", component: CompanyProfile },
 ];
 
 const employeeRoutes = [
-    { path: "/profile/history", component: History },
-    { path: "/profile/:id", component: Profile },
     { path: "/profile/edit", component: EditProfile },
+    { path: "/profile/history", component: History },
 ];
 
 const employerRoutes = [

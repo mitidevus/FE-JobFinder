@@ -1,7 +1,5 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
 
-//import avt from "../assets/avt_img.png"
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getProfile } from "../api/user/user.api";
@@ -19,8 +17,6 @@ function Profile() {
             console.log(res.data);
         });
     }, []);
-
-    //bg-[#222831] text-[#00ADB5]
 
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46] font-sans">

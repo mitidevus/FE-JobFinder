@@ -1,11 +1,9 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getJobs } from "../api/post/post.api";
 import Filter from "../components/Filter";
-import Pagination from "../components/Pagination";
-import { formatDateLeft } from "../utils/formatDate";
-import { handleTitle } from "../utils/handleTitle";
+import Jobs from "../components/Jobs";
 
 function SearchJob() {
     const params = useParams();
@@ -13,14 +11,12 @@ function SearchJob() {
     const [jobs, setJobs] = useState([]);
     const [pageNumber, setPageNumber] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
-    const [filter, setFilter] = useState({
-        search,
-    });
+    const [filter, setFilter] = useState({});
 
     useEffect(() => {
         const fetchJobs = async () => {
-            console.log({ ...filter, page: currentPage });
-            const res = await getJobs({ ...filter, page: currentPage });
+            console.log({ ...filter, page: currentPage, search });
+            const res = await getJobs({ ...filter, page: currentPage, search });
             setJobs(res.data.posts);
             setPageNumber(res.data.totalPages);
         };
@@ -50,46 +46,7 @@ function SearchJob() {
                     </div>
                 </div>
 
-                {jobs && jobs.length > 0 && (
-                    <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-5">
-                        {jobs.map((job) => (
-                            <div
-                                key={job?._id}
-                                className="shadow-lg shadow-[#040c16] rounded-md flex flex-col justify-start items-center text-center mx-auto bg-[#FAE3D9] font-sans"
-                            >
-                                <div
-                                    style={{ backgroundImage: `url(${job?.userId?.avatar})` }}
-                                    className="group container rounded-t flex flex-col justify-center items-center text-center mx-auto content-div"
-                                >
-                                    <div className="overlay rounded-t group-hover:opacity-60"></div>
-                                    <div className="opacity-0 z-10 group-hover:opacity-100 ">
-                                        <span className="pt-2">{formatDateLeft(new Date(job?.expiredDate))}</span>
-                                        <div className="text-center pt-4">
-                                            <Link to={`/job/${job?._id}`}>
-                                                <button className="text-center rounded-lg px-4 py-3 m-2 bg-white text-gray-700 font-bold text-lg group-hover:translate-y-[-10px] ">
-                                                    <span className="flex items-center">Detail</span>
-                                                </button>
-                                            </Link>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="pt-2 text-black px-3 py-4">
-                                    <span className="text-xl font-semibold">{handleTitle(job?.title)}</span>
-                                    <p className="text-lg font-semibold pt-1">{job?.userId?.companyName}</p>
-                                    <p className="pt-1">{job?.address}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
-                {jobs && jobs.length === 0 && (
-                    <div className="flex justify-center items-center w-full h-full py-60">
-                        <p className="text-2xl font-bold">No jobs</p>
-                    </div>
-                )}
-
-                <Pagination currentPage={currentPage} totalPages={pageNumber} onPageChange={setCurrentPage} />
+                <Jobs jobs={jobs} currentPage={currentPage} pageNumber={pageNumber} setCurrentPage={setCurrentPage} />
             </div>
         </div>
     );

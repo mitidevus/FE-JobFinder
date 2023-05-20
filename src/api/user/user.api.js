@@ -12,22 +12,14 @@ export const updateProfile = async (id, data, authToken) => {
                 console.log(res.data);
             });
     } catch (err) {
-        console.error(err.response.data);
-        throw new Error(err);
+        throw err;
     }
 };
 
-export const getProfile = async (id, accessToken) => {
+export const getProfile = async (id) => {
     try {
-        const config = {
-            headers: {
-                "auth-token": accessToken,
-            },
-        };
-        const response = await axiosPrivate.get(`/api/v1/users/${id}`, config);
-        return response;
+        return await axiosPrivate.get(`/api/v1/users/${id}`);
     } catch (error) {
-        console.error(error.response.data);
-        throw new Error(error);
+        throw error;
     }
 };

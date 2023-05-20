@@ -24,7 +24,7 @@ function EditCompanyProfile() {
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [description, setDescription] = useState("");
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const data = {

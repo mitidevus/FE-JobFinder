@@ -27,9 +27,6 @@ function History() {
     const handleCvClose = () => {
         setSelectedCv(null);
     };
-    function getTitle(id) {
-        return getJob(id);
-    }
     
     return (
         <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">

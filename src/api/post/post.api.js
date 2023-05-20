@@ -227,10 +227,3 @@ export const closeJob = async (params) => {
         throw error;
     }
 };
-export const getJobsByUserId = async (id) => {
-    try {
-        return await axiosPrivate.get(`/api/v1/posts?userId=${id}`);
-    } catch (err) {
-        throw new Error(err);
-    }
-};
