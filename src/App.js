@@ -1,7 +1,7 @@
 import { useLayoutEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "./features/userSlice";
-import { Navigate, Route, BrowserRouter as Router, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, HashRouter as Router, Routes, useLocation } from "react-router-dom";
 import { publicRoutes, employeeRoutes, employerRoutes, adminRoutes } from "./routes";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
