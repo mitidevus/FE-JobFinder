@@ -52,7 +52,7 @@ function UpdateForm({ job, authToken, onClose }) {
 
             alert("Update job successfully. Please wait for admin to approve your job!");
             onClose();
-            navigate("/");
+            navigate("/myjobs");
         } catch (error) {
             console.log(error);
             setError(error.response?.data?.message || "Failed to update job");

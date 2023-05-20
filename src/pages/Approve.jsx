@@ -106,7 +106,7 @@ function Approve() {
     return (
         <div name="jobdetail" className="w-full h-full bg-[#393E46] text-gray-300">
             <div className="py-[120px] flex flex-col justify-center items-center w-full h-full">
-                <div className="max-w-[1500px] w-full grid grid-cols-2 gap-8">
+                <div className="max-w-[1100px] w-full grid grid-cols-2 gap-8">
                     <div className="flex items-center justify-between pb-8 pl-4">
                         <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Approve</p>
 
