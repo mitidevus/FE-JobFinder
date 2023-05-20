@@ -33,7 +33,7 @@ function CompanyProfile() {
         });
     }, []);
     return (
-        <div className="bg-[#393E46] antialiasedr">
+        <div className="bg-[#393E46] antialiasedr font-sans">
             {u && user && (
                 <div className="container mx-auto my-60">
 
@@ -99,7 +99,7 @@ function CompanyProfile() {
                                                     </div>
                                                     <div className="pt-2 text-black px-3 py-4">
                                                         <span className="text-2xl font-bold">{job.company}</span>
-                                                        <p className="pt-1">{job.title}</p>
+                                                        <p className="pt-1 font-bold">{job.title}</p>
                                                         <p className="pt-1">{job.address}</p>
                                                     </div>
                                                 </div>

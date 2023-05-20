@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
-import avt from "../assets/avt_img.png";
 
 import { updateProfile } from "../api/user/user.api"
 import { selectUser } from "../features/userSlice";
@@ -105,7 +104,7 @@ function EditProfile() {
     return (
         <>
             {!u &&
-                <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46] h-screen">
+                <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46] h-screen font-sans">
                     <div className="w-full lg:w-4/12 px-4 mx-auto ">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16 h-screen">
                             <div className="px-6">
@@ -120,7 +119,7 @@ function EditProfile() {
                 </section>
             }
             {u && user &&
-                <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46]">
+                <section className="pt-20 bg-blueGray-50 text-black bg-[#393E46] font-sans">
 
                     <div className="w-full lg:w-4/12 px-4 mx-auto ">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
@@ -143,7 +142,7 @@ function EditProfile() {
                                             </div>
                                             <div>
                                             <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Avatar</label>
-                                            <input type="text" defaultValue={user?.avatar} onChange={(e) => setAvt(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                            <input type="text" defaultValue={user?.avatar} placeholder="Put your image URL from web browser here" onChange={(e) => setAvt(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
                                         </div>
                                         <div className="py-5 border-t border-blueGray-200">
