@@ -32,6 +32,8 @@ function JobDetail() {
     const user = useSelector(selectUser);
     const navigate = useNavigate();
 
+    console.log(job)
+
     useEffect(() => {
         const fetchJob = async () => {
             const response = await getJob(jobId);
@@ -88,6 +90,15 @@ function JobDetail() {
                 console.log(error);
                 alert("Failed to delete job!");
             }
+        }
+    };
+
+    const handleApply = () => {
+        if (!user) {
+            alert("Please login to apply!");
+            navigate("/signin");
+        } else {
+            setShowApply(true);
         }
     };
 
@@ -232,7 +243,7 @@ function JobDetail() {
                                 {job?.status !== 4 && job?.userId?._id !== user?._id && user?.userType !== 1 && (
                                     <button
                                         className="mt-4 w-[150px] bg-[#1B9C85] text-white py-2 px-3 rounded hover:opacity-90"
-                                        onClick={() => setShowApply(true)}
+                                        onClick={handleApply}
                                     >
                                         Apply
                                     </button>
