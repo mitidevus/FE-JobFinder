@@ -6,6 +6,7 @@ const Filter = ({ filter = {}, onFilter }) => {
     const [maxSalary, setMaxSalary] = useState("");
 
     const handleFilter = () => {
+<<<<<<< HEAD
         const filterObj = { ...filter };
 
         if (address) {
@@ -21,6 +22,12 @@ const Filter = ({ filter = {}, onFilter }) => {
         }
 
         onFilter(filterObj);
+=======
+        if (address) filter.address = address;
+        if (minSalary) filter.minSalary = minSalary;
+        if (maxSalary) filter.maxSalary = maxSalary;
+        onFilter(filter);
+>>>>>>> test-merge
     };
 
     return (
@@ -32,9 +39,15 @@ const Filter = ({ filter = {}, onFilter }) => {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                 >
+<<<<<<< HEAD
                     <option value="">All</option>
                     <option value="Ho Chi Minh">Ho Chi Minh</option>
                     <option value="Hanoi">Ha Noi</option>
+=======
+                    <option value="">Select Address</option>
+                    <option value="Ho Chi Minh">Ho Chi Minh</option>
+                    <option value="Ha Noi">Ha Noi</option>
+>>>>>>> test-merge
                 </select>
             </div>
             <div className="flex flex-col">

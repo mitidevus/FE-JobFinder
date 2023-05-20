@@ -8,7 +8,36 @@ export const createCV = async (params) => {
     }
 
     try {
+<<<<<<< HEAD
         return await axiosPrivate.post("/api/v1/cvs", formData, {
+=======
+        return await axiosPrivate.get(`/api/v1/cvs/${id}`);
+    } catch (err) {
+        throw new Error(err);
+    }
+};
+export const getCVByUserId = async (id, token) => {
+    try {
+        return await axiosPrivate.get(`/api/v1/cvs/jobseeker?sortOption=desc&userId=${id}`, {
+            headers:{
+                "auth-token": `${token}`
+            }
+        });
+    } catch (err) {
+        throw new Error(err);
+    }
+};
+
+export const getCVByPostId = async ({ status, sortOption, userId, postId, authToken }) => {
+    try {
+        return await axiosPrivate.get(`/api/v1/cvs`, {
+            params: {
+                status,
+                sortOption,
+                userId,
+                postId,
+            },
+>>>>>>> test-merge
             headers: {
                 "auth-token": authToken,
                 "Content-Type": "multipart/form-data", // Thêm tùy chọn Content-Type

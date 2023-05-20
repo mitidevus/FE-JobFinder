@@ -3,12 +3,16 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getJobs } from "../api/post/post.api";
 import Filter from "../components/Filter";
+<<<<<<< HEAD
 import Pagination from "../components/Pagination";
+=======
+>>>>>>> test-merge
 import { formatDateLeft } from "../utils/formatDate";
 import { handleTitle } from "../utils/handleTitle";
 
 function Home() {
     const [jobs, setJobs] = useState([]);
+<<<<<<< HEAD
     const [pageNumber, setPageNumber] = useState(1);
     const [currentPage, setCurrentPage] = useState(1);
     const [filter, setFilter] = useState({});
@@ -27,6 +31,20 @@ function Home() {
         setFilter(filter);
         setCurrentPage(1);
     };
+=======
+    const [filter, setFilter] = useState({});
+
+    console.log(jobs);
+
+    useEffect(() => {
+        const fetchJobs = async () => {
+            const response = await getJobs(filter);
+            setJobs(response.data.posts);
+        };
+
+        fetchJobs();
+    }, [filter]);
+>>>>>>> test-merge
 
     return (
         <div name="home" className="w-full h-full text-gray-300 bg-[#393E46]">
@@ -37,7 +55,11 @@ function Home() {
                             <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">Jobs</p>
                             <p className="py-4">Recently posted jobs</p>
                         </div>
+<<<<<<< HEAD
                         <Filter onFilter={handleFilter} />
+=======
+                        <Filter onFilter={setFilter} />
+>>>>>>> test-merge
                     </div>
                 </div>
 
@@ -65,7 +87,11 @@ function Home() {
                                     </div>
                                 </div>
                                 <div className="pt-2 text-black px-3 py-4">
+<<<<<<< HEAD
                                     <span className="text-xl font-semibold">{handleTitle(job?.title)}</span>
+=======
+                                    <span className="text-xl font-semibold">{job?.title}</span>
+>>>>>>> test-merge
                                     <p className="text-lg font-semibold pt-1">{job?.userId?.companyName}</p>
                                     <p className="pt-1">{job?.address}</p>
                                 </div>
@@ -79,8 +105,11 @@ function Home() {
                         <p className="text-2xl font-bold">No jobs</p>
                     </div>
                 )}
+<<<<<<< HEAD
 
                 <Pagination currentPage={currentPage} totalPages={pageNumber} onPageChange={setCurrentPage} />
+=======
+>>>>>>> test-merge
             </div>
         </div>
     );

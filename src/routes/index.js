@@ -26,12 +26,30 @@ const publicRoutes = [
     { path: "/search/:keyword", component: SearchJob },
     { path: "/signin", component: SignIn },
     { path: "/signup", component: SignUp },
+<<<<<<< HEAD
     { path: "/forgetPassword", component: ForgetPassword },
     { path: "/resetPassword/:id/:token", component: ResetPassword },
     { path: "/about", component: AboutUs },
     { path: "/notification", component: Notification },
     { path: "/notification/details", component: Notification_details },
     { path: "/company_profile/:companyId", component: CompanyProfile },
+=======
+    { path: "/job/:jobId", component: JobDetail },
+    { path: "/approve", component: Approve },
+    { path: "/createjob", component: CreateJob },
+    { path: "/hotjobs", component: HotJob },
+    { path: '/test', component: Test },
+    { path: '/myjobs', component: MyJob },
+    { path: '/about', component: AboutUs },
+    { path: '/notification', component: Notification },
+    { path: '/notification/details', component: Notification_details },
+    { path: '/forgetPassword', component: ForgetPassword },
+    { path: '/profile/:id', component: Profile },
+    { path: '/profile/history', component: History },
+    { path: '/company_profile/:companyId', component: CompanyProfile },
+    { path: '/company_profile/edit', component: EditCompanyProfile },
+    { path: '/profile/edit', component: EditProfile },
+>>>>>>> test-merge
 ];
 
 const employeeRoutes = [
