@@ -11,6 +11,14 @@ import { useSelector } from "react-redux";
 import { getProfile } from "../api/user/user.api"
 
 let sk = []
+function splitStr(a) {
+    let re = "";
+    for (let i = 0; i < a.length; i++) {
+        re = re + a[i] + "\n"
+    }
+    return re
+
+}
 function EditProfile() {
     const u = useSelector(selectUser);
 
@@ -53,6 +61,8 @@ function EditProfile() {
             description
         }
         const exp = experience.split('\n')
+        const edu = education.split('\n')
+        data.academicLevel = edu
         data.experience = exp
         if (experience === "") {
             delete data.experience
@@ -115,51 +125,45 @@ function EditProfile() {
                     <div className="w-full lg:w-4/12 px-4 mx-auto ">
                         <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
                             <div className="px-6">
-                                <div className="flex flex-wrap justify-center">
-                                    <div className="w-full px-4 flex justify-center ">
-                                        <div className="relative pt-5 pb-5">
-                                            <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Education</label>
-                                            <input type="text" value={user.avatar} onChange={(e) => setAvt(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" /> 
-                                        </div>
-                                    </div>
-                                </div>
-
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <form method="patch">
                                         <div class="grid gap-6 mb-6 md:grid-cols-2">
                                             <div>
-                                                <label htmlFor="name" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                                                <input type="text" id="name" name="name" value={user.name} onChange={(e) => setName(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
+                                                <input type="text" id="name" name="name" defaultValue={user.name} onChange={(e) => setName(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
 
                                             <div>
                                                 <label htmlFor="address" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address</label>
-                                                <input type="text" id="address" value={user.address} onChange={(e) => setAddress(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <input type="text" id="address" defaultValue={user.address} onChange={(e) => setAddress(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
                                             <div>
                                                 <label htmlFor="phone" class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Phone number</label>
-                                                <input type="tel" id="phone" value={user.phone} onChange={(e) => setPhone(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <input type="number" id="phone" defaultValue={user.phone} onChange={(e) => setPhone(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
-
+                                            <div>
+                                            <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Avatar</label>
+                                            <input type="text" defaultValue={user?.avatar} onChange={(e) => setAvt(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                            </div>
                                         </div>
                                         <div className="py-5 border-t border-blueGray-200">
                                             <div class="mb-6">
                                                 <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Education</label>
-                                                <textarea type="text" value={user.academicLevel} onChange={(e) => setEducation(e.target.value)} name="University" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <textarea type="text" defaultValue={splitStr(user.academicLevel)} onChange={(e) => setEducation(e.target.value)} name="University" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
 
 
                                             <div class="mb-6">
                                                 <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Experience</label>
-                                                <textarea type="text" name="experience" value={user.experience} onChange={(e) => setExperience(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <textarea type="text" name="experience" defaultValue={splitStr(user.experience)} onChange={(e) => setExperience(e.target.value)} class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
                                             <div class="mb-6">
                                                 <label class="text-start block mb-3 text-sm font-medium text-gray-900 dark:text-white">Skills</label>
                                                 <div class="mb-6 grid md:grid-cols-4 gap-2 text-justify">
                                                     {skill.map((skill, index) => (
                                                         <div key={index}>
-                                                            <input id="default-checkbox" type="checkbox" value={skill} onChange={(e) => handleCheckBoxs(e.target.checked, e.target.value)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                                            <label for="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{skill}</label>
+                                                            <input id="default-checkbox" type="checkbox" defaultValue={skill} onChange={(e) => handleCheckBoxs(e.target.checked, e.target.value)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
+                                                            <label htmlFor="default-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{skill}</label>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -168,7 +172,7 @@ function EditProfile() {
                                         <div className="py-5 border-t border-blueGray-200">
                                             <div class="mb-6">
                                                 <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">Description</label>
-                                                <textarea type="text" value={user.description} onChange={(e) => setDescription(e.target.value)} name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                                                <textarea type="text" defaultValue={user.description} onChange={(e) => setDescription(e.target.value)} name="experience" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
                                             </div>
                                         </div>
 
