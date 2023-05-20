@@ -31,10 +31,10 @@ function CompanyProfile() {
             console.log(res.data)
 
         });
-    }, [jobs]);
+    }, []);
     return (
         <div className="bg-[#393E46] antialiasedr">
-            {user && (
+            {u && user && (
                 <div className="container mx-auto my-60">
 
 

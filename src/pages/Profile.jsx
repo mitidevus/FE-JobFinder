@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import { FaGithub } from "react-icons/fa";
 import { RiShareBoxLine } from "react-icons/ri";
-import avt from "../assets/avt_img.png"
+//import avt from "../assets/avt_img.png"
 import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import { getProfile } from "../api/user/user.api"
@@ -13,11 +13,10 @@ function Profile() {
     const u = useSelector(selectUser);
     const params = useParams();
     const id = params.id;
-
+    const avt = "D:/Baitap/Tkpm/Project/FE-JobFinder/src/assets/avt_img.png"
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        console.log("123")
         getProfile(id, u?.token).then((res) => {
             setUser(res.data);
             console.log(res.data)
@@ -37,7 +36,7 @@ function Profile() {
                             <div className="flex flex-wrap justify-center">
                                 <div className="w-full px-4 flex justify-center">
                                     <div className="relative pt-5">
-                                        <img alt="avatar" src={avt} className="rounded-full border h-48 w-48" />
+                                        <img alt="avatar" src={user.avatar} className="rounded-full border h-48 w-48" />
 
                                     </div>
                                 </div>
