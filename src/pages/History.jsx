@@ -9,6 +9,7 @@ import { selectUser } from "../features/userSlice";
 import { useSelector } from "react-redux";
 import { getCVByUserId } from "../api/cv/cv.api"
 import { getJob } from "../api/post/post.api"
+import {formatDate} from "../utils/formatDate"
 function History() {
     const user = useSelector(selectUser);
     const [cv, setCV] = useState([]);
@@ -63,7 +64,7 @@ function History() {
                                                 {cv.status === 4 && (
                                                     <p>Invited</p>
                                                 )}
-                                                <p className="text-sm">{cv.createdAt}</p>
+                                                <p className="text-sm">{formatDate(`${cv.createdAt}`)}</p>
                                             </button>
                                         ))}
                                     </div>
@@ -75,8 +76,8 @@ function History() {
                                 <div className="overflow-y-auto w-full h-64">
                                     <div className="flex flex-col">
                                         <div className="flex justify-between px-2 py-4">
-                                            <p className="font-bold">{selectedCv.title}</p>
-                                            <p className="text-sm">{selectedCv.createdAt}</p>
+                                            <p className="font-bold">{selectedCv.postId.title}</p>
+                                            <p className="text-sm">{formatDate(`${selectedCv.createdAt}`)}</p>
                                         </div>
                                         <div className="flex flex-col mt-4">
                                             <div className="flex items-center">
