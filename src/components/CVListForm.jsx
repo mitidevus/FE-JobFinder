@@ -5,6 +5,7 @@ import { approveCV, getCVByPostId, inviteCV, pendingCV, rejectCV } from "../api/
 import { sendEmail } from "../api/email/email.api.js";
 import { selectUser } from "../features/userSlice.js";
 import { formatDateTime } from "../utils/formatDate.js";
+import { Link } from "react-router-dom";
 
 function CVListForm({ jobId, onClose }) {
     const [CVList, setCVList] = useState([]);
@@ -141,7 +142,17 @@ function CVListForm({ jobId, onClose }) {
                                         key={cv?._id}
                                         onClick={() => setSelectedCv(cv)}
                                     >
-                                        <p className="font-bold">{cv?.userId?.name}</p>
+                                        <Link to={`/profile/${cv?.userId?._id}`}>
+                                            <p
+                                                className="font-bold hover:text-[#00ADB5]"
+                                                onClick={() => {
+                                                    setSelectedCv(null);
+                                                    onClose();
+                                                }}
+                                            >
+                                                {cv?.userId?.name}
+                                            </p>
+                                        </Link>
                                         <p className="text-sm">{formatDateTime(cv?.createdAt)}</p>
                                     </button>
                                 ))}

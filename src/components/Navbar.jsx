@@ -7,22 +7,10 @@ import { getProfile } from "../api/user/user.api";
 import Search from "./Search";
 
 function Navbar() {
+    const user = useSelector(selectUser);
+
     const [keyword, setKeyword] = useState("");
-    const u= useSelector(selectUser);
-    const [user, setUser] = useState(null)
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await getProfile(u?._id);
-                setUser(response.data)
-            } catch (error) {
-                console.error(error);
 
-            }
-        };
-
-        fetchData();
-    }, [u?._id]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -68,7 +56,7 @@ function Navbar() {
                     <Link to="/hotjobs">Hot Jobs</Link>
                 </li>
 
-                {!u && (
+                {!user && (
                     <>
                         <li>
                             <Link to="/signin">Sign In</Link>
@@ -83,33 +71,33 @@ function Navbar() {
                     </>
                 )}
 
-                {u && user && (
+                {user && (
                     <>
-                        {u?.userType === 1 && (
+                        {user?.userType === 1 && (
                             <li>
                                 <Link to="/approve">Approve</Link>
                             </li>
                         )}
-                        {u?.userType === 2 && (
+                        {user?.userType === 2 && (
                             <li>
                                 <Link to="/history">History</Link>
                             </li>
                         )}
-                        {u?.userType === 3 && (
+                        {user?.userType === 3 && (
                             <>
                                 <li>
-                                    <Link to="/myjobs">My Jobs</Link>
+                                    <Link to="/createjob">Create Job</Link>
                                 </li>
                                 <li>
-                                    <Link to="/createjob">Create Job</Link>
+                                    <Link to="/myjobs">My Jobs</Link>
                                 </li>
                             </>
                         )}
                         <li>
-                            <Link to={u?.userType === 2 ? `profile/${u?._id}` : `company_profile/${u?._id}`}>
+                            <Link to={user?.userType === 2 ? `profile/${user?._id}` : `company_profile/${user?._id}`}>
                                 <img
                                     className="rounded-full"
-                                    src={user.avatar}
+                                    src={user?.avatar}
                                     alt="Avatar"
                                     title="Profile"
                                     style={{ width: "50px", cursor: "pointer" }}

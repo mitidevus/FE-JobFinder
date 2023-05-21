@@ -25,6 +25,7 @@ export const userSlice = createSlice({
                 localStorage.removeItem("user");
                 alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!");
                 window.location.href = "/#/signin";
+                window.location.reload();
             }, timeUntilLogout);
         },
         signup(state, action) {
@@ -35,12 +36,13 @@ export const userSlice = createSlice({
             setTimeout(() => {
                 localStorage.removeItem("user");
                 alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!");
-                window.location.href = "/signin";
+                window.location.href = "/#/signin";
+                window.location.reload();
             }, timeUntilLogout);
         },
         logout: (state) => {
-            state.user = null;
             localStorage.removeItem("user");
+            state.user = null;
         },
     },
 });

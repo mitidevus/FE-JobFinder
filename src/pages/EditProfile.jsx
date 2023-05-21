@@ -6,20 +6,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { getProfile, updateProfile } from "../api/user/user.api";
 import { selectUser } from "../features/userSlice";
 
-let skill_list = []
+let skill_list = [];
+
 function splitStr(a) {
     let re = "";
     for (let i = 0; i < a.length; i++) {
-        re = re + a[i] + "\n"
+        re = re + a[i] + "\n";
     }
-    return re
-
+    return re;
 }
+
 function EditProfile() {
     const user = useSelector(selectUser);
     const [userAuth, setUserAuth] = useState(null);
 
-    const skill = ["C++", "C#", "Python", "Java", "JavaScript", "HTML", "CSS", "Ruby"]
+    const skillList = ["C++", "C#", "Python", "Java", "JavaScript", "HTML", "CSS", "Ruby"];
 
     const navigate = useNavigate();
     const [avatar, setAvatar] = useState("");
@@ -40,8 +41,8 @@ function EditProfile() {
                 setAvatar(response.data.avatar);
                 setName(response.data.name);
                 setSkills(response.data.skills);
-                setAcademicLevel(response.data.academicLevel);
-                setExperience(response.data.experience);
+                setAcademicLevel(splitStr(response.data.academicLevel));
+                setExperience(splitStr(response.data.experience));
                 setAddress(response.data.address);
                 setPhone(response.data.phone);
                 setDescription(response.data.description);
@@ -56,14 +57,13 @@ function EditProfile() {
     }, [user?._id]);
 
     const handleCheckBoxs = (check, value) => {
-
-        if (check === true & !skill_list.includes(value)) {
-            skill_list.push(value)
+        if ((check === true) & !skill_list.includes(value)) {
+            skill_list.push(value);
         }
-        if (check === false & skill_list.includes(value)) {
-            skill_list.splice(skill_list.indexOf(value), 1)
+        if ((check === false) & skill_list.includes(value)) {
+            skill_list.splice(skill_list.indexOf(value), 1);
         }
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -78,16 +78,27 @@ function EditProfile() {
             phone,
             description,
         };
-        if (typeof experience === 'string'){
-            data.experience = experience.split('\n')
+
+        if (typeof experience === "string") {
+            data.experience = experience.split("\n");
         }
-        if (typeof academicLevel === 'string'){
-            data.academicLevel = academicLevel.split('\n')
-        }
-        if (!data.avatar || !data.name || !data.address || !data.phone || !data.description || data.skills.length === 0 || data.experience.length === 0) {
-            return setError("Please fill all fields!");
+
+        if (typeof academicLevel === "string") {
+            data.academicLevel = academicLevel.split("\n");
         }
         
+        if (
+            !data.avatar ||
+            !data.name ||
+            !data.address ||
+            !data.phone ||
+            !data.description ||
+            data.skills.length === 0 ||
+            data.experience.length === 0
+        ) {
+            return setError("Please fill all fields!");
+        }
+
         setError("");
 
         try {
@@ -102,7 +113,7 @@ function EditProfile() {
 
     return (
         <div name="editProfile" className="w-full h-full text-gray-300 bg-[#393E46]">
-            <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
+            <div className="pt-[120px] pb-[50px] max-w-[900px] mx-auto p-4 flex flex-col justify-center w-full h-full">
                 <div className="pb-4">
                     <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">
                         Update Profile
@@ -117,7 +128,7 @@ function EditProfile() {
                     <div className="flex flex-col md:flex-row md:space-x-4">
                         <div className="flex flex-col w-full font-sans">
                             <div className="flex">
-                                <div className="w-4/12">
+                                <div className="w-6/12">
                                     <p className="font-semibold mb-1">Name</p>
                                     <input
                                         type="text"
@@ -129,33 +140,31 @@ function EditProfile() {
                                     />
                                 </div>
 
-                                <div className="w-4/12">
+                                <div className="w-6/12">
                                     <p className="font-semibold mb-1">Address</p>
                                     <input
                                         type="text"
                                         name="address"
                                         id="address"
-                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-11/12"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
                                         value={address}
                                         onChange={(e) => setAddress(e.target.value)}
-                                    />
-                                </div>
-
-                                <div className="w-4/12">
-                                    <p className="font-semibold mb-1">Phone</p>
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        id="phone"
-                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
-                                        value={phone}
-                                        onChange={(e) => setPhone(e.target.value)}
                                     />
                                 </div>
                             </div>
 
                             <div className="flex mt-4">
-
+                                <div className="w-6/12">
+                                    <p className="font-semibold mb-1">Phone</p>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        id="phone"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-11/12"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                </div>
 
                                 <div className="w-6/12">
                                     <p className="font-semibold mb-1">Avatar</p>
@@ -169,40 +178,31 @@ function EditProfile() {
                                     />
                                 </div>
                             </div>
-                            <div className="mt-4">
-                                <p className="font-semibold mb-1">Skills</p>
-                                <div class="mb-6 grid md:grid-cols-4 gap-2 text-justify">
-                                    {skill.map((skill, index) => (
-                                        <div key={index}>
-                                            <input id="default-checkbox" type="checkbox" value={skill} onChange={(e) => handleCheckBoxs(e.target.checked, e.target.value)} class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600" />
-                                            <label htmlFor="default-checkbox" class="ml-2 text-sm font-medium text-white">{skill}</label>
-                                        </div>
-                                    ))}
-                                </div>
 
-                            </div>
                             <div className="mt-4">
                                 <p className="font-semibold mb-1">Education</p>
                                 <textarea
-                                    name="description"
-                                    id="description"
+                                    name="education"
+                                    id="education"
                                     className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
-                                    defaultValue={splitStr(academicLevel)}
+                                    defaultValue={academicLevel}
                                     rows={5}
                                     onChange={(e) => setAcademicLevel(e.target.value)}
                                 />
                             </div>
+
                             <div className="mt-4">
                                 <p className="font-semibold mb-1">Experience</p>
                                 <textarea
-                                    name="description"
-                                    id="description"
+                                    name="experience"
+                                    id="experience"
                                     className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
-                                    defaultValue={splitStr(experience)}
+                                    defaultValue={experience}
                                     rows={5}
                                     onChange={(e) => setExperience(e.target.value)}
                                 />
                             </div>
+
                             <div className="mt-4">
                                 <p className="font-semibold mb-1">Description</p>
                                 <textarea
@@ -213,6 +213,30 @@ function EditProfile() {
                                     rows={5}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
+                            </div>
+
+                            <div className="mt-4">
+                                <p className="font-semibold mb-1">Skills</p>
+                                <div class="grid md:grid-cols-4 gap-2 text-justify">
+                                    {skillList &&
+                                        skillList.map((skill, index) => (
+                                            <div key={index}>
+                                                <input
+                                                    id="default-checkbox"
+                                                    type="checkbox"
+                                                    value={skill}
+                                                    onChange={(e) => handleCheckBoxs(e.target.checked, e.target.value)}
+                                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                />
+                                                <label
+                                                    htmlFor="default-checkbox"
+                                                    class="ml-2 text-sm font-medium text-white"
+                                                >
+                                                    {skill}
+                                                </label>
+                                            </div>
+                                        ))}
+                                </div>
                             </div>
                         </div>
                     </div>
