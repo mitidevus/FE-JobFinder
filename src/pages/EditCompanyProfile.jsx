@@ -2,195 +2,178 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getProfile, updateProfile } from "../api/user/user.api";
 import { selectUser } from "../features/userSlice";
 
 function EditCompanyProfile() {
-    const u = useSelector(selectUser);
-
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        getProfile(u._id, u?.token).then((res) => {
-            setUser(res.data);
-            console.log(res.data);
-        });
-    }, []);
+    const user = useSelector(selectUser);
+    const [userAuth, setUserAuth] = useState(null);
 
     const navigate = useNavigate();
     const [avatar, setAvatar] = useState("");
     const [name, setName] = useState("");
+    const [field, setField] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [description, setDescription] = useState("");
+    const [error, setError] = useState("");
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getProfile(user?._id);
+                setUserAuth(response.data);
+                setAvatar(response.data.avatar);
+                setName(response.data.companyName);
+                setField(response.data.field);
+                setAddress(response.data.address);
+                setPhone(response.data.phone);
+                setDescription(response.data.description);
+                console.log(response.data);
+            } catch (error) {
+                console.error(error);
+                setError(error.response?.data?.message || "Failed to fetch profile");
+            }
+        };
+
+        fetchData();
+    }, [user?._id]);
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
         const data = {
             avatar,
             companyName: name,
+            field,
             address,
             phone,
             description,
         };
-        if (avatar === "") {
-            delete data.companyName;
-        }
-        if (name === "") {
-            delete data.companyName;
-        }
-        if (address === "") {
-            delete data.address;
-        }
-        if (phone === "") {
-            delete data.phone;
-        }
-        if (description === "") {
-            delete data.description;
+
+        if (!data.avatar || !data.companyName || !data.address || !data.phone || !data.description) {
+            return setError("Please fill all fields!");
         }
 
-        console.log("data = ", data);
+        setError("");
+
         try {
-            updateProfile(u._id, data, u?.token);
-            alert("Create job successfully!");
-            navigate("/company_profile/" + user._id);
-        } catch (err) {
-            throw new Error(err);
+            await updateProfile({ id: user?._id, data, authToken: user?.token });
+            alert("Update profile successfully!");
+            navigate(`/company_profile/${user?._id}`);
+        } catch (error) {
+            console.log(error);
+            setError(error.response?.data?.message || "Failed to update profile");
         }
-        //updateProfile(user._id, data, user.token)
     };
 
     return (
-        <>
-            {!u && (
-                <div className="bg-[#393E46] antialiasedr font-sans">
-                    <div className="w-full lg:w-4/12 px-4 mx-auto ">
-                        <div className="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg mt-16">
-                            <div className="px-6">
-                                <div className="flex flex-wrap justify-center">
-                                    <div className="w-full px-4 flex justify-center text-lg ">
-                                        You need to sign in before doing this action
-                                    </div>
+        <div name="editCompanyProfile" className="w-full h-full text-gray-300 bg-[#393E46]">
+            <div className="pt-[120px] pb-[50px] max-w-[1100px] mx-auto p-4 flex flex-col justify-center w-full h-full">
+                <div className="pb-4">
+                    <p className="text-4xl font-bold inline text-[#00ADB5] border-b-4 border-pink-600">
+                        Update Profile
+                    </p>
+                </div>
+
+                {error && (
+                    <p className="bg-[#D14D72] text-sm text-white font-bold py-4 px-4 rounded mb-8 w-4/12">{error}</p>
+                )}
+
+                <div className="flex flex-col">
+                    <div className="flex flex-col md:flex-row md:space-x-4">
+                        <div className="flex flex-col w-full font-sans">
+                            <div className="flex">
+                                <div className="w-4/12">
+                                    <p className="font-semibold mb-1">Company Name</p>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        id="name"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-11/12"
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
+                                    />
                                 </div>
+
+                                <div className="w-4/12">
+                                    <p className="font-semibold mb-1">Address</p>
+                                    <input
+                                        type="text"
+                                        name="address"
+                                        id="address"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-11/12"
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="w-4/12">
+                                    <p className="font-semibold mb-1">Phone</p>
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        id="phone"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
+                                        value={phone}
+                                        onChange={(e) => setPhone(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="flex mt-4">
+                            <div className="w-4/12">
+                                    <p className="font-semibold mb-1">Field</p>
+                                    <input
+                                        type="text"
+                                        name="field"
+                                        id="field"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-11/12"
+                                        value={field}
+                                        onChange={(e) => setField(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="w-8/12">
+                                    <p className="font-semibold mb-1">Avatar</p>
+                                    <input
+                                        type="text"
+                                        name="avatar"
+                                        id="avatar"
+                                        className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
+                                        value={avatar}
+                                        onChange={(e) => setAvatar(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mt-4">
+                                <p className="font-semibold mb-1">Description</p>
+                                <textarea
+                                    name="description"
+                                    id="description"
+                                    className="text-black border-2 border-gray-300 rounded-md p-2 w-full"
+                                    value={description}
+                                    rows={5}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
-            {user && (
-                <div className="bg-[#393E46] antialiasedr">
-                    <div className="container mx-auto my-60">
-                        <div className="bg-white relative shadow rounded-lg w-5/6 md:w-5/6  lg:w-4/6 xl:w-3/6 mx-auto">
-                            <div className="mt-16">
-                                <div className="w-full">
-                                    <div className="px-6">
-                                        <div className="py-10 border-t border-blueGray-200 text-center">
-                                            <div class="grid gap-6 mb-6 md:grid-cols-2">
-                                                <div>
-                                                    <label
-                                                        htmlFor="name"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                    >
-                                                        Name
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="name"
-                                                        defaultValue={user.companyName}
-                                                        onChange={(e) => setName(e.target.value)}
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    />
-                                                </div>
 
-                                                <div>
-                                                    <label
-                                                        htmlFor="address"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                    >
-                                                        Address
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        id="address"
-                                                        defaultValue={user.address}
-                                                        onChange={(e) => setAddress(e.target.value)}
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label
-                                                        htmlFor="phone"
-                                                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                                                    >
-                                                        Phone
-                                                    </label>
-                                                    <input
-                                                        type="tel"
-                                                        id="phone"
-                                                        defaultValue={user.phone}
-                                                        onChange={(e) => setPhone(e.target.value)}
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label class="text-start block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                        Avatar
-                                                    </label>
-                                                    <input
-                                                        type="text"
-                                                        defaultValue={user?.avatar}
-                                                        placeholder="Put your image URL from web browser here"
-                                                        onChange={(e) => setAvatar(e.target.value)}
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    />
-                                                </div>
-                                            </div>
-
-                                            <div className="py-5 border-t border-blueGray-200">
-                                                <div class="mb-6">
-                                                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                        Description
-                                                    </label>
-                                                    <textarea
-                                                        type="text"
-                                                        defaultValue={user.description}
-                                                        onChange={(e) => setDescription(e.target.value)}
-                                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="py-10 border-t border-blueGray-200 text-center">
-                                            <div className="flex flex-wrap justify-center">
-                                                <div className="w-full lg:w-9/12 px-4 mb-5">
-                                                    <button
-                                                        type="submit"
-                                                        onClick={handleSubmit}
-                                                        className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                                    >
-                                                        Change
-                                                    </button>
-                                                </div>
-                                                <div className="w-full lg:w-9/12 px-4">
-                                                    <a
-                                                        href={"/company_profile/" + user._id}
-                                                        type="submit"
-                                                        className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                                    >
-                                                        Back
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div className="mt-8">
+                        <button
+                            type="submit"
+                            className="bg-[#00ADB5] text-white font-bold py-2 px-4 rounded-md mt-4 md:mt-0"
+                            onClick={handleSubmit}
+                        >
+                            Update Profile
+                        </button>
                     </div>
                 </div>
-            )}
-        </>
+            </div>
+        </div>
     );
 }
 export default EditCompanyProfile;
