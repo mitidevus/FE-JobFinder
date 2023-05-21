@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { createCV } from "../api/cv/cv.api";
+import { handleTitle } from "../utils/handleTitle";
 
 function ApplyForm({ jobId, authToken, onClose }) {
     const [description, setDescription] = useState("");
@@ -45,7 +46,7 @@ function ApplyForm({ jobId, authToken, onClose }) {
                             <div className="mt-2">
                                 {/* Attached File */}
                                 <div className="flex justify-between items-center">
-                                    <p className="font-bold">{file ? file.name : "No file"}</p>
+                                    <p className="font-bold">{file ? handleTitle(file.name, 40) : "No file"}</p>
                                     <label
                                         htmlFor="file"
                                         className="bg-[#00ADB5] text-white px-4 py-2 rounded cursor-pointer"

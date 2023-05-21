@@ -1,6 +1,4 @@
-const MAX_TITLE_LENGTH = 20;
-
-export function handleTitle(title) {
+export function handleTitle(title, MAX_TITLE_LENGTH = 20) {
     if (title && title.length > MAX_TITLE_LENGTH) {
         // Tìm vị trí khoảng trắng cuối cùng trước giới hạn MAX_TITLE_LENGTH
         const lastSpaceIndex = title.lastIndexOf(" ", MAX_TITLE_LENGTH);

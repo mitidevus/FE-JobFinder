@@ -37,7 +37,7 @@ const publicRoutes = [
 
 const employeeRoutes = [
     { path: "/profile/edit", component: EditProfile },
-    { path: "/profile/history", component: History },
+    { path: "/history", component: History },
 ];
 
 const employerRoutes = [

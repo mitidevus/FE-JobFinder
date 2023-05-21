@@ -39,7 +39,7 @@ export const getCVByUserId = async (id, token) => {
             },
         });
     } catch (err) {
-        throw new Error(err);
+        throw err;
     }
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getProfile } from "../api/user/user.api";
 import { selectUser } from "../features/userSlice";
 
@@ -102,23 +102,13 @@ function Profile() {
                             {u._id === id && (
                                 <div className="py-10 border-t border-blueGray-200 text-center">
                                     <div className="flex flex-wrap justify-center">
-                                        <div className="w-full lg:w-9/12 px-4 mb-4">
-                                            <a
-                                                href="/profile/edit"
-                                                type="submit"
+                                        <div className="w-full lg:w-9/12 px-4 mb-2">
+                                            <Link
+                                                to="/profile/edit"
                                                 className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                                             >
                                                 Edit Profile
-                                            </a>
-                                        </div>
-                                        <div className="w-full lg:w-9/12 px-4">
-                                            <a
-                                                href="/profile/history"
-                                                type="submit"
-                                                className="w-full text-white bg-[#222831] hover:bg-[#00ADB5] focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                                            >
-                                                History CV
-                                            </a>
+                                            </Link>
                                         </div>
                                     </div>
                                 </div>
