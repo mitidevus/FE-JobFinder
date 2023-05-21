@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../assets/logo.jpg";
 import { logout, selectUser } from "../features/userSlice";
+import { getProfile } from "../api/user/user.api";
 import Search from "./Search";
 
 function Navbar() {
     const [keyword, setKeyword] = useState("");
-    const user = useSelector(selectUser);
+    const u= useSelector(selectUser);
+    const [user, setUser] = useState(null)
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await getProfile(u?._id);
+                setUser(response.data)
+            } catch (error) {
+                console.error(error);
 
+            }
+        };
+
+        fetchData();
+    }, [u?._id]);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -54,7 +68,7 @@ function Navbar() {
                     <Link to="/hotjobs">Hot Jobs</Link>
                 </li>
 
-                {!user && (
+                {!u && (
                     <>
                         <li>
                             <Link to="/signin">Sign In</Link>
@@ -69,19 +83,19 @@ function Navbar() {
                     </>
                 )}
 
-                {user && (
+                {u && user && (
                     <>
-                        {user?.userType === 1 && (
+                        {u?.userType === 1 && (
                             <li>
                                 <Link to="/approve">Approve</Link>
                             </li>
                         )}
-                        {user?.userType === 2 && (
+                        {u?.userType === 2 && (
                             <li>
                                 <Link to="/history">History</Link>
                             </li>
                         )}
-                        {user?.userType === 3 && (
+                        {u?.userType === 3 && (
                             <>
                                 <li>
                                     <Link to="/myjobs">My Jobs</Link>
@@ -92,10 +106,10 @@ function Navbar() {
                             </>
                         )}
                         <li>
-                            <Link to={user?.userType === 2 ? `profile/${user?._id}` : `company_profile/${user?._id}`}>
+                            <Link to={u?.userType === 2 ? `profile/${u?._id}` : `company_profile/${u?._id}`}>
                                 <img
                                     className="rounded-full"
-                                    src={user?.avatar}
+                                    src={user.avatar}
                                     alt="Avatar"
                                     title="Profile"
                                     style={{ width: "50px", cursor: "pointer" }}
