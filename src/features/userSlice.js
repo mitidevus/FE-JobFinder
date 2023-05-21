@@ -24,7 +24,7 @@ export const userSlice = createSlice({
             setTimeout(() => {
                 localStorage.removeItem("user");
                 alert("Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại!");
-                window.location.href = "/signin";
+                window.location.href = "/#/signin";
             }, timeUntilLogout);
         },
         signup(state, action) {
