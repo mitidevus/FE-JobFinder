@@ -40,7 +40,7 @@ function EditProfile() {
                 setUserAuth(response.data);
                 setAvatar(response.data.avatar);
                 setName(response.data.name);
-                setSkills(response.data.skills);
+                
                 setAcademicLevel(splitStr(response.data.academicLevel));
                 setExperience(splitStr(response.data.experience));
                 setAddress(response.data.address);
