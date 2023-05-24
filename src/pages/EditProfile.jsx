@@ -104,6 +104,7 @@ function EditProfile() {
         try {
             await updateProfile({ id: user?._id, data, authToken: user?.token });
             alert("Update profile successfully!");
+            skill_list = []
             navigate(`/profile/${user?._id}`);
         } catch (error) {
             console.log(error);
